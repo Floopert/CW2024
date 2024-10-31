@@ -13,6 +13,7 @@ import javafx.util.Duration;
 
 public abstract class LevelParent extends Observable {
 
+
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
 	private static final int MILLISECOND_DELAY = 50;
 	private final double screenHeight;
@@ -34,6 +35,7 @@ public abstract class LevelParent extends Observable {
 	private LevelView levelView;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+		
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
