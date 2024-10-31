@@ -8,6 +8,7 @@ public class UserProjectile extends Projectile {
 
 	public UserProjectile(double initialXPos, double initialYPos) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos);
+		this.setScoreableFromCollision(true);
 	}
 
 	@Override

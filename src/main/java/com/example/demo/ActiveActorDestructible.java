@@ -3,10 +3,12 @@ package com.example.demo;
 public abstract class ActiveActorDestructible extends ActiveActor implements Destructible {
 
 	private boolean isDestroyed;
+	private boolean canScoreFromCollision;
 
 	public ActiveActorDestructible(String imageName, int imageHeight, double initialXPos, double initialYPos) {
 		super(imageName, imageHeight, initialXPos, initialYPos);
 		isDestroyed = false;
+		canScoreFromCollision = false;
 	}
 
 	@Override
@@ -28,6 +30,14 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
 
 	public boolean isDestroyed() {
 		return isDestroyed;
+	}
+
+	protected void setScoreableFromCollision(boolean canScoreFromCollision) {
+		this.canScoreFromCollision = canScoreFromCollision;
+	}
+
+	public boolean canScoreFromCollision() {
+		return canScoreFromCollision;
 	}
 	
 }

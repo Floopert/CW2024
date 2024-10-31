@@ -176,9 +176,15 @@ public abstract class LevelParent extends Observable {
 			List<ActiveActorDestructible> actors2) {
 		for (ActiveActorDestructible actor : actors2) {
 			for (ActiveActorDestructible otherActor : actors1) {
-				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
+				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent()) && !actor.isDestroyed()
+						&& !otherActor.isDestroyed()) {
 					actor.takeDamage();
 					otherActor.takeDamage();
+					
+					if(!actor.canScoreFromCollision() && !otherActor.canScoreFromCollision() && (actor.isDestroyed() || otherActor.isDestroyed())) {
+						currentNumberOfEnemies--;
+					}
+
 				}
 			}
 		}
@@ -188,6 +194,7 @@ public abstract class LevelParent extends Observable {
 		for (ActiveActorDestructible enemy : enemyUnits) {
 			if (enemyHasPenetratedDefenses(enemy)) {
 				user.takeDamage();
+				currentNumberOfEnemies--;
 				enemy.destroy();
 			}
 		}
