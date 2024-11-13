@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
@@ -39,8 +40,8 @@ public class Controller implements Observer {
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 			
 				Class<?> myClass = Class.forName(className);
-				Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-				LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				Method method = myClass.getMethod("getInstance", double.class, double.class);
+				LevelParent myLevel = (LevelParent) method.invoke(null, stage.getHeight(), stage.getWidth());
 				myLevel.addObserver(this);
 				Scene scene = myLevel.initializeScene();
 				stage.setScene(scene);

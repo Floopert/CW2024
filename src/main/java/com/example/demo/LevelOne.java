@@ -2,6 +2,8 @@ package com.example.demo;
 
 public class LevelOne extends LevelParent {
 	
+	private static LevelOne instance;
+
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
 	private static final String NEXT_LEVEL = "com.example.demo.LevelTwo";
 	private static final int TOTAL_ENEMIES = 5;
@@ -9,8 +11,15 @@ public class LevelOne extends LevelParent {
 	private static final double ENEMY_SPAWN_PROBABILITY = .20;
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 
-	public LevelOne(double screenHeight, double screenWidth) {
+	private LevelOne(double screenHeight, double screenWidth) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+	}
+
+	public static LevelOne getInstance(double screenHeight, double screenWidth) {
+		if (instance == null) {
+			instance = new LevelOne(screenHeight, screenWidth);
+		}
+		return instance;
 	}
 
 	@Override
