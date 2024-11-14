@@ -2,7 +2,7 @@ package com.example.demo;
 
 import javafx.scene.Group;
 
-public class LevelView {
+public abstract class LevelView {
 	
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 25;
@@ -25,6 +25,8 @@ public class LevelView {
 	public void showHeartDisplay() {
 		root.getChildren().add(heartDisplay.getContainer());
 	}
+
+	public abstract void addImagesToRoot();
 
 	public void showWinImage() {
 		root.getChildren().add(winImage);

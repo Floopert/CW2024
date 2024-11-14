@@ -1,6 +1,6 @@
 package com.example.demo;
 
-public class LevelTwo extends LevelParent {
+public class LevelTwo extends LevelParent implements BossEventListener{
 
 	private static LevelTwo instance;
 
@@ -12,6 +12,7 @@ public class LevelTwo extends LevelParent {
 	private LevelTwo(double screenHeight, double screenWidth) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
 		boss = new Boss();
+		boss.addEventListener(this);
 	}
 
 	public static LevelTwo getInstance(double screenHeight, double screenWidth) {
@@ -19,6 +20,16 @@ public class LevelTwo extends LevelParent {
 			instance = new LevelTwo(screenHeight, screenWidth);
 		}
 		return instance;
+	}
+
+	@Override
+	public void shieldActivated() {
+		instance.levelView.showShield();
+	}
+
+	@Override
+	public void shieldDeactivated() {
+		instance.levelView.hideShield();
 	}
 
 

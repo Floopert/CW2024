@@ -27,8 +27,14 @@ public class LevelOne extends LevelParent {
 		if (userIsDestroyed()) {
 			loseGame();
 		}
-		else if (userHasReachedKillTarget())
+		else if (userHasReachedKillTarget()){
+			//removes all nodes from root and suggests garbage collection
+			//since all elements in levels are rendered upon load, don't need anything from previous level
+			getRoot().getChildren().clear();
+			System.gc();
 			goToNextLevel(NEXT_LEVEL);
+		}
+			
 	}
 
 	@Override
@@ -50,7 +56,7 @@ public class LevelOne extends LevelParent {
 
 	@Override
 	protected LevelView instantiateLevelView() {
-		return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH);
+		return new LevelViewLevelOne(getRoot(), PLAYER_INITIAL_HEALTH);
 	}
 
 	private boolean userHasReachedKillTarget() {

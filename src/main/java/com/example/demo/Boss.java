@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.util.*;
 
+
 public class Boss extends FighterPlane {
 
 	private static final String IMAGE_NAME = "bossplane.png";
@@ -9,7 +10,7 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_Y_POSITION = 300;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 40.0;
 	private static final double BOSS_FIRE_RATE = .04;
-	private static final double BOSS_SHIELD_PROBABILITY = .002;
+	private static final double BOSS_SHIELD_PROBABILITY = 0.002;
 	private static final int IMAGE_HEIGHT = 100;
 	private static final int VERTICAL_VELOCITY = 8;
 	private static final int HEALTH = 100;
@@ -34,6 +35,18 @@ public class Boss extends FighterPlane {
 		isShielded = false;
 		initializeMovePattern();
 	}
+
+	private List<BossEventListener> listeners = new ArrayList<BossEventListener>();
+
+	public void addEventListener(BossEventListener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeEventListener(BossEventListener listener) {
+		listeners.remove(listener);
+	}
+
+
 
 	@Override
 	public void updatePosition() {
@@ -110,11 +123,19 @@ public class Boss extends FighterPlane {
 
 	private void activateShield() {
 		isShielded = true;
+		for (BossEventListener listener : listeners) {
+			listener.shieldActivated();
+		}
+
 	}
 
 	private void deactivateShield() {
 		isShielded = false;
 		framesWithShieldActivated = 0;
+		for (BossEventListener listener : listeners) {
+			listener.shieldDeactivated();
+		}
+
 	}
 
 }

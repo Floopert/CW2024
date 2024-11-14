@@ -67,6 +67,8 @@ public abstract class LevelParent extends Observable {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
+		levelView.addImagesToRoot();
+
 		return scene;
 	}
 
