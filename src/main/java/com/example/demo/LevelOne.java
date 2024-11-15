@@ -30,8 +30,7 @@ public class LevelOne extends LevelParent {
 		else if (userHasReachedKillTarget()){
 			//removes all nodes from root and suggests garbage collection
 			//since all elements in levels are rendered upon load, don't need anything from previous level
-			getRoot().getChildren().clear();
-			System.gc();
+			clearAllActors();
 			goToNextLevel(NEXT_LEVEL);
 		}
 			

@@ -91,6 +91,7 @@ public abstract class LevelParent extends Observable {
 		handleUserProjectileCollisions();
 		handleEnemyProjectileCollisions();
 		handlePlaneCollisions();
+		handleProjectileOutOfBounds();
 		removeAllDestroyedActors();
 		updateKillCount();
 		updateLevelView();
@@ -160,7 +161,20 @@ public abstract class LevelParent extends Observable {
 				.collect(Collectors.toList());
 		root.getChildren().removeAll(destroyedActors);
 		actors.removeAll(destroyedActors);
+		
+		destroyedActors.clear();
 	}
+
+	//called when moving to next level, to clear all objects from all the array lists
+	protected void clearAllActors() {
+		root.getChildren().clear();
+		friendlyUnits.clear();
+		enemyUnits.clear();
+		userProjectiles.clear();
+		enemyProjectiles.clear();
+		System.gc();
+	}
+
 
 	private void handlePlaneCollisions() {
 		handleCollisions(friendlyUnits, enemyUnits);
@@ -202,6 +216,31 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+
+	//loops through all the projectiles generated, and checks if they are out of bounds
+	//if yes then flag them as destroyed for removal (removeDestroyedActors method will remove all destroyed objects)
+	private void handleProjectileOutOfBounds() {
+		for (ActiveActorDestructible projectile : userProjectiles) {
+			destroyOutofBoundsProjectile(projectile);
+		};
+		for (ActiveActorDestructible projectile : enemyProjectiles) {
+			destroyOutofBoundsProjectile(projectile);
+		};
+	}
+
+	//set projectile as destroyed if it is out of screen
+	private void destroyOutofBoundsProjectile(ActiveActorDestructible projectile) {
+		if (projectileIsOutOfScreen(projectile)) {
+			projectile.destroy();
+		}
+	}
+
+	//check if the projectile is out of the screen
+	private boolean projectileIsOutOfScreen(ActiveActorDestructible projectile) {
+		return Math.abs(projectile.getTranslateX()) > screenWidth;
+	}
+
+
 	private void updateLevelView() {
 		levelView.removeHearts(user.getHealth());
 	}
@@ -215,6 +254,7 @@ public abstract class LevelParent extends Observable {
 	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
 		return Math.abs(enemy.getTranslateX()) > screenWidth;
 	}
+
 
 	protected void winGame() {
 		timeline.stop();
