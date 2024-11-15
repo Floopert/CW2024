@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import javafx.scene.Group;
-import javafx.scene.image.ImageView;
 
 public abstract class LevelView {
 	
@@ -13,7 +12,7 @@ public abstract class LevelView {
 	private static final int LOSS_SCREEN_Y_POSISITION = -375;
 	private final Group root;
 	private final WinImage winImage;
-	private final ImageView gameOverImage;
+	private final GameOverImage gameOverImage;
 	private final HeartDisplay heartDisplay;
 	
 	public LevelView(Group root, int heartsToDisplay) {

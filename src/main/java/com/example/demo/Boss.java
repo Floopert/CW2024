@@ -9,6 +9,7 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_X_POSITION = 950.0;
 	private static final double INITIAL_Y_POSITION = 300;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 40.0;
+	private static final double PROJECTILE_X_POSITION_OFFSET = 0;
 	private static final double BOSS_FIRE_RATE = .04;
 	private static final double BOSS_SHIELD_PROBABILITY = 0.002;
 	private static final int IMAGE_HEIGHT = 100;
@@ -66,7 +67,9 @@ public class Boss extends FighterPlane {
 
 	@Override
 	public ActiveActorDestructible fireProjectile() {
-		return bossFiresInCurrentFrame() ? new BossProjectile(getProjectileInitialPosition()) : null;
+		double projectileXPosition = getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
+		double projectileYPostion = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
+		return bossFiresInCurrentFrame() ? new BossProjectile(projectileXPosition, projectileYPostion) : null;
 	}
 	
 	@Override
@@ -109,9 +112,6 @@ public class Boss extends FighterPlane {
 		return Math.random() < BOSS_FIRE_RATE;
 	}
 
-	private double getProjectileInitialPosition() {
-		return getLayoutY() + getTranslateY() + PROJECTILE_Y_POSITION_OFFSET;
-	}
 
 	private boolean shieldShouldBeActivated() {
 		return Math.random() < BOSS_SHIELD_PROBABILITY;
