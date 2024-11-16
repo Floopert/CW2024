@@ -19,6 +19,7 @@ Implemented and Working Properly: This section only lists additional features/ex
 
 - fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. The initial hitbox from the original was too huge due to redundant white spaces in png image. Scale and x,y position of all images are also adjusted to match the newly modified images.
 
+- user plane can now move left and right as well.
 
 
 ----------------------------------------------------------------------------------------------------------------
@@ -106,10 +107,16 @@ Modified Java Classes: This section shall only include modifications to classes 
     -Boss.java: Added BossEventListener array list to store all subscribers. Added methods addEventListener() and removeEventListener() to add or remove subscribers from the array list. In activateShield() and deactivateShield() methods, added the event trigger to notify all subscribers that shield has been activated or deactivated, and will trigger the relevant BossEventListener methods.
 
 
-- LevelParent.java
+- LevelParent.java [BUG FIX]
     Objective: To ensure that all projectiles (user & enemy) will be destroyed when it is out of screen. All out of bounds projectiles will be flagged as isDestroyed so that the removeDestroyedActors() method will remove them from the array list.
 
     -added projectileIsOutOfScreen() method to check if projectile is out of bounds. Added destroyOutofBoundsProjectile() method to flag the projectile isDestroyed=True if projectileIsOutOfScreen() returns True. Added handleProjectileOutOfBounds() method to loop through each projectile and call destroyOutofBoundsProjectile() to flag all projectile isDestroyed=True if they are out of bounds.
+
+
+- LevelParent.java [BUG FIX]
+    Objective: Stop the old level's timeline before going to next level. Not doing this will result in incremental RAM usage as game goes longer.
+
+    -added timeline.stop() in goToNextLevel() method.
 
 
 ----------------------------------------------------------------------------------------------------------------
