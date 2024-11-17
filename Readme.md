@@ -13,13 +13,13 @@ Compilation Instructions:
 ----------------------------------------------------------------------------------------------------------------
 Implemented and Working Properly: This section only lists additional features/extensions and fine tuning works. Bug fixes or refactoring works are described in 'Modified Java Classes' section below.
 
-- fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely.
+### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely.
 
-- fine tuned so that only kills from user projectiles will add to the kill score for progression of next level. Collision between user plane with enemy plane OR enemy plane reaching end of screen now only deducts life, but score does not increase. E.g. the kill score required to progress from level one to two is 10. If user projectile destroyed 6 planes, user plane collided with 2 planes, 2 enemy planes reached the left edge of screen, total kill score is still only 6 and user cannot progress to level two yet. However, 4 lives will already have been deducted.
+### fine tuned so that only kills from user projectiles will add to the kill score for progression of next level. Collision between user plane with enemy plane OR enemy plane reaching end of screen now only deducts life, but score does not increase. E.g. the kill score required to progress from level one to two is 10. If user projectile destroyed 6 planes, user plane collided with 2 planes, 2 enemy planes reached the left edge of screen, total kill score is still only 6 and user cannot progress to level two yet. However, 4 lives will already have been deducted.
 
-- fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. The initial hitbox from the original was too huge due to redundant white spaces in png image. Scale and x,y position of all images are also adjusted to match the newly modified images.
+### fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. The initial hitbox from the original was too huge due to redundant white spaces in png image. Scale and x,y position of all images are also adjusted to match the newly modified images.
 
-- user plane can now move left and right as well.
+### user plane can now move left and right as well.
 
 
 ----------------------------------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ Implemented but Not Working Properly:
 ----------------------------------------------------------------------------------------------------------------
 Features Not Implemented:
 
-- add kill score in LevelOneLevelView.java
+### add kill score in LevelOneLevelView.java
 
 
 
@@ -45,13 +45,13 @@ Features Not Implemented:
 ----------------------------------------------------------------------------------------------------------------
 New Java Classes:
 
-- LevelViewLevelOne.java (TO ADD LOCATION OF FILE)
+### LevelViewLevelOne.java (TO ADD LOCATION OF FILE)
     -a subclass of LevelView, since LevelView is made into an abstract class, all levels will inherit from it to create a concrete class so that objects could be instantiated
     -LevelView will only handle adding and removing general images from the scene. General images means images that are applicable throughout all levels such as hearts, win image and game over image.
     -subclasses of LevelView such as LevelViewLevelOne will define other images to add to scene that are applicable only to that level.
 
 
-- Interface: BossEventListener.java (TO ADD LOCATION OF FILE)
+### Interface: BossEventListener.java (TO ADD LOCATION OF FILE)
     -acts as the event listener interface for any events triggered by the Boss plane.
     -when boss' shield is activated or deactivated, the events are handled by this interface and appropriate actions are taken by its registered listeners
 
@@ -69,21 +69,21 @@ Modified Java Classes: This section shall only include modifications to classes 
 
 
 
--  ShieldImage.java [BUG FIX]
+### ShieldImage.java [BUG FIX]
     Objective: To fix a bug where an alert window errors pops up just after 
 
     -amended path stored in IMAGE_NAME constant. amended so that the constant stores the correct path to the image and can be used
     -in the setImage() method, removed the String passed in the method and replaced with the IMAGE_NAME constant. the string had to be replaced because it is pointing to a wrong file name, and placing a constant instead of a raw String provides better code readability.
 
 
-- Controller.java [BUG FIX]
+### Controller.java [BUG FIX]
     Objective: To fix a bug that freezes when game changes between levels and ends up taking a lot of RAM
 
     -when calling goToLevel() method in the launchGame() method, wrapped the goToLevel() method in a try-catch block and added a printStackTrace for any caught errors. This change makes for easier debugging when an error occurs.
     -in the update() method, the old level is removed from the Observer List with the line arg0.deleteObserver(). The controller will not listen to any events happening from the old level anymore when it's switching to a new level.
 
 
-- Controller.java | LevelOne.java | LevelTwo.java [REFACTOR]
+### Controller.java | LevelOne.java | LevelTwo.java [REFACTOR]
     Objective: To implement Singleton design pattern for LevelOne and LevelTwo class. This prevents excess memory usage when switching between levels. In the original code, when switching between levels, there is a short window where several new instances of LevelTwo objects could be made, resulting in memory wastage. 
 
     -LevelOne.java & LevelTwo.java: Creates a new private static instance that will store the object of the ONLY copy of the class. Changed the constructor's access modifier to private so that objects cannot be created outside the class. Added getInstance() method that creates the object of the class ONLY if the instance variable is null. The getInstance() method returns the reference to the instance object so that outside classes could access the instance.
@@ -91,7 +91,7 @@ Modified Java Classes: This section shall only include modifications to classes 
     -Controller.java: Removed line that dynamically calls the constructor of a class. Instead, replaced it with a dynamic call of a class' method (the getInstance method). This way, the LevelOne and LevelTwo can never have more than one instance at runtime since no objects could be created outside of the class.
 
 
--  LevelViewLevelTwo.java | LevelView.java | LevelOne.java | LevelTwo.java | LevelParent.java | Boss.java [BUG FIX & REFACTOR]
+### LevelViewLevelTwo.java | LevelView.java | LevelOne.java | LevelTwo.java | LevelParent.java | Boss.java [BUG FIX & REFACTOR]
     Objective: To fix bug where the shield image does not appear in level two.
 
     -LevelViewLevelTwo.java: Removed the call to addImagesToRoot() method in the constructor. This is the main reason the image is not showing on scene, because the shield image is rendered before the background, so the shield image is blocked by the background. Changed access modifier to public for addImagesToRoot() method since this is changed to an abstract method declared in LevelView (parent class).
@@ -107,20 +107,35 @@ Modified Java Classes: This section shall only include modifications to classes 
     -Boss.java: Added BossEventListener array list to store all subscribers. Added methods addEventListener() and removeEventListener() to add or remove subscribers from the array list. In activateShield() and deactivateShield() methods, added the event trigger to notify all subscribers that shield has been activated or deactivated, and will trigger the relevant BossEventListener methods.
 
 
-- LevelParent.java [BUG FIX]
+### LevelParent.java [BUG FIX]
     Objective: To ensure that all projectiles (user & enemy) will be destroyed when it is out of screen. All out of bounds projectiles will be flagged as isDestroyed so that the removeDestroyedActors() method will remove them from the array list.
 
     -added projectileIsOutOfScreen() method to check if projectile is out of bounds. Added destroyOutofBoundsProjectile() method to flag the projectile isDestroyed=True if projectileIsOutOfScreen() returns True. Added handleProjectileOutOfBounds() method to loop through each projectile and call destroyOutofBoundsProjectile() to flag all projectile isDestroyed=True if they are out of bounds.
 
 
-- LevelParent.java [BUG FIX]
+### LevelParent.java [BUG FIX]
     Objective: Stop the old level's timeline before going to next level. Not doing this will result in incremental RAM usage as game goes longer.
 
     -added timeline.stop() in goToNextLevel() method.
+
+
+### ActiveActorDestructible.java | BossProjectile.java | UserProjectile.java | EnemyProjectile.java | Projectile.java | Boss.java | UserPlane.java | EnemyPlane.java [REFACTOR]
+    Objective: Remove all duplicate code in these files. Also removed all unused code in these files.
+
+    -ActiveActorDestructible.java: Added implementation for updateActor() method instead of leaving it as abstract. Because most of the classes inheriting from it uses the same implementation. If any class will have special implementation, can just override it to add additional logic on top of the parent's logic.
+
+    -BossProjectile.java | UserProjectile.java | EnemyProjectile.java | UserPlane.java | EnemyPlane.java: Removed the updateActor() method since it is similar to parent class implementation.
+
+    -Projectile.java: Removed abstract method updatePosition() since it serves no purpose. The first declaration is already in the parent class, and the override in this class is just to declare it as abstract again.
+
+    -Boss.java: In the overriden updateActor() method, instead of redefining the implementation, called super.updateActor() since that is always the same for all classes. Then only added whatever is specially required in this class for this method, in this case, the updateShield() method.
 
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 Unexpected Problems:
 
-- At boss level, the longer the game runs, the more RAM it consumes.
+### At boss level, the longer the game runs, the more RAM it consumes.
+    -Started by checking all the generated resources such as projectiles and plane objects. See if they are constantly being generated implicitly. Found out that the projectiles were not being destroyed when out of screen. Fixed that logic but problem still persisted.
+    -Then disabled the function to generate projectiles, to see if RAM still increasing. Found out that it did, so most likely was not due to generation of objects.
+    -Then found out that the RAM was still increasing at boss level even after death (Game Over). Which was not possible since there should be a timeline.stop() after death. Which then led to a realization that the first level timeline was never stopped because timeline.stop() was never called when switching level. Resources was continouously being taken due to a redundant timeline being run on the background. Added timeline.stop() before going to next level, problem solved.

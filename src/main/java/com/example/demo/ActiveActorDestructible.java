@@ -11,10 +11,11 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
 		canScoreFromCollision = false;
 	}
 
-	@Override
-	public abstract void updatePosition();
+	public void updateActor(){
+		updatePosition();
+	};
 
-	public abstract void updateActor();
+	public abstract void updatePosition();
 
 	@Override
 	public abstract void takeDamage();

@@ -15,9 +15,4 @@ public class BossProjectile extends Projectile {
 		moveHorizontally(HORIZONTAL_VELOCITY);
 	}
 	
-	@Override
-	public void updateActor() {
-		updatePosition();
-	}
-	
 }

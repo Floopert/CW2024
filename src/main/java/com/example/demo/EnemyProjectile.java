@@ -15,10 +15,6 @@ public class EnemyProjectile extends Projectile {
 		moveHorizontally(HORIZONTAL_VELOCITY);
 	}
 
-	@Override
-	public void updateActor() {
-		updatePosition();
-	}
 
 
 }
