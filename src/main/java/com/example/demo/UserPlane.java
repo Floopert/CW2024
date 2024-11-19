@@ -16,7 +16,6 @@ public class UserPlane extends FighterPlane {
 	private static final int PROJECTILE_Y_POSITION_OFFSET = 20;
 	private int yVelocityMultiplier;
 	private int xVelocityMultiplier;
-	private int numberOfKills;
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
@@ -84,12 +83,5 @@ public class UserPlane extends FighterPlane {
 		xVelocityMultiplier = 0;
 	}
 
-	public int getNumberOfKills() {
-		return numberOfKills;
-	}
-
-	public void incrementKillCount() {
-		numberOfKills++;
-	}
 
 }

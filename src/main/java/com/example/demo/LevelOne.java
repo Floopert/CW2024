@@ -1,5 +1,9 @@
 package com.example.demo;
 
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class LevelOne extends LevelParent {
 	
 	private static LevelOne instance;
@@ -11,8 +15,14 @@ public class LevelOne extends LevelParent {
 	private static final double ENEMY_SPAWN_PROBABILITY = .20;
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 
+
+
+
 	private LevelOne(double screenHeight, double screenWidth) {
-		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+		super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+
+		//background is declared in super class, but since it is different for each level, it is initialized here
+		background = new ImageView(new Image(getClass().getResource(BACKGROUND_IMAGE_NAME).toExternalForm()));
 	}
 
 	public static LevelOne getInstance(double screenHeight, double screenWidth) {
@@ -22,24 +32,19 @@ public class LevelOne extends LevelParent {
 		return instance;
 	}
 
+
+
 	@Override
 	protected void checkIfGameOver() {
 		if (userIsDestroyed()) {
 			loseGame();
 		}
 		else if (userHasReachedKillTarget()){
-			//removes all nodes from root and suggests garbage collection
-			//since all elements in levels are rendered upon load, don't need anything from previous level
-			clearAllActors();
 			goToNextLevel(NEXT_LEVEL);
 		}
 			
 	}
 
-	@Override
-	protected void initializeFriendlyUnits() {
-		getRoot().getChildren().add(getUser());
-	}
 
 	@Override
 	protected void spawnEnemyUnits() {
@@ -48,18 +53,20 @@ public class LevelOne extends LevelParent {
 			if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
 				double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
 				ActiveActorDestructible newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
-				addEnemyUnit(newEnemy);
+				activeActorManager.addEnemyUnit(newEnemy);
 			}
 		}
 	}
 
-	@Override
-	protected LevelView instantiateLevelView() {
-		return new LevelViewLevelOne(getRoot(), PLAYER_INITIAL_HEALTH);
-	}
 
 	private boolean userHasReachedKillTarget() {
-		return getUser().getNumberOfKills() >= KILLS_TO_ADVANCE;
+		return getKillCount() >= KILLS_TO_ADVANCE;
 	}
+
+	@Override
+	protected void instantiateLevelView(){
+		//reference to levelView is stored in super class to access methods that are generated the same for all levels
+		super.levelView = new LevelViewLevelOne(getRoot(), PLAYER_INITIAL_HEALTH);
+	};
 
 }

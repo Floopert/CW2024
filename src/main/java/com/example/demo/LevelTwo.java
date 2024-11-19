@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class LevelTwo extends LevelParent implements BossEventListener{
 
 	private static LevelTwo instance;
@@ -7,12 +10,18 @@ public class LevelTwo extends LevelParent implements BossEventListener{
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private final Boss boss;
+
 	private LevelViewLevelTwo levelView;
 
 	private LevelTwo(double screenHeight, double screenWidth) {
-		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+		super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+
+		//background is declared in super class, but since it is different for each level, it is initialized here
+		background = new ImageView(new Image(getClass().getResource(BACKGROUND_IMAGE_NAME).toExternalForm()));
+
 		boss = new Boss();
 		boss.addEventListener(this);
+
 	}
 
 	public static LevelTwo getInstance(double screenHeight, double screenWidth) {
@@ -34,11 +43,6 @@ public class LevelTwo extends LevelParent implements BossEventListener{
 
 
 	@Override
-	protected void initializeFriendlyUnits() {
-		getRoot().getChildren().add(getUser());
-	}
-
-	@Override
 	protected void checkIfGameOver() {
 		if (userIsDestroyed()) {
 			loseGame();
@@ -51,14 +55,18 @@ public class LevelTwo extends LevelParent implements BossEventListener{
 	@Override
 	protected void spawnEnemyUnits() {
 		if (getCurrentNumberOfEnemies() == 0) {
-			addEnemyUnit(boss);
+			activeActorManager.addEnemyUnit(boss);
 		}
 	}
 
+
 	@Override
-	protected LevelView instantiateLevelView() {
-		levelView = new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH);
-		return levelView;
-	}
+	protected void instantiateLevelView(){
+		//this.levelView is to access level specific methods to generate level specific images
+		this.levelView = new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH);
+		//another reference to levelView is stored in super class to access methods that are generated the same for all levels
+		super.levelView = this.levelView;
+	};
+
 
 }

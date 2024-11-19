@@ -20,7 +20,7 @@ public class Boss extends FighterPlane {
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
 	private static final int Y_POSITION_UPPER_BOUND = 0;
 	private static final int Y_POSITION_LOWER_BOUND = 600;
-	private static final int MAX_FRAMES_WITH_SHIELD = 500;
+	private static final int MAX_FRAMES_WITH_SHIELD = 100;
 	private final List<Integer> movePattern;
 	private boolean isShielded;
 	private int consecutiveMovesInSameDirection;
@@ -43,9 +43,6 @@ public class Boss extends FighterPlane {
 		listeners.add(listener);
 	}
 
-	public void removeEventListener(BossEventListener listener) {
-		listeners.remove(listener);
-	}
 
 
 

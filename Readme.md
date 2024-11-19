@@ -56,6 +56,15 @@ New Java Classes:
     -when boss' shield is activated or deactivated, the events are handled by this interface and appropriate actions are taken by its registered listeners
 
 
+### ActiveActorManager.java
+    -stores all instantiated game characters (ActiveActorDestructible objects).
+    -manages all game character objects in a level (gets and sets the list of ActiveActorDestructible e.g. friendlyUnits, enemyUnits etc)
+    -handles all frame updates of the game characters
+
+
+### InputHandler.java
+    -takes the ImageView object passed into it during instantiation and setting that ImageView as the receiver of user input.
+    -this class also handles user input.
 
 
 
@@ -65,8 +74,8 @@ New Java Classes:
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 
-Modified Java Classes: This section shall only include modifications to classes due to bug fix or refactoring. Any code modification/addition for feature extension or fine tuning is not mentioned here, the nature of the extended feature or fine tuning is briefly described in the 'Implemented and Working Properly' section above. Each paragraph in this section may lump several classes together, to signify that they were modified together to complete a single bug fix. Paragraphs may mention similar class again, but for different bug fix.
-
+Modified Java Classes: This section shall only include modifications to classes due to bug fix or refactoring. Any code modification/addition for feature extension or fine tuning is not mentioned here, the nature of the extended feature or fine tuning is briefly described in the 'Implemented and Working Properly' section above. Each paragraph in this section may lump several classes together, to signify that they were modified together in one commit, to complete a single bug fix or as one refactoring job. Paragraphs may mention similar class again, but for different bug fix or refactoring job.
+The order of the list is in ascending order of commits, with the top being the earliest commit.
 
 
 ### ShieldImage.java [BUG FIX]
@@ -130,6 +139,25 @@ Modified Java Classes: This section shall only include modifications to classes 
 
     -Boss.java: In the overriden updateActor() method, instead of redefining the implementation, called super.updateActor() since that is always the same for all classes. Then only added whatever is specially required in this class for this method, in this case, the updateShield() method.
 
+
+### LevelParent.java | LevelOne.java | LevelTwo.java | UserPlane.java [REFACTOR]
+    Objective: To reduce the responsibility of LevelParent class by breaking up unrelated functions that are supposed to be in a separate class. The main bulk of this refactoring is the break up the responsibility of managing the ActiveActorDestructible objects (with the new ActiveActorManager class) and the handling of user input (with the new InputHandler class).
+
+    -LevelParent.java: 
+        -Moved the Lists of <ActiveActorDestructibles> (friendlyUnits, enemyUnits etc) to new class ActiveActorManager.java.
+        -Added killCount integer variable to keep count of kill score instead of putting the function in the UserPlane.java. A getKillCount() method is added so that killCount data could be fetched by any child class (such as LevelOne).
+        -The background ImageView variable is now set to protected, and the background object is instantiated in each specific level's class (LevelOne, LevelTwo). This is to reduce the redundancy to have to pass the background image name through the super's constructor (makes a cleaner constructor). But manipulation of the background ImageView is still done in LevelParent since the steps are going to be similar for all levels (don't need redundant repeating).
+        -the initializeScene() method now creates the activeActorManager object and the inputHandler object, adds the background, adds user plane and display other general and level specific images (e.g. hearts or shield). showBackground() and showForegroundImages() methods are newly created and is called inside initializeScene() to do the above jobs. Purpose is just to break down into smaller responsibilities for each method.
+        -initializeBackground() method is moved to InputHandler.java and is renamed to initializeUserControls(). Setting the image width, height, and adding to root is removed from this method (due to no relevance, but is moved to the initializeScene as mentioned above).
+        -fireProjectile() is moved to InputHandler since it is related to user input action.
+        -generateEnemyFire(), spawnEnemyProjectile(), addEnemyUnit(), updateActors(), removeAllDestroyedActors() and removeDestroyedActors() methods are all moved to ActiveActorManager since they are all related to handling activeActorDestructible behaviors and managing the objects' existence in the scene.
+
+    -LevelOne.java | LevelTwo.java:
+        -background ImageView object is now created in these classes. Since background has protected access modifier, it will then be accessed in its super class for the full scene construction (adding background, then add activeActorManager, creating input controller, spawn user, display hearts and other level specific images)
+        -removed initializeFriendlyUnits() method. Since UserPlane object is already created in the super class, redundant to add the user plane to scene in this class. This is done in the super class, in the createLevel() method where all elements of the scene are added in methodical order (from background all the way to foreground).
+        -LevelTwo.java now keeps a reference of LevelViewLevelTwo in levelview variable to carry out any level specific graphic manipulation (toggle shield visibility). Since LevelOne.java does not have such elements yet, not necessary to do the same, so no levelview variable in LevelOne.java class (but is designed to be able to do the same if future extensions require it).
+
+    -UserPlane.java: Removed getNumberOfKills() and incrementKillCount() methods since these is considered as a 'game-wide' tracked data and not supposed to be tracked by the UserPlane object. The kill count is tracked in LevelParent.java now.
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
