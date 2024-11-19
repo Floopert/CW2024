@@ -218,7 +218,7 @@ public abstract class LevelParent extends Observable {
 
 	//check if the projectile is out of the screen
 	private boolean projectileIsOutOfScreen(ActiveActorDestructible projectile) {
-		return Math.abs(projectile.getTranslateX()) > screenWidth;
+		return isOutOfScreen(projectile);
 	}
 
 
@@ -235,7 +235,11 @@ public abstract class LevelParent extends Observable {
 	}
 
 	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-		return Math.abs(enemy.getTranslateX()) > screenWidth;
+		return isOutOfScreen(enemy);
+	}
+
+	private boolean isOutOfScreen(ActiveActorDestructible actor) {
+		return actor.getLayoutX() + actor.getTranslateX() > screenWidth + actor.getBoundsInParent().getWidth() || actor.getLayoutX() + actor.getTranslateX() < 0 - actor.getBoundsInParent().getWidth();
 	}
 
 

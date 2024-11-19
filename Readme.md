@@ -169,6 +169,13 @@ The order of the list is in ascending order of commits, with the top being the e
     -modified the updateKillCount() method to directly increment the killCount variable as a way to keep track of kill count.
     -removed updateKillCount() from the updateScene() method, so that it now doesn't get called every frame. Instead, the updateKillCount() is called whenever a collision between a user bullet and an enemy plane occurs (provided the enemy gets destroyed)
 
+
+### LevelParent.java [BUG FIX]
+    Objective: Fix a bug where projectiles are not destroyed immediately even after visually out of screen. This is because 'out of bounds' was defined loosely previously. Now defined the 'out of bounds' more strictly.
+
+    -added new method isOutOfScreen() to check if object has fully gone out of screen. The definition of 'out of bounds' is defined in this method. Previously the moment the plane's head hits the edge, it is considered as destroyed. Now, only when plane has fully passed the edge, only then it will be destroyed and deduct a life.
+    -the projectileIsOutOfScreen() and enemyHasPenetratedDefenses() method uses the isOutOfScreen() method, so that the details of the 'out of bounds' only needs to be defined once in isOutOfScreen(), and makes the other methods that implement the 'out of bounds' check much more human readable.
+
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 Unexpected Problems:
