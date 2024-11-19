@@ -29,8 +29,6 @@ public abstract class LevelParent extends Observable {
 	protected ActiveActorManager activeActorManager;
 	private InputHandler inputHandler;
 	
-	private int currentNumberOfEnemies;
-
 	private int killCount = 0;
 
 
@@ -61,7 +59,6 @@ public abstract class LevelParent extends Observable {
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
-		this.currentNumberOfEnemies = 0;
 		
 		instantiateLevelView();
 		initializeTimeline();
@@ -147,14 +144,12 @@ public abstract class LevelParent extends Observable {
 		spawnEnemyUnits();
 		activeActorManager.updateActors();
 		activeActorManager.generateEnemyFire();
-		updateNumberOfEnemies();
 		handleEnemyPenetration();
 		handleUserProjectileCollisions();
 		handleEnemyProjectileCollisions();
 		handlePlaneCollisions();
 		handleProjectileOutOfBounds();
 		activeActorManager.removeAllDestroyedActors();
-		updateKillCount();
 		updateLevelView();
 		checkIfGameOver();
 	}
@@ -184,8 +179,8 @@ public abstract class LevelParent extends Observable {
 					actor.takeDamage();
 					otherActor.takeDamage();
 					
-					if(!actor.canScoreFromCollision() && !otherActor.canScoreFromCollision() && (actor.isDestroyed() || otherActor.isDestroyed())) {
-						currentNumberOfEnemies--;
+					if( ( actor.canScoreFromCollision() || otherActor.canScoreFromCollision() ) && actor.isDestroyed() && otherActor.isDestroyed() ) {
+						updateKillCount();
 					}
 
 				}
@@ -197,7 +192,6 @@ public abstract class LevelParent extends Observable {
 		for (ActiveActorDestructible enemy : activeActorManager.getEnemyUnits()) {
 			if (enemyHasPenetratedDefenses(enemy)) {
 				user.takeDamage();
-				currentNumberOfEnemies--;
 				enemy.destroy();
 			}
 		}
@@ -233,9 +227,7 @@ public abstract class LevelParent extends Observable {
 	}
 
 	private void updateKillCount() {
-		for (int i = 0; i < currentNumberOfEnemies - activeActorManager.getEnemyUnits().size(); i++) {
-			killCount++;
-		}
+		killCount++;
 	}
 
 	protected int getKillCount() {
@@ -282,8 +274,5 @@ public abstract class LevelParent extends Observable {
 		return user.isDestroyed();
 	}
 
-	private void updateNumberOfEnemies() {
-		currentNumberOfEnemies = activeActorManager.getEnemyUnits().size();
-	}
 
 }

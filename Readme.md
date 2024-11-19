@@ -159,6 +159,16 @@ The order of the list is in ascending order of commits, with the top being the e
 
     -UserPlane.java: Removed getNumberOfKills() and incrementKillCount() methods since these is considered as a 'game-wide' tracked data and not supposed to be tracked by the UserPlane object. The kill count is tracked in LevelParent.java now.
 
+
+
+### LevelParent.java [REFACTOR]
+    Objective: To achieve a more direct way in updating the kill count.
+
+    -removed currentNumberOfEnemies integer variable.
+    -removed updateNumberOfEnemies() method
+    -modified the updateKillCount() method to directly increment the killCount variable as a way to keep track of kill count.
+    -removed updateKillCount() from the updateScene() method, so that it now doesn't get called every frame. Instead, the updateKillCount() is called whenever a collision between a user bullet and an enemy plane occurs (provided the enemy gets destroyed)
+
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 Unexpected Problems:
