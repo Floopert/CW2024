@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.images;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,7 +9,6 @@ public class GameOverImage extends ImageView {
 
 	public GameOverImage(double xPosition, double yPosition) {
 		setImage(new Image(getClass().getResource(IMAGE_NAME).toExternalForm()) );
-//		setImage(ImageSetUp.getImageList().get(ImageSetUp.getGameOver()));
 		setLayoutX(xPosition);
 		setLayoutY(yPosition);
 	}

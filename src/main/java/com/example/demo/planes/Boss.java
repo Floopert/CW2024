@@ -1,8 +1,11 @@
-package com.example.demo;
+package com.example.demo.planes;
 
 import java.util.*;
 
+import com.example.demo.activeActors.ActiveActorDestructible;
+import com.example.demo.activeActors.FighterPlane;
 import com.example.demo.eventListeners.BossEventListener;
+import com.example.demo.projectiles.BossProjectile;
 
 
 public class Boss extends FighterPlane {

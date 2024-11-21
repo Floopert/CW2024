@@ -3,7 +3,7 @@ package com.example.demo.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.ActiveActorDestructible;
+import com.example.demo.activeActors.ActiveActorDestructible;
 import com.example.demo.eventListeners.CollisionEventListener;
 
 public class CollisionHandler {

@@ -1,6 +1,8 @@
-package com.example.demo;
+package com.example.demo.levels;
 
 import com.example.demo.eventListeners.BossEventListener;
+import com.example.demo.levelViews.LevelViewLevelTwo;
+import com.example.demo.planes.Boss;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

@@ -45,40 +45,40 @@ Features Not Implemented:
 ----------------------------------------------------------------------------------------------------------------
 New Java Classes:
 
-### LevelViewLevelOne.java (TO ADD LOCATION OF FILE)
+### LevelViewLevelOne.java (com.example.demo.levelViews)
     -a subclass of LevelView, since LevelView is made into an abstract class, all levels will inherit from it to create a concrete class so that objects could be instantiated
     -LevelView will only handle adding and removing general images from the scene. General images means images that are applicable throughout all levels such as hearts, win image and game over image.
     -subclasses of LevelView such as LevelViewLevelOne will define other images to add to scene that are applicable only to that level.
 
 
-### Interface: BossEventListener.java (TO ADD LOCATION OF FILE)
+### Interface: BossEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any events triggered by the Boss plane.
     -when boss' shield is activated or deactivated, the events are handled by this interface and appropriate actions are taken by its registered listeners
 
 
-### ActiveActorManager.java
+### ActiveActorManager.java (com.example.demo.handlers)
     -stores all instantiated game characters (ActiveActorDestructible objects).
     -manages all game character objects in a level (gets and sets the list of ActiveActorDestructible e.g. friendlyUnits, enemyUnits etc)
     -handles all frame updates of the game characters
 
 
-### InputHandler.java
+### InputHandler.java (com.example.demo.handlers)
     -takes the ImageView object passed into it during instantiation and setting that ImageView as the receiver of user input.
     -this class also handles user input.
 
 
-### InputEventListener.java
+### InputEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any relevant input received by InputHandler.java class.
     -e.g. user presses 'space bar' will trigger fireProjectile() in ActiveActorManager class.
 
 
-### CollisionHandler.java
+### CollisionHandler.java (com.example.demo.handlers)
     -this class handles all the logic to check if a collision had occurred, and if yes, which object had collided.
     -this class also checks for collision with the screen edge (to see if object has left the scene).
     -this class has listeners subscribed to it so if any relevant collision event occurs, the relevant classes will be notified to give proper reaction.
 
 
-### CollisionEventListener.java
+### CollisionEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any relevant collision events triggered by CollisionHandler.java class.
     -e.g. user projectile collides and destroys enemy plane will trigger updateKillCount().
 

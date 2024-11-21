@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.levels;
 
 import java.util.*;
 
@@ -10,6 +10,8 @@ import javafx.util.Duration;
 
 import com.example.demo.eventListeners.CollisionEventListener;
 import com.example.demo.handlers.*;
+import com.example.demo.levelViews.LevelView;
+import com.example.demo.planes.UserPlane;
 
 /**
  * LevelParent class

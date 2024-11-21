@@ -3,10 +3,10 @@ package com.example.demo.handlers;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.example.demo.ActiveActorDestructible;
-import com.example.demo.FighterPlane;
-import com.example.demo.UserPlane;
+import com.example.demo.activeActors.ActiveActorDestructible;
+import com.example.demo.activeActors.FighterPlane;
 import com.example.demo.eventListeners.InputEventListener;
+import com.example.demo.planes.UserPlane;
 
 import javafx.scene.Group;
 
