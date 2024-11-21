@@ -1,12 +1,20 @@
 package com.example.demo;
 
-public abstract class ActiveActorDestructible extends ActiveActor implements Destructible {
+import javafx.scene.image.*;
+
+public abstract class ActiveActorDestructible extends ImageView implements Destructible {
 
 	private boolean isDestroyed;
 	private boolean canScoreFromCollision;
 
+	private static final String IMAGE_LOCATION = "/com/example/demo/images/";
+
 	public ActiveActorDestructible(String imageName, int imageHeight, double initialXPos, double initialYPos) {
-		super(imageName, imageHeight, initialXPos, initialYPos);
+		this.setImage(new Image(getClass().getResource(IMAGE_LOCATION + imageName).toExternalForm()));
+		this.setLayoutX(initialXPos);
+		this.setLayoutY(initialYPos);
+		this.setFitHeight(imageHeight);
+		this.setPreserveRatio(true);
 		isDestroyed = false;
 		canScoreFromCollision = false;
 	}
@@ -39,6 +47,14 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
 
 	public boolean canScoreFromCollision() {
 		return canScoreFromCollision;
+	}
+
+	protected void moveHorizontally(double horizontalMove) {
+		this.setTranslateX(getTranslateX() + horizontalMove);
+	}
+
+	protected void moveVertically(double verticalMove) {
+		this.setTranslateY(getTranslateY() + verticalMove);
 	}
 	
 }

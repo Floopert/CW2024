@@ -210,6 +210,14 @@ The order of the list is in ascending order of commits, with the top being the e
         -fireProjectile() method is moved to ActiveActorManager class.
 
 
+### ActiveActor.java | ActiveActorDestructible.java [REFACTOR]
+    Objective: To remove the redundant ActiveActor.java class.
+
+    -ActiveActor.java: This class is removed. All its relevant methods are moved to the ActiveActorDestructible class.
+
+    -ActiveActorDestructible.java: Added the constructor initializations from the previous ActiveActor class. The moveHorizontally() and moveVertically() methods from the ActiveActor class is moved here.
+
+
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
