@@ -2,6 +2,8 @@ package com.example.demo;
 
 import java.util.*;
 
+import com.example.demo.eventListeners.BossEventListener;
+
 
 public class Boss extends FighterPlane {
 
@@ -27,6 +29,8 @@ public class Boss extends FighterPlane {
 	private int indexOfCurrentMove;
 	private int framesWithShieldActivated;
 
+	private List<BossEventListener> listeners = new ArrayList<BossEventListener>();
+
 	public Boss() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
 		movePattern = new ArrayList<>();
@@ -37,7 +41,7 @@ public class Boss extends FighterPlane {
 		initializeMovePattern();
 	}
 
-	private List<BossEventListener> listeners = new ArrayList<BossEventListener>();
+	
 
 	public void addEventListener(BossEventListener listener) {
 		listeners.add(listener);

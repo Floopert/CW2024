@@ -5,7 +5,8 @@ import java.util.stream.Collectors;
 
 import com.example.demo.ActiveActorDestructible;
 import com.example.demo.FighterPlane;
-
+import com.example.demo.UserPlane;
+import com.example.demo.eventListeners.InputEventListener;
 
 import javafx.scene.Group;
 
@@ -15,8 +16,7 @@ import javafx.scene.Group;
  * All addition and removals of active actors are done in this class.
  * This class also is in charge for all actions that need to be done on all active actors.
  */
-
-public class ActiveActorManager {
+public class ActiveActorManager implements InputEventListener{
     
 	private final List<ActiveActorDestructible> friendlyUnits;
 	private final List<ActiveActorDestructible> enemyUnits;
@@ -31,7 +31,6 @@ public class ActiveActorManager {
 	 * @param root
 	 * This is the root group of the scene, where all the active actors are added to so that they are showing in the scene.
 	 */
-
     public ActiveActorManager(Group root) {
         friendlyUnits = new ArrayList<>();
         enemyUnits = new ArrayList<>();
@@ -96,26 +95,6 @@ public class ActiveActorManager {
 	}
 
 
-    //---------------------------------------------------------
-    //-------------------------REMOVERS-------------------------
-
-    public void removeFriendlyUnit(ActiveActorDestructible unit) {
-        friendlyUnits.remove(unit);
-    }
-
-    public void removeEnemyUnit(ActiveActorDestructible unit) {
-        enemyUnits.remove(unit);
-    }
-
-    public void removeUserProjectile(ActiveActorDestructible projectile) {
-        userProjectiles.remove(projectile);
-    }
-
-    public void removeEnemyProjectile(ActiveActorDestructible projectile) {
-        enemyProjectiles.remove(projectile);
-    }
-
-
 
 
 
@@ -129,6 +108,16 @@ public class ActiveActorManager {
 		userProjectiles.forEach(projectile -> projectile.updateActor());
 		enemyProjectiles.forEach(projectile -> projectile.updateActor());
 	}
+
+	@Override
+	public void fireProjectile() {
+		for (ActiveActorDestructible plane : friendlyUnits) {
+			UserPlane userPlane = (UserPlane) plane;
+			ActiveActorDestructible projectile = userPlane.fireProjectile();
+			addUserProjectile(projectile);
+		}
+	}
+
 
 	public void removeAllDestroyedActors() {
 		removeDestroyedActors(friendlyUnits);

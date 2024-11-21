@@ -35,7 +35,7 @@ Implemented but Not Working Properly:
 Features Not Implemented:
 
 ### add kill score in LevelOneLevelView.java
-
+### change frame rate of game
 
 
 
@@ -65,6 +65,22 @@ New Java Classes:
 ### InputHandler.java
     -takes the ImageView object passed into it during instantiation and setting that ImageView as the receiver of user input.
     -this class also handles user input.
+
+
+### InputEventListener.java
+    -acts as the event listener interface for any relevant input received by InputHandler.java class.
+    -e.g. user presses 'space bar' will trigger fireProjectile() in ActiveActorManager class.
+
+
+### CollisionHandler.java
+    -this class handles all the logic to check if a collision had occurred, and if yes, which object had collided.
+    -this class also checks for collision with the screen edge (to see if object has left the scene).
+    -this class has listeners subscribed to it so if any relevant collision event occurs, the relevant classes will be notified to give proper reaction.
+
+
+### CollisionEventListener.java
+    -acts as the event listener interface for any relevant collision events triggered by CollisionHandler.java class.
+    -e.g. user projectile collides and destroys enemy plane will trigger updateKillCount().
 
 
 
@@ -175,6 +191,25 @@ The order of the list is in ascending order of commits, with the top being the e
 
     -added new method isOutOfScreen() to check if object has fully gone out of screen. The definition of 'out of bounds' is defined in this method. Previously the moment the plane's head hits the edge, it is considered as destroyed. Now, only when plane has fully passed the edge, only then it will be destroyed and deduct a life.
     -the projectileIsOutOfScreen() and enemyHasPenetratedDefenses() method uses the isOutOfScreen() method, so that the details of the 'out of bounds' only needs to be defined once in isOutOfScreen(), and makes the other methods that implement the 'out of bounds' check much more human readable.
+
+
+### LevelParent.java | ActiveActorManager.java | InputHandler.java [REFACTOR]
+    Objective: To break up the collision handling functionality from the LevelParent into a separate class (CollisionHandler.java). And to refactor the new code structure so that ActiveActorManager and CollisionHandler could interact with each other.
+
+    -LevelParent.java:
+        -the class now creates an object of CollisionHandler class so that all collision handling logic is carried out by CollisionHandler class object (reduces responsibility of LevelParent).
+        -class implements CollisionEventListener interface to listen to collision events that damages user or updates kill score
+        -handlePlaneCollisions(), handleUserProjectileCollisions(), handleEnemyProjectileCollisions(), handleCollisions(), handleEnemyPenetration(), handleProjectileOutOfBounds(), destroyOutofBoundsProjectile(), enemyHasPenetratedDefenses() and isOutOfScreen() methods have been moved to CollisionHandler.java class.
+        -projectileIsOutOfScreen() method is deleted (redundant).
+
+    -ActiveActorManager.java:
+        -the class now implements InputEventListener so that the class can react to any user input relevant to is (e.g. call fireProjectile method to add projectiles to the List and root when user presses 'space bar').
+    
+    -InputHandler.java:
+        -the class no longer requires a reference to the ActiveActorManager object. Since previously it only requires the object to add the projectile to scene, but now an event listener is implemented instead to inform ActiveActorManager to create a projectile.
+        -fireProjectile() method is moved to ActiveActorManager class.
+
+
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------

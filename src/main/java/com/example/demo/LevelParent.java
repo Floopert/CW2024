@@ -8,9 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.util.Duration;
 
+import com.example.demo.eventListeners.CollisionEventListener;
 import com.example.demo.handlers.*;
 
-public abstract class LevelParent extends Observable {
+/**
+ * LevelParent class
+ */
+public abstract class LevelParent extends Observable implements CollisionEventListener{
 
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
@@ -28,6 +32,7 @@ public abstract class LevelParent extends Observable {
 
 	protected ActiveActorManager activeActorManager;
 	private InputHandler inputHandler;
+	private CollisionHandler collisionHandler;
 	
 	private int killCount = 0;
 
@@ -55,11 +60,11 @@ public abstract class LevelParent extends Observable {
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
 		this.user = new UserPlane(playerInitialHealth);
-		
+
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
-		
+
 		instantiateLevelView();
 		initializeTimeline();
 	}
@@ -80,7 +85,7 @@ public abstract class LevelParent extends Observable {
 	
 
 	
-
+	//-----------------------------------------------------------------------------------//
 
 	/** 
 	 * This method attaches the ActiveActorManager (for managing all active actor actions) & InputHandler (for managing user input)
@@ -92,12 +97,16 @@ public abstract class LevelParent extends Observable {
 		
 		//attach activeActorManager and inputHandler to scene
 		activeActorManager = new ActiveActorManager(root);
-		inputHandler = new InputHandler(activeActorManager, background, user);
+		inputHandler = new InputHandler(background, user);
+		collisionHandler = new CollisionHandler(screenWidth, activeActorManager);
+
 		inputHandler.initializeUserControls();
+		inputHandler.addEventListener(activeActorManager);
+
+		collisionHandler.addEventListener(this);
 
 		//sets background height and width, then add into root node for rendering
 		showBackground();
-		
 		showForegroundImages();
 
 		//adds user in root node and activeActorManager
@@ -120,14 +129,31 @@ public abstract class LevelParent extends Observable {
 		levelView.addImagesToRoot();
 	}
 
-	
 
-
+	//-----------------------------------------------------------------------------------//
 
 	public void startGame() {
 		background.requestFocus();
 		timeline.play();
 	}
+
+	
+
+	private void updateScene() {
+		spawnEnemyUnits();
+		activeActorManager.updateActors();
+		activeActorManager.generateEnemyFire();
+		collisionHandler.handleEnemyPenetration();
+		collisionHandler.handleUserProjectileCollisions();
+		collisionHandler.handleEnemyProjectileCollisions();
+		collisionHandler.handlePlaneCollisions();
+		collisionHandler.handleProjectileOutOfBounds();
+		activeActorManager.removeAllDestroyedActors();
+		updateLevelView();
+		checkIfGameOver();
+	}
+
+	
 
 	public void goToNextLevel(String levelName) {
 		timeline.stop();
@@ -140,108 +166,14 @@ public abstract class LevelParent extends Observable {
 		notifyObservers(levelName);
 	}
 
-	private void updateScene() {
-		spawnEnemyUnits();
-		activeActorManager.updateActors();
-		activeActorManager.generateEnemyFire();
-		handleEnemyPenetration();
-		handleUserProjectileCollisions();
-		handleEnemyProjectileCollisions();
-		handlePlaneCollisions();
-		handleProjectileOutOfBounds();
-		activeActorManager.removeAllDestroyedActors();
-		updateLevelView();
-		checkIfGameOver();
-	}
-
+	
+	//----------------------------------------------------
+	//------------Scene graphics related functions------------
 	
 
-
-
-	private void handlePlaneCollisions() {
-		handleCollisions(activeActorManager.getFriendlyUnits(), activeActorManager.getEnemyUnits());
+	protected Group getRoot() {
+		return root;
 	}
-
-	private void handleUserProjectileCollisions() {
-		handleCollisions(activeActorManager.getUserProjectiles(), activeActorManager.getEnemyUnits());
-	}
-
-	private void handleEnemyProjectileCollisions() {
-		handleCollisions(activeActorManager.getEnemyProjectiles(), activeActorManager.getFriendlyUnits());
-	}
-
-	private void handleCollisions(List<ActiveActorDestructible> actors1,
-			List<ActiveActorDestructible> actors2) {
-		for (ActiveActorDestructible actor : actors2) {
-			for (ActiveActorDestructible otherActor : actors1) {
-				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent()) && !actor.isDestroyed()
-						&& !otherActor.isDestroyed()) {
-					actor.takeDamage();
-					otherActor.takeDamage();
-					
-					if( ( actor.canScoreFromCollision() || otherActor.canScoreFromCollision() ) && actor.isDestroyed() && otherActor.isDestroyed() ) {
-						updateKillCount();
-					}
-
-				}
-			}
-		}
-	}
-
-	private void handleEnemyPenetration() {
-		for (ActiveActorDestructible enemy : activeActorManager.getEnemyUnits()) {
-			if (enemyHasPenetratedDefenses(enemy)) {
-				user.takeDamage();
-				enemy.destroy();
-			}
-		}
-	}
-
-
-	//loops through all the projectiles generated, and checks if they are out of bounds
-	//if yes then flag them as destroyed for removal (removeDestroyedActors method will remove all destroyed objects)
-	private void handleProjectileOutOfBounds() {
-		for (ActiveActorDestructible projectile : activeActorManager.getUserProjectiles()) {
-			destroyOutofBoundsProjectile(projectile);
-		};
-		for (ActiveActorDestructible projectile : activeActorManager.getEnemyProjectiles()) {
-			destroyOutofBoundsProjectile(projectile);
-		};
-	}
-
-	//set projectile as destroyed if it is out of screen
-	private void destroyOutofBoundsProjectile(ActiveActorDestructible projectile) {
-		if (projectileIsOutOfScreen(projectile)) {
-			projectile.destroy();
-		}
-	}
-
-	//check if the projectile is out of the screen
-	private boolean projectileIsOutOfScreen(ActiveActorDestructible projectile) {
-		return isOutOfScreen(projectile);
-	}
-
-
-	private void updateLevelView() {
-		levelView.removeHearts(user.getHealth());
-	}
-
-	private void updateKillCount() {
-		killCount++;
-	}
-
-	protected int getKillCount() {
-		return killCount;
-	}
-
-	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-		return isOutOfScreen(enemy);
-	}
-
-	private boolean isOutOfScreen(ActiveActorDestructible actor) {
-		return actor.getLayoutX() + actor.getTranslateX() > screenWidth + actor.getBoundsInParent().getWidth() || actor.getLayoutX() + actor.getTranslateX() < 0 - actor.getBoundsInParent().getWidth();
-	}
-
 
 	protected void winGame() {
 		timeline.stop();
@@ -253,18 +185,33 @@ public abstract class LevelParent extends Observable {
 		levelView.showGameOverImage();
 	}
 
-	protected UserPlane getUser() {
-		return user;
+	private void updateLevelView() {
+		levelView.removeHearts(user.getHealth());
+	}
+	
+
+
+	//----------------------------------------------
+	//------------Game state related functions------------
+
+	@Override
+	public void updateKillCount() {
+		killCount++;
 	}
 
-	protected Group getRoot() {
-		return root;
+
+	protected int getKillCount() {
+		return killCount;
 	}
+
 
 	protected int getCurrentNumberOfEnemies() {
 		return activeActorManager.getEnemyUnits().size();
 	}
 
+
+	//--------------------------------------------------
+	//------------Screen boundary related functions------------
 
 	protected double getEnemyMaximumYPosition() {
 		return enemyMaximumYPosition;
@@ -274,8 +221,21 @@ public abstract class LevelParent extends Observable {
 		return screenWidth;
 	}
 
+
+	//----------------------------------------------
+	//------------User related functions------------
+
+	protected UserPlane getUser() {
+		return user;
+	}
+
 	protected boolean userIsDestroyed() {
 		return user.isDestroyed();
+	}
+
+	@Override
+	public void userDamaged(){
+		user.takeDamage();
 	}
 
 

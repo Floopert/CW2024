@@ -1,12 +1,12 @@
 package com.example.demo.handlers;
 
-import com.example.demo.ActiveActorDestructible;
 import com.example.demo.UserPlane;
+import com.example.demo.eventListeners.InputEventListener;
 
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-
+import java.util.*;
 
 /**
  * InputHandler Class
@@ -16,8 +16,8 @@ public class InputHandler {
     
     private final UserPlane user;
     private final ImageView inputHandler;
-    private final ActiveActorManager activeActorManager;
 
+	private final List<InputEventListener> listeners = new ArrayList<InputEventListener>();
 
 	/**
 	 * Constructor for InputHandler Class
@@ -25,10 +25,9 @@ public class InputHandler {
 	 * @param inputHandler
 	 * @param user
 	 */
-    public InputHandler(ActiveActorManager activeActorManager, ImageView inputHandler, UserPlane user) {
+    public InputHandler(ImageView inputHandler, UserPlane user) {
         this.user = user;
         this.inputHandler = inputHandler;
-        this.activeActorManager = activeActorManager;
     }
 
 
@@ -41,7 +40,11 @@ public class InputHandler {
 				if (kc == KeyCode.DOWN) user.moveDown();
 				if (kc == KeyCode.LEFT) user.moveLeft();
 				if (kc == KeyCode.RIGHT) user.moveRight();
-				if (kc == KeyCode.SPACE) fireProjectile();
+				if (kc == KeyCode.SPACE) {
+					for (InputEventListener listener : listeners) {
+						listener.fireProjectile();
+					}
+				}
 			}
 		});
 		inputHandler.setOnKeyReleased(new EventHandler<KeyEvent>() {
@@ -53,9 +56,8 @@ public class InputHandler {
 		});
 	}
 
-    private void fireProjectile() {
-		ActiveActorDestructible projectile = user.fireProjectile();
-		activeActorManager.addUserProjectile(projectile);
+	public void addEventListener(InputEventListener listener) {
+		listeners.add(listener);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.eventListeners.BossEventListener;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
