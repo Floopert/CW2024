@@ -22,7 +22,7 @@ module com.example.demo {
     exports com.example.demo.controller;
     exports com.example.demo.eventListeners;
     exports com.example.demo.handlers;
-    exports com.example.demo.images;
+    exports com.example.demo.imageObjects;
     exports com.example.demo.levels;
     exports com.example.demo.levelViews;
     exports com.example.demo.planes;
