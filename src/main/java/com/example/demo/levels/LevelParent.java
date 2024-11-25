@@ -1,6 +1,5 @@
 package com.example.demo.levels;
 
-import java.util.*;
 
 import javafx.animation.*;
 import javafx.scene.Group;
@@ -9,6 +8,7 @@ import javafx.scene.image.*;
 import javafx.util.Duration;
 
 import com.example.demo.eventListeners.CollisionEventListener;
+import com.example.demo.eventListeners.LevelEventListener;
 import com.example.demo.handlers.*;
 import com.example.demo.levelViews.LevelView;
 import com.example.demo.planes.UserPlane;
@@ -16,7 +16,7 @@ import com.example.demo.planes.UserPlane;
 /**
  * LevelParent class
  */
-public abstract class LevelParent extends Observable implements CollisionEventListener{
+public abstract class LevelParent implements CollisionEventListener{
 
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
@@ -37,6 +37,8 @@ public abstract class LevelParent extends Observable implements CollisionEventLi
 	private CollisionHandler collisionHandler;
 	
 	private int killCount = 0;
+
+	private LevelEventListener eventListener;
 
 
 	//-----------------Abstract methods to be implemented by subclasses-----------------//
@@ -156,6 +158,13 @@ public abstract class LevelParent extends Observable implements CollisionEventLi
 	}
 
 	
+	public void addEventListener(LevelEventListener listener) {
+		eventListener = listener;
+	}
+
+	public void removeEventListener(LevelEventListener listener){
+		eventListener = null;
+	}
 
 	public void goToNextLevel(String levelName) {
 		timeline.stop();
@@ -164,8 +173,8 @@ public abstract class LevelParent extends Observable implements CollisionEventLi
 		//removes all nodes from root and suggests garbage collection
 		//since all elements in levels are rendered upon load, don't need anything from previous level
 		activeActorManager.clearAllActors();
-		setChanged();
-		notifyObservers(levelName);
+
+		eventListener.changeLevel(this, levelName);
 	}
 
 	

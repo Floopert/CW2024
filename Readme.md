@@ -2,7 +2,7 @@ GitHub: https://github.com/Floopert/CW2024.git
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
-Compilation Instructions:
+Compilation Instructions: No special instructions, just run Main.java
 
 
 
@@ -83,8 +83,9 @@ New Java Classes:
     -e.g. user projectile collides and destroys enemy plane will trigger updateKillCount().
 
 
-
-
+### LevelEventListener.java (com.example.demo.eventListeners)
+    -acts as the event listener interface for any level changing events triggered by LevelParent.java class.
+    -allows LevelParent.java to inform the Controller.java class to switch levels
 
 
 ----------------------------------------------------------------------------------------------------------------
@@ -218,6 +219,13 @@ The order of the list is in ascending order of commits, with the top being the e
     -ActiveActorDestructible.java: Added the constructor initializations from the previous ActiveActor class. The moveHorizontally() and moveVertically() methods from the ActiveActor class is moved here.
 
 
+### Controller.java | LevelParent.java
+    Objective: To replace the deprecated Observer methods with event listener pattern (replaced with self-defined LevelEventListener.java class)
+
+    -Controller.java: Controller.java class now implements LevelEventListener instead of Observer. The update() method from the Observer interface is now replaced with changeLevel() method from the LevelEventListener interface.
+
+    -LevelParent.java: The class no longer extends Observer class since it is no longer used. Added addEventListener() and removeEventListener() to add listeners to any change level events triggered by LevelParent. In the goToNextLevel() method, instead of the Observer methods, it is now replaced with the LevelEventListener's changeLevel() method.
+    
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
