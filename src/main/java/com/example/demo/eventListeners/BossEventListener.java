@@ -4,4 +4,5 @@ public interface BossEventListener {
     
     void shieldActivated();
     void shieldDeactivated();
+    void updateShieldPosition(double yPosition);
 }

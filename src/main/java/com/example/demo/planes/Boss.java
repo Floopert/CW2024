@@ -55,11 +55,15 @@ public class Boss extends FighterPlane {
 
 	@Override
 	public void updatePosition() {
-		double initialTranslateY = getTranslateY();
+		double initialTranslateY = this.getTranslateY();
 		moveVertically(getNextMove());
-		double currentPosition = getLayoutY() + getTranslateY();
-		if (currentPosition < Y_POSITION_UPPER_BOUND || currentPosition > Y_POSITION_LOWER_BOUND) {
-			setTranslateY(initialTranslateY);
+		double currentYPosition = this.getLayoutY() + this.getTranslateY();
+		if (currentYPosition < Y_POSITION_UPPER_BOUND || currentYPosition > Y_POSITION_LOWER_BOUND) {
+			this.setTranslateY(initialTranslateY);
+		}
+
+		for (BossEventListener listener : listeners) {
+			listener.updateShieldPosition(this.getTranslateY());
 		}
 	}
 	
@@ -130,7 +134,6 @@ public class Boss extends FighterPlane {
 		for (BossEventListener listener : listeners) {
 			listener.shieldActivated();
 		}
-
 	}
 
 	private void deactivateShield() {

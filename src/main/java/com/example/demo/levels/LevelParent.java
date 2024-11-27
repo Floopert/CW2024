@@ -69,7 +69,7 @@ public abstract class LevelParent implements CollisionEventListener{
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
 
-		instantiateLevelView();
+		
 		initializeTimeline();
 	}
 
@@ -98,6 +98,7 @@ public abstract class LevelParent implements CollisionEventListener{
 	 * e.g. Background, user plane, heart display, and any other level specific graphics (such as shield)
 	*/
 	public Scene initializeScene() {
+		instantiateLevelView();
 		
 		//attach activeActorManager and inputHandler to scene
 		activeActorManager = new ActiveActorManager(root);
