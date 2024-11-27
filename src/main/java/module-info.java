@@ -25,7 +25,7 @@ module com.example.demo {
     exports com.example.demo.imageObjects;
     exports com.example.demo.levels;
     exports com.example.demo.levelViews;
-    exports com.example.demo.planes;
-    exports com.example.demo.projectiles;
+    exports com.example.demo.activeActors.planes;
+    exports com.example.demo.activeActors.projectiles;
 
 }

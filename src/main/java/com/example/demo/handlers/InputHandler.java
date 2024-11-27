@@ -1,7 +1,7 @@
 package com.example.demo.handlers;
 
+import com.example.demo.activeActors.planes.UserPlane;
 import com.example.demo.eventListeners.InputEventListener;
-import com.example.demo.planes.UserPlane;
 
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;

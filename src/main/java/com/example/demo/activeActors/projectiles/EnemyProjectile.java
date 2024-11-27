@@ -1,4 +1,4 @@
-package com.example.demo.projectiles;
+package com.example.demo.activeActors.projectiles;
 
 import com.example.demo.activeActors.Projectile;
 

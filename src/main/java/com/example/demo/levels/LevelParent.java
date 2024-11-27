@@ -7,11 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.util.Duration;
 
+import com.example.demo.activeActors.planes.UserPlane;
 import com.example.demo.eventListeners.CollisionEventListener;
 import com.example.demo.eventListeners.LevelEventListener;
 import com.example.demo.handlers.*;
 import com.example.demo.levelViews.LevelView;
-import com.example.demo.planes.UserPlane;
 
 /**
  * LevelParent class

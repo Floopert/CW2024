@@ -2,8 +2,8 @@ package com.example.demo.levels;
 
 
 import com.example.demo.activeActors.ActiveActorDestructible;
+import com.example.demo.activeActors.planes.EnemyPlane;
 import com.example.demo.levelViews.LevelViewLevelOne;
-import com.example.demo.planes.EnemyPlane;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

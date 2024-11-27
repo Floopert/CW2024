@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import com.example.demo.activeActors.ActiveActorDestructible;
 import com.example.demo.activeActors.FighterPlane;
+import com.example.demo.activeActors.planes.UserPlane;
 import com.example.demo.eventListeners.InputEventListener;
-import com.example.demo.planes.UserPlane;
 
 import javafx.scene.Group;
 
