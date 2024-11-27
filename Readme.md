@@ -21,6 +21,8 @@ Implemented and Working Properly: This section only lists additional features/ex
 
 ### user plane can now move left and right as well.
 
+### shield follows the boss' position instead of being static.
+
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
