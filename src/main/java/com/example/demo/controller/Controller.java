@@ -13,12 +13,23 @@ import javafx.stage.Stage;
 
 public class Controller implements LevelEventListener {
 
+	private static Controller instance;
+
 	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.levels.LevelOne";
 	private final Stage stage;
 
-	public Controller(Stage stage) {
+	private Controller(Stage stage) {
 		this.stage = stage;
 	}
+
+	public static Controller getInstance(Stage stage) {
+		if (instance == null) {
+			instance = new Controller(stage);
+		}
+		return instance;
+	}
+
+
 
 	public void launchGame() throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
@@ -48,6 +59,7 @@ public class Controller implements LevelEventListener {
 
 	}
 	
+
 
 	@Override
 	public void changeLevel(LevelParent currentLevel, String levelName){

@@ -93,7 +93,8 @@ New Java Classes:
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 
-Modified Java Classes: This section shall only include modifications to classes due to bug fix or refactoring. Any code modification/addition for feature extension or fine tuning is not mentioned here, the nature of the extended feature or fine tuning is briefly described in the 'Implemented and Working Properly' section above. Each paragraph in this section may lump several classes together, to signify that they were modified together in one commit, to complete a single bug fix or as one refactoring job. Paragraphs may mention similar class again, but for different bug fix or refactoring job.
+Modified Java Classes: This section shall only include modifications to classes due to bug fix or refactoring. Any code modification/addition for feature extension or fine tuning is not mentioned here, the nature of the extended feature or fine tuning is briefly described in the 'Implemented and Working Properly' section above.
+Each paragraph in this section may lump several classes together, to signify that they were modified together in one commit, to complete a single bug fix or as one refactoring job. Paragraphs may mention similar class again, but for different bug fix or refactoring job.
 The order of the list is in ascending order of commits, with the top being the earliest commit.
 
 
@@ -221,12 +222,20 @@ The order of the list is in ascending order of commits, with the top being the e
     -ActiveActorDestructible.java: Added the constructor initializations from the previous ActiveActor class. The moveHorizontally() and moveVertically() methods from the ActiveActor class is moved here.
 
 
-### Controller.java | LevelParent.java
+### Controller.java | LevelParent.java [REFACTOR]
     Objective: To replace the deprecated Observer methods with event listener pattern (replaced with self-defined LevelEventListener.java class)
 
     -Controller.java: Controller.java class now implements LevelEventListener instead of Observer. The update() method from the Observer interface is now replaced with changeLevel() method from the LevelEventListener interface.
 
     -LevelParent.java: The class no longer extends Observer class since it is no longer used. Added addEventListener() and removeEventListener() to add listeners to any change level events triggered by LevelParent. In the goToNextLevel() method, instead of the Observer methods, it is now replaced with the LevelEventListener's changeLevel() method.
+
+
+### Main.java | Controller.java [REFACTOR]
+    Objective: Implementing Singleton design pattern for Controller.java class
+
+    -Controller.java: access modifier for the constructor method is changed to private. A public method getInstance() is added for other classes to get the reference of the Controller class' object.
+
+    -Main.java: Instead of creating a new instance of Controller, the class now only calls getInstance() method to get a reference of the single instance from Controller.
     
 
 ----------------------------------------------------------------------------------------------------------------
