@@ -48,6 +48,7 @@ public abstract class LevelParent implements CollisionEventListener{
 
 	protected abstract void instantiateLevelView();
 
+	public abstract void destroyInstance();
 
 
 	//-----------------------------------------------------------------------------------//

@@ -35,7 +35,9 @@ public class LevelTwo extends LevelParent implements BossEventListener{
 		return instance;
 	}
 
-	
+	public void destroyInstance() {
+		instance = null;
+	}
 
 
 	@Override

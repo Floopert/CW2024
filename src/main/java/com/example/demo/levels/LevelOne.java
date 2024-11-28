@@ -36,6 +36,10 @@ public class LevelOne extends LevelParent {
 		return instance;
 	}
 
+	public void destroyInstance() {
+		instance = null;
+	}
+
 
 
 	@Override

@@ -13,16 +13,25 @@ Compilation Instructions: No special instructions, just run Main.java
 ----------------------------------------------------------------------------------------------------------------
 Implemented and Working Properly: This section only lists additional features/extensions and fine tuning works. Bug fixes or refactoring works are described in 'Modified Java Classes' section below.
 
-### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely.
+### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely. [Commit: 6258a12]
 
-### fine tuned so that only kills from user projectiles will add to the kill score for progression of next level. Collision between user plane with enemy plane OR enemy plane reaching end of screen now only deducts life, but score does not increase. E.g. the kill score required to progress from level one to two is 10. If user projectile destroyed 6 planes, user plane collided with 2 planes, 2 enemy planes reached the left edge of screen, total kill score is still only 6 and user cannot progress to level two yet. However, 4 lives will already have been deducted.
 
-### fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. The initial hitbox from the original was too huge due to redundant white spaces in png image. Scale and x,y position of all images are also adjusted to match the newly modified images.
+### fine tuned so that only kills from user projectiles will add to the kill score for progression of next level. Collision between user plane with enemy plane OR enemy plane reaching end of screen now only deducts life, but score does not increase. E.g. the kill score required to progress from level one to two is 10. If user projectile destroyed 6 planes, user plane collided with 2 planes, 2 enemy planes reached the left edge of screen, total kill score is still only 6 and user cannot progress to level two yet. However, 4 lives will already have been deducted. [Commit: 6258a12]
 
-### user plane can now move left and right as well.
 
-### shield follows the boss' position instead of being static.
+### fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. The initial hitbox from the original was too huge due to redundant white spaces in png image. Scale and x,y position of all images are also adjusted to match the newly modified images. [Commit: 5653dea]
 
+
+### user plane can now move left and right as well. [Commit: 3ea6455]
+
+
+### shield follows the boss' position instead of being static. [Commit: 861f25e]
+
+
+### added FXML main menu page. The game now will start with a main menu where users can choose to click 'Play' to proceed to Level 1, or click 'Exit' to close the application. [Commit: ]
+    Important changes implemented:
+
+    -Controller.java: added goToFXML() and loadFXML() methods. The loadFXML() method will load the respective FXML file, and then the scene is created and set using the goToFXML() method. The goToFXML() method functions similarly to the goToLevel() method in the class but for FXML files instead. The launchGame() method now loads the main menu FXML first instead of Level 1.
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
@@ -88,6 +97,17 @@ New Java Classes:
 ### LevelEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any level changing events triggered by LevelParent.java class.
     -allows LevelParent.java to inform the Controller.java class to switch levels
+
+
+### FxmlController.java (com.example.demo.controller)
+    -the parent class for all FXML pages.
+    -the main purpose of this class is to pass the Controller.java object reference to the FXML controllers so that it can change the scene to playable levels.
+    -the initial idea was to inherit directly from the Controller.java class, but since that is made a singleton, it is not possible to inherit from it (due to private access modifier of the constructor).
+
+### MenuController.java (com.example.demo.controller.fxmlPageControllers)
+    -the controller for the FXML page
+    -all logic for the buttons in the FXML page is handled here
+
 
 
 ----------------------------------------------------------------------------------------------------------------
@@ -236,6 +256,9 @@ The order of the list is in ascending order of commits, with the top being the e
     -Controller.java: access modifier for the constructor method is changed to private. A public method getInstance() is added for other classes to get the reference of the Controller class' object.
 
     -Main.java: Instead of creating a new instance of Controller, the class now only calls getInstance() method to get a reference of the single instance from Controller.
+
+
+
     
 
 ----------------------------------------------------------------------------------------------------------------
