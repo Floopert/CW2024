@@ -2,6 +2,7 @@ package com.example.demo.levels;
 
 
 import com.example.demo.activeActors.ActiveActorDestructible;
+import com.example.demo.activeActors.FighterPlane;
 import com.example.demo.activeActors.planes.EnemyPlane;
 import com.example.demo.levelViews.LevelViewLevelOne;
 
@@ -59,7 +60,7 @@ public class LevelOne extends LevelParent {
 		int currentNumberOfEnemies = getCurrentNumberOfEnemies();
 		for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
 			if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
-				double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
+				double newEnemyInitialYPosition = (Math.random() * (FighterPlane.Y_LOWER_BOUND - FighterPlane.Y_UPPER_BOUND))+FighterPlane.Y_UPPER_BOUND;
 				ActiveActorDestructible newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
 				activeActorManager.addEnemyUnit(newEnemy);
 			}

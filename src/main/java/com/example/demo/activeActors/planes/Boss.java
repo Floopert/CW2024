@@ -23,8 +23,7 @@ public class Boss extends FighterPlane {
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
-	private static final int Y_POSITION_UPPER_BOUND = 0;
-	private static final int Y_POSITION_LOWER_BOUND = 600;
+	private static final int Y_LOWER_BOUND_ADJUSTMENT = 50;
 	private static final int MAX_FRAMES_WITH_SHIELD = 100;
 	private final List<Integer> movePattern;
 	private boolean isShielded;
@@ -58,7 +57,7 @@ public class Boss extends FighterPlane {
 		double initialTranslateY = this.getTranslateY();
 		moveVertically(getNextMove());
 		double currentYPosition = this.getLayoutY() + this.getTranslateY();
-		if (currentYPosition < Y_POSITION_UPPER_BOUND || currentYPosition > Y_POSITION_LOWER_BOUND) {
+		if (currentYPosition < FighterPlane.Y_UPPER_BOUND || currentYPosition > FighterPlane.Y_LOWER_BOUND-Y_LOWER_BOUND_ADJUSTMENT) {
 			this.setTranslateY(initialTranslateY);
 		}
 

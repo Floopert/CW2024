@@ -7,8 +7,6 @@ import com.example.demo.activeActors.projectiles.UserProjectile;
 public class UserPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "userplane.png";
-	private static final double Y_UPPER_BOUND = 0;
-	private static final double Y_LOWER_BOUND = 670.0;
 	private static final double X_LOWER_BOUND = 0;
 	private static final double X_UPPER_BOUND = 1125.0;
 	private static final double INITIAL_X_POSITION = 5.0;
@@ -32,7 +30,7 @@ public class UserPlane extends FighterPlane {
 			double initialTranslateY = getTranslateY();
 			this.moveVertically(VERTICAL_VELOCITY * yVelocityMultiplier);
 			double newYPosition = getLayoutY() + getTranslateY();
-			if (newYPosition < Y_UPPER_BOUND || newYPosition > Y_LOWER_BOUND) {
+			if (newYPosition < FighterPlane.Y_UPPER_BOUND || newYPosition > FighterPlane.Y_LOWER_BOUND) {
 				this.setTranslateY(initialTranslateY);
 			}
 		}

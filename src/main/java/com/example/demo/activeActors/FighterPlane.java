@@ -3,6 +3,8 @@ package com.example.demo.activeActors;
 public abstract class FighterPlane extends ActiveActorDestructible {
 
 	private int health;
+	public static final int Y_UPPER_BOUND = 80;
+	public static final int Y_LOWER_BOUND = 670;
 
 	public FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health) {
 		super(imageName, imageHeight, initialXPos, initialYPos);
