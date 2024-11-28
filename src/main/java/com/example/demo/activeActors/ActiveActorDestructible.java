@@ -2,7 +2,7 @@ package com.example.demo.activeActors;
 
 import javafx.scene.image.*;
 
-public abstract class ActiveActorDestructible extends ImageView implements Destructible {
+public abstract class ActiveActorDestructible extends ImageView {
 
 	private boolean isDestroyed;
 	private boolean canScoreFromCollision;
@@ -25,10 +25,10 @@ public abstract class ActiveActorDestructible extends ImageView implements Destr
 
 	public abstract void updatePosition();
 
-	@Override
+	
 	public abstract void takeDamage();
 
-	@Override
+	
 	public void destroy() {
 		setDestroyed(true);
 	}

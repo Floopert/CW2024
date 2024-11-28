@@ -265,8 +265,17 @@ The order of the list is in ascending order of commits, with the top being the e
     Objective: To remove repeated Y upper and lower bound constants for the planes and to make the upper and lower bound values only defined at one source for all planes to reference.
 
     -FighterPlane.java: Added public static constants Y_UPPER_BOUND & Y_LOWER_BOUND for all planes to reference. It is made static so that no object is needed to be instantiated to use the value.
+
     -Boss.java | UserPlane.java | LevelOne.java: Replaced all local constant declarations of the Y upper and lower bound with the newly created static constant in FighterPlane.java. The local constant declarations are also deleted.
-    
+
+
+### ActiveActorDestructible.java | Destructible.java [REFACTOR]
+    Objective: To remove the redundant Destructible interface
+
+    -ActiveActorDestructible.java: The class no longer implements Destructible.java interface. The takeDamage() and destroy() methods no longer has @Override.
+
+    -Destrutible.java: This class is deleted.
+
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
