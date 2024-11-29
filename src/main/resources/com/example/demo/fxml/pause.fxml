@@ -17,7 +17,7 @@
             <Image url="@pauseImages/pause.png" />
          </image>
       </ImageView>
-      <Button layoutX="524.0" layoutY="307.0" mnemonicParsing="false" onAction="#resumeGame" prefHeight="63.0" prefWidth="249.0" text="Resume" />
-      <Button layoutX="526.0" layoutY="404.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="63.0" prefWidth="249.0" text="Return to Main Menu" />
+      <Button fx:id="resumeButton" layoutX="524.0" layoutY="307.0" mnemonicParsing="false" onAction="#resumeGame" prefHeight="63.0" prefWidth="249.0" text="Resume" />
+      <Button fx:id="menuButton" layoutX="526.0" layoutY="404.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="63.0" prefWidth="249.0" text="Return to Main Menu" />
    </children>
 </Pane>

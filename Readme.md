@@ -31,7 +31,7 @@ Implemented and Working Properly: This section only lists additional features/ex
 
 
 ### added FXML main menu page. The game now will start with a main menu where users can choose to click 'Play' to proceed to Level 1, or click 'Exit' to close the application. [Commit: 0c808d3]
-    Important changes implemented: Since loading FXML pages are slightly different from loading a level directly, a separate function was created to handle the creation of FXML pages.
+    Description: Since loading FXML pages are slightly different from loading a level directly, a separate function was created to handle the creation of FXML pages.
 
     -Controller.java: added goToFXML() and loadFXML() methods. The loadFXML() method will load the respective FXML file, and then the scene is created and set using the goToFXML() method. The goToFXML() method functions similarly to the goToLevel() method in the class but for FXML files instead. The launchGame() method now loads the main menu FXML first instead of Level 1.
 
@@ -39,8 +39,8 @@ Implemented and Working Properly: This section only lists additional features/ex
 ### fine tuned so that the planes (User and Enemy) can never go above the hearts display or any graphcs displayed at the top of the level screen. [Commit: 6f8de6a]
 
 
-### added FXML game over page.
-    Important changes implemented: Keeps track of which level did the user lost. If the user chooses to retry, the user will restart at the level that they died on. E.g. if the user died during Level Two, they can retry and start from Level Two again.
+### added FXML game over page. [Commit: 27f6d9c]
+    Description: Keeps track of which level did the user lost. If the user chooses to retry, the user will restart at the level that they died on. E.g. if the user died during Level Two, they can retry and start from Level Two again.
     Alternatively, they can choose to go back to main menu and start from Level One all over again.
 
     -LevelEventListener.java: Added goToFXML() method as part of the interface method. So that LevelParent class can notify the controller class that the user has died, and should load the gameOver.fxml page.
@@ -52,8 +52,8 @@ Implemented and Working Properly: This section only lists additional features/ex
     -LevelOne.java | LevelTwo.java: Added a new constant CURRENT_LEVEL that stores the class' class path and passes it to the parent's constructor.
 
 
-### added pause function.
-    Important changes implemented: The game can now pause by pressing 'Escape'. In the pause menu, users can either choose to resume the game or go to main menu. If the user chooses to go to main menu, they will have to start from Level 1 again.
+### added pause function. [Commit: 1f78c87]
+    Description: The game can now pause by pressing 'Escape'. In the pause menu, users can either choose to resume the game or go to main menu. If the user chooses to go to main menu, they will have to start from Level 1 again.
 
     -Controller.java: Broke up some lines from the goToLevel() method into a new method called getLevelInstance(). This method will allow the FXML controllers to get the instance of an active level. During a pause, the scene is changed but level instance is not destroyed yet because the user may choose to resume. But if the user chooses to go back to main menu, the instance should be destroyed so that if they click play again it may be reset. So an instance of the level needs to be retrieved when user chooses to go to main menu to destroy the instance.
     A resumeGame() method is also added to just get the instance of the level and show the scene.
@@ -64,6 +64,11 @@ Implemented and Working Properly: This section only lists additional features/ex
 
     -LevelParent.java: The class now also implements InputEventListener so that it could react to the pause game action when an 'Escape' key is pressed. Added new getScene() method so that a temporarily paused screen could return its former scene and resume from where it stopped. pauseGame() method is added to pause the timeline and switch to the pause FXML page. resumeGame() method is added to resume the timeline if user chooses to resume from a pause.
 
+
+### added win game FXML page.
+    Description: Upon winning the last level, a win game screen will be shown where user can choose to play again from Level 1 or go back to main menu.
+
+    -LevelParent.java: The winGame() method now switches the scene to the win.fxml instead of just displaying the win image.
 
 
 
@@ -143,7 +148,7 @@ New Java Classes:
     -the initial idea was to inherit directly from the Controller.java class, but since that is made a singleton, it is not possible to inherit from it (due to private access modifier of the constructor).
 
 
-### MenuController.java | GameOverController.java | PauseController.java (com.example.demo.controller.fxmlPageControllers)
+### MenuController.java | GameOverController.java | PauseController.java | WinController.java (com.example.demo.controller.fxmlPageControllers)
     -the controllers for the FXML page
     -all logic for the buttons in the FXML pages are handled in their respective controllers.
 
@@ -314,12 +319,13 @@ The order of the list is in ascending order of commits, with the top being the e
     -Destrutible.java: This class is deleted.
 
 
-### GameOverImage.java | LevelView.java [REFACTOR]
+### GameOverImage.java | WinImage.java | LevelView.java [REFACTOR]
     Objective: Remove the redundant class and fields after adding the game over FXML page feature. The game over image is no longer necessary since a separate FXML page will pop up upon losing the level. The game over image is shown in the FXML page instead.
 
-    -GameOverImage.java: The class is deleted.
+    -GameOverImage.java | WinImage.java: These classes are deleted.
 
-    -LevelView.java: The class no longer instantiates an object of GameOverImage.java, and the method showGameOverImage() is also removed. Other related fields tied to GameOverImage is also removed such as LOSS_SCREEN_X_POSITION & LOSS_SCREEN_Y_POSITION.
+    -LevelView.java: The class no longer instantiates an object of GameOverImage.java & WinImage.java, the methods showGameOverImage() & showWinImage() are also removed. Other related fields tied to GameOverImage & WinImage are also removed such as LOSS_SCREEN_X_POSITION & LOSS_SCREEN_Y_POSITION etc.
+
 
 
 

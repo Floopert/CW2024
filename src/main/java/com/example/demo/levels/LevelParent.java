@@ -223,7 +223,13 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 
 	protected void winGame() {
 		timeline.stop();
-		levelView.showWinImage();
+		activeActorManager.clearAllActors();
+		
+		try{
+			eventListener.goToFXML(this, null, "win");
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	protected void loseGame() {

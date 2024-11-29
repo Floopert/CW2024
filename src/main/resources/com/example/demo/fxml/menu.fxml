@@ -17,7 +17,7 @@
             <Image url="@menuImages/title.png" />
          </image>
       </ImageView>
-      <Button layoutX="507.0" layoutY="349.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#startGame" prefHeight="68.0" prefWidth="291.0" text="Play" />
-      <Button layoutX="507.0" layoutY="451.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#exitGame" prefHeight="68.0" prefWidth="291.0" text="Exit" />
+      <Button fx:id="playButton" layoutX="507.0" layoutY="349.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#startGame" prefHeight="68.0" prefWidth="291.0" text="Play" />
+      <Button fx:id="exitButton" layoutX="507.0" layoutY="451.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#exitGame" prefHeight="68.0" prefWidth="291.0" text="Exit" />
    </children>
 </Pane>

@@ -17,7 +17,7 @@
             <Image url="@gameOverImages/gameover.png" />
          </image>
       </ImageView>
-      <Button layoutX="547.0" layoutY="350.0" mnemonicParsing="false" onAction="#restartLevel" prefHeight="62.0" prefWidth="217.0" text="Restart Level" />
-      <Button layoutX="545.0" layoutY="457.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="62.0" prefWidth="217.0" text="Main Menu" />
+      <Button fx:id="restartButton" layoutX="547.0" layoutY="350.0" mnemonicParsing="false" onAction="#restartLevel" prefHeight="62.0" prefWidth="217.0" text="Restart Level" />
+      <Button fx:id="menuButton" layoutX="545.0" layoutY="457.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="62.0" prefWidth="217.0" text="Main Menu" />
    </children>
 </Pane>
