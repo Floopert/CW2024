@@ -52,6 +52,18 @@ Implemented and Working Properly: This section only lists additional features/ex
     -LevelOne.java | LevelTwo.java: Added a new constant CURRENT_LEVEL that stores the class' class path and passes it to the parent's constructor.
 
 
+### added pause function.
+    Important changes implemented: The game can now pause by pressing 'Escape'. In the pause menu, users can either choose to resume the game or go to main menu. If the user chooses to go to main menu, they will have to start from Level 1 again.
+
+    -Controller.java: Broke up some lines from the goToLevel() method into a new method called getLevelInstance(). This method will allow the FXML controllers to get the instance of an active level. During a pause, the scene is changed but level instance is not destroyed yet because the user may choose to resume. But if the user chooses to go back to main menu, the instance should be destroyed so that if they click play again it may be reset. So an instance of the level needs to be retrieved when user chooses to go to main menu to destroy the instance.
+    A resumeGame() method is also added to just get the instance of the level and show the scene.
+
+    -InputEventListener.java: An additional interface method called pauseGame() is added so that the LevelParent could be informed that 'Escape' has been pressed and a pause screen should be displayed.
+
+    -InputHandler.java: Added additional event listener for 'Escape' button.
+
+    -LevelParent.java: The class now also implements InputEventListener so that it could react to the pause game action when an 'Escape' key is pressed. Added new getScene() method so that a temporarily paused screen could return its former scene and resume from where it stopped. pauseGame() method is added to pause the timeline and switch to the pause FXML page. resumeGame() method is added to resume the timeline if user chooses to resume from a pause.
+
 
 
 
@@ -131,7 +143,7 @@ New Java Classes:
     -the initial idea was to inherit directly from the Controller.java class, but since that is made a singleton, it is not possible to inherit from it (due to private access modifier of the constructor).
 
 
-### MenuController.java | GameOverController.java (com.example.demo.controller.fxmlPageControllers)
+### MenuController.java | GameOverController.java | PauseController.java (com.example.demo.controller.fxmlPageControllers)
     -the controllers for the FXML page
     -all logic for the buttons in the FXML pages are handled in their respective controllers.
 

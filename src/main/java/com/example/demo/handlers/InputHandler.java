@@ -2,11 +2,11 @@ package com.example.demo.handlers;
 
 import com.example.demo.activeActors.planes.UserPlane;
 import com.example.demo.eventListeners.InputEventListener;
+import com.example.demo.levels.LevelParent;
 
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import java.util.*;
 
 /**
  * InputHandler Class
@@ -17,7 +17,9 @@ public class InputHandler {
     private final UserPlane user;
     private final ImageView inputHandler;
 
-	private final List<InputEventListener> listeners = new ArrayList<InputEventListener>();
+	//private final List<InputEventListener> listeners = new ArrayList<InputEventListener>();
+	private InputEventListener activeActorManagerListener;
+	private InputEventListener levelParentListener;
 
 	/**
 	 * Constructor for InputHandler Class
@@ -40,11 +42,8 @@ public class InputHandler {
 				if (kc == KeyCode.DOWN) user.moveDown();
 				if (kc == KeyCode.LEFT) user.moveLeft();
 				if (kc == KeyCode.RIGHT) user.moveRight();
-				if (kc == KeyCode.SPACE) {
-					for (InputEventListener listener : listeners) {
-						listener.fireProjectile();
-					}
-				}
+				if (kc == KeyCode.SPACE) activeActorManagerListener.fireProjectile();
+				if (kc == KeyCode.ESCAPE) levelParentListener.pauseGame();
 			}
 		});
 		inputHandler.setOnKeyReleased(new EventHandler<KeyEvent>() {
@@ -56,8 +55,12 @@ public class InputHandler {
 		});
 	}
 
-	public void addEventListener(InputEventListener listener) {
-		listeners.add(listener);
+	public void setActiveActorManagerListener(ActiveActorManager listener) {
+		this.activeActorManagerListener = listener;
+	}
+
+	public void setLevelParentListener(LevelParent listener) {
+		this.levelParentListener = listener;
 	}
 
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.fxmlPageControllers.PauseController">
+   <children>
+      <ImageView fitHeight="805.0" fitWidth="1416.0" layoutX="-103.0" layoutY="-41.0">
+         <image>
+            <Image url="@generalImages/background.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="235.0" fitWidth="530.0" layoutX="385.0" layoutY="42.0">
+         <image>
+            <Image url="@pauseImages/pause.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="524.0" layoutY="307.0" mnemonicParsing="false" onAction="#resumeGame" prefHeight="63.0" prefWidth="249.0" text="Resume" />
+      <Button layoutX="526.0" layoutY="404.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="63.0" prefWidth="249.0" text="Return to Main Menu" />
+   </children>
+</Pane>

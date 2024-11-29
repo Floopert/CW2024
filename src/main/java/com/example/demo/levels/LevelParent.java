@@ -9,6 +9,7 @@ import javafx.util.Duration;
 
 import com.example.demo.activeActors.planes.UserPlane;
 import com.example.demo.eventListeners.CollisionEventListener;
+import com.example.demo.eventListeners.InputEventListener;
 import com.example.demo.eventListeners.LevelEventListener;
 import com.example.demo.handlers.*;
 import com.example.demo.levelViews.LevelView;
@@ -16,7 +17,7 @@ import com.example.demo.levelViews.LevelView;
 /**
  * LevelParent class
  */
-public abstract class LevelParent implements CollisionEventListener{
+public abstract class LevelParent implements CollisionEventListener, InputEventListener{
 
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
@@ -109,8 +110,8 @@ public abstract class LevelParent implements CollisionEventListener{
 		collisionHandler = new CollisionHandler(screenWidth, activeActorManager);
 
 		inputHandler.initializeUserControls();
-		inputHandler.addEventListener(activeActorManager);
-
+		inputHandler.setActiveActorManagerListener(activeActorManager);
+		inputHandler.setLevelParentListener(this);
 		collisionHandler.addEventListener(this);
 
 		//sets background height and width, then add into root node for rendering
@@ -137,14 +138,11 @@ public abstract class LevelParent implements CollisionEventListener{
 		levelView.addImagesToRoot();
 	}
 
-
-	//-----------------------------------------------------------------------------------//
-
-	public void startGame() {
-		background.requestFocus();
-		timeline.play();
+	public Scene getScene() {
+		return scene;
 	}
 
+	//-----------------------------------------------------------------------------------//
 	
 
 	private void updateScene() {
@@ -191,19 +189,24 @@ public abstract class LevelParent implements CollisionEventListener{
 	//----------------------------------------------
 	//------------Game state related functions------------
 
+	public void startGame() {
+		background.requestFocus();
+		timeline.play();
+	}
+
+	public void resumeGame() {
+		timeline.play();
+	}
+
 	@Override
-	public void updateKillCount() {
-		killCount++;
-	}
+	public void pauseGame() {
+		timeline.pause();
 
-
-	protected int getKillCount() {
-		return killCount;
-	}
-
-
-	protected int getCurrentNumberOfEnemies() {
-		return activeActorManager.getEnemyUnits().size();
+		try{
+			eventListener.goToFXML(null, CURRENT_LEVEL, "pause");
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 
@@ -234,6 +237,24 @@ public abstract class LevelParent implements CollisionEventListener{
 		}
 		
 	}
+
+
+	@Override
+	public void updateKillCount() {
+		killCount++;
+	}
+
+
+	protected int getKillCount() {
+		return killCount;
+	}
+
+
+	protected int getCurrentNumberOfEnemies() {
+		return activeActorManager.getEnemyUnits().size();
+	}
+
+
 
 	//--------------------------------------------------
 	//------------Screen boundary related functions------------

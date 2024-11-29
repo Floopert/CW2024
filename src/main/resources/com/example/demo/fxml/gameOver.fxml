@@ -9,15 +9,15 @@
    <children>
       <ImageView fitHeight="852.0" fitWidth="1399.0" layoutX="-96.0" layoutY="-94.0">
          <image>
-            <Image url="@loseGameImages/background.jpg" />
+            <Image url="@generalImages/background.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="366.0" fitWidth="654.0" layoutX="303.0" layoutY="15.0">
+      <ImageView fitHeight="256.0" fitWidth="802.0" layoutX="256.0" layoutY="36.0">
          <image>
-            <Image url="@loseGameImages/gameover.png" />
+            <Image url="@gameOverImages/gameover.png" />
          </image>
       </ImageView>
-      <Button layoutX="544.0" layoutY="417.0" mnemonicParsing="false" onAction="#restartLevel" prefHeight="62.0" prefWidth="217.0" text="Restart Level" />
-      <Button layoutX="542.0" layoutY="524.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="62.0" prefWidth="217.0" text="Main Menu" />
+      <Button layoutX="547.0" layoutY="350.0" mnemonicParsing="false" onAction="#restartLevel" prefHeight="62.0" prefWidth="217.0" text="Restart Level" />
+      <Button layoutX="545.0" layoutY="457.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="62.0" prefWidth="217.0" text="Main Menu" />
    </children>
 </Pane>

@@ -16,9 +16,22 @@ import javafx.stage.Stage;
 
 public class Controller implements LevelEventListener {
 
+	// -----------------------------------------------------------------------------------------------
+	// Constants
+	private static final String FXML_FOLDER_PATH = "/com/example/demo/fxml/";
+	private static final String MAIN_MENU_FXML_NAME = "menu";
+
+
+	// -----------------------------------------------------------------------------------------------
+	// Private Fields
 	private static Controller instance;
 	private final Stage stage;
 	private static Scene scene;
+
+
+
+	// -----------------------------------------------------------------------------------------------
+	// Constructor
 
 	private Controller(Stage stage) {
 		this.stage = stage;
@@ -32,6 +45,8 @@ public class Controller implements LevelEventListener {
 	}
 
 
+	// -----------------------------------------------------------------------------------------------
+	// Function for game launch
 
 	public void launchGame() throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
@@ -39,7 +54,7 @@ public class Controller implements LevelEventListener {
 			stage.show();
 
 			try {
-				goToFXML(null, null, "menu");
+				goToFXML(null, null, MAIN_MENU_FXML_NAME);
 			}
 			catch (SecurityException | IllegalArgumentException | IOException e){
 				e.printStackTrace();
@@ -47,6 +62,9 @@ public class Controller implements LevelEventListener {
 			
 	}
 
+
+	// -----------------------------------------------------------------------------------------------
+	// Functions to navigate through FXML pages
 
 
 	/**
@@ -56,6 +74,7 @@ public class Controller implements LevelEventListener {
 	 * The LevelParent object reference to the current level prior to switching to the fxml page.
 	 * If currentLevel is null, it means that there was no level prior to switching to the fxml page. Such as during the start of the game.
 	 * Or when switching between fxml pages.
+	 * Or it means that the level does not need to be destroyed. (Used during pause game)
 	 * 
 	 * @param levelToReturn
 	 * The String containing the class path of the level to return to if the fxml page has a button that returns to the level.
@@ -81,7 +100,7 @@ public class Controller implements LevelEventListener {
 	 * This method is used to load the fxml file and return the Parent object.
 	*/ 
     private static Parent loadFXML(String levelToReturn, String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource("/com/example/demo/fxml/" + fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource(FXML_FOLDER_PATH + fxml + ".fxml"));
 		Parent root = fxmlLoader.load();
 		
 		FxmlController fxmlController = fxmlLoader.getController();
@@ -96,20 +115,25 @@ public class Controller implements LevelEventListener {
 
 
 
+
+	// -----------------------------------------------------------------------------------------------
+	// Functions to get instance of a level
 	
-	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
+
+	public LevelParent getLevelInstance(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 			
 				Class<?> myClass = Class.forName(className);
 				Method method = myClass.getMethod("getInstance", double.class, double.class);
 				LevelParent myLevel = (LevelParent) method.invoke(null, stage.getHeight(), stage.getWidth());
-				myLevel.addEventListener(this);
-				scene = myLevel.initializeScene();
-				stage.setScene(scene);
-				myLevel.startGame();
-
+				return myLevel;
 	}
+
 	
+
+
+	// -----------------------------------------------------------------------------------------------
+	// Functions to navigate through levels
 
 	@Override
 	public void changeLevel(LevelParent currentLevel, String levelName){
@@ -129,5 +153,33 @@ public class Controller implements LevelEventListener {
 		}
 	}
 
+
+	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
+			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+				
+				LevelParent myLevel = getLevelInstance(className);
+				myLevel.addEventListener(this);
+				scene = myLevel.initializeScene();
+				stage.setScene(scene);
+				myLevel.startGame();
+
+	}
+	
+
+	public void resumeLevel(String currentLevel){
+		
+		try {
+			LevelParent myLevel = getLevelInstance(currentLevel);
+			scene = myLevel.getScene();
+			stage.setScene(scene);
+			myLevel.resumeGame();
+		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			
+			e.printStackTrace();
+
+		}
+		
+	}
 
 }
