@@ -14,6 +14,7 @@ public class LevelOne extends LevelParent {
 	private static LevelOne instance;
 
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
+	private static final String CURRENT_LEVEL = LevelOne.class.getName();
 	private static final String NEXT_LEVEL = "com.example.demo.levels.LevelTwo";
 	private static final int TOTAL_ENEMIES = 5;
 	private static final int KILLS_TO_ADVANCE = 10;
@@ -24,7 +25,7 @@ public class LevelOne extends LevelParent {
 
 
 	private LevelOne(double screenHeight, double screenWidth) {
-		super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+		super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, CURRENT_LEVEL);
 
 		//background is declared in super class, but since it is different for each level, it is initialized here
 		background = new ImageView(new Image(getClass().getResource(BACKGROUND_IMAGE_NAME).toExternalForm()));

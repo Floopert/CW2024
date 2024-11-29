@@ -1,9 +1,7 @@
 package com.example.demo.controller.fxmlPageControllers;
 
 import java.io.IOException;
-
 import com.example.demo.controller.FxmlController;
-
 import javafx.fxml.FXML;
 
 

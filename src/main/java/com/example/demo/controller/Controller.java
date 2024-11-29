@@ -39,7 +39,7 @@ public class Controller implements LevelEventListener {
 			stage.show();
 
 			try {
-				goToFXML("menu");
+				goToFXML(null, null, "menu");
 			}
 			catch (SecurityException | IllegalArgumentException | IOException e){
 				e.printStackTrace();
@@ -49,19 +49,47 @@ public class Controller implements LevelEventListener {
 
 
 
-
-
-	public void goToFXML(String fxml) throws IOException {
-        scene = new Scene(loadFXML(fxml), stage.getWidth(), stage.getHeight());
+	/**
+	 * This method is used to change the scene to a fxml page. E.g. Main Menu, Lose Game page, Win Game page.
+	 * 
+	 * @param currentLevel
+	 * The LevelParent object reference to the current level prior to switching to the fxml page.
+	 * If currentLevel is null, it means that there was no level prior to switching to the fxml page. Such as during the start of the game.
+	 * Or when switching between fxml pages.
+	 * 
+	 * @param levelToReturn
+	 * The String containing the class path of the level to return to if the fxml page has a button that returns to the level.
+	 * Such as restarting the level after a loss.
+	 * 
+	 * @param fxml
+	 * The String containing the name of the fxml file to switch to.
+	 */
+	@Override
+	public void goToFXML(LevelParent currentLevel, String levelToReturn, String fxml) throws IOException {
+        
+		if (currentLevel != null){
+			currentLevel.removeEventListener(this);
+			currentLevel.destroyInstance();
+		}
+		
+		scene = new Scene(loadFXML(levelToReturn, fxml), stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);
 	}
 
-    private static Parent loadFXML(String fxml) throws IOException {
+	
+	/**
+	 * This method is used to load the fxml file and return the Parent object.
+	*/ 
+    private static Parent loadFXML(String levelToReturn, String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource("/com/example/demo/fxml/" + fxml + ".fxml"));
 		Parent root = fxmlLoader.load();
 		
 		FxmlController fxmlController = fxmlLoader.getController();
 		fxmlController.setMainController(instance);
+
+		if (levelToReturn != null){
+			fxmlController.setLevelToReturn(levelToReturn);
+		}
 
 		return root;
 	}

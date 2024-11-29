@@ -1,7 +1,9 @@
 GitHub: https://github.com/Floopert/CW2024.git
 
-----------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
 Compilation Instructions: No special instructions, just run Main.java
 
 
@@ -9,8 +11,8 @@ Compilation Instructions: No special instructions, just run Main.java
 
 
 
-----------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
 Implemented and Working Properly: This section only lists additional features/extensions and fine tuning works. Bug fixes or refactoring works are described in 'Modified Java Classes' section below.
 
 ### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely. [Commit: 6258a12]
@@ -29,34 +31,55 @@ Implemented and Working Properly: This section only lists additional features/ex
 
 
 ### added FXML main menu page. The game now will start with a main menu where users can choose to click 'Play' to proceed to Level 1, or click 'Exit' to close the application. [Commit: 0c808d3]
-    Important changes implemented:
+    Important changes implemented: Since loading FXML pages are slightly different from loading a level directly, a separate function was created to handle the creation of FXML pages.
 
     -Controller.java: added goToFXML() and loadFXML() methods. The loadFXML() method will load the respective FXML file, and then the scene is created and set using the goToFXML() method. The goToFXML() method functions similarly to the goToLevel() method in the class but for FXML files instead. The launchGame() method now loads the main menu FXML first instead of Level 1.
 
 
-### fine tuned so that the planes (User and Enemy) can never go above the hearts display or any graphcs displayed at the top of the level screen.
+### fine tuned so that the planes (User and Enemy) can never go above the hearts display or any graphcs displayed at the top of the level screen. [Commit: 6f8de6a]
 
-----------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------
+
+### added FXML game over page.
+    Important changes implemented: Keeps track of which level did the user lost. If the user chooses to retry, the user will restart at the level that they died on. E.g. if the user died during Level Two, they can retry and start from Level Two again.
+    Alternatively, they can choose to go back to main menu and start from Level One all over again.
+
+    -LevelEventListener.java: Added goToFXML() method as part of the interface method. So that LevelParent class can notify the controller class that the user has died, and should load the gameOver.fxml page.
+
+    -Controller.java: goToFXML() is now an override method from the LevelEventListener.java interface. The loadFXML() method will now also set the level to reload (if any) when loading the FXML page.
+
+    -LevelParent.java: Constructor now initializes the value of CURRENT_LEVEL to be passed to game over FXML page so that the FXML page has a reference of which level to reload. The loseGame() method now loads the game over FXML page instead of just displaying the game over image.
+
+    -LevelOne.java | LevelTwo.java: Added a new constant CURRENT_LEVEL that stores the class' class path and passes it to the parent's constructor.
+
+
+
+
+
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
 Implemented but Not Working Properly:
 
 
 
 
 
-----------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
 Features Not Implemented:
 
 ### add kill score in LevelOneLevelView.java
 ### change frame rate of game
+### visual improvements (CSS styling) for the menu pages (Main Menu, Game Over, Win Game, Pause Game)
 
 
 
 
 
-----------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
 New Java Classes:
 
 ### LevelViewLevelOne.java (com.example.demo.levelViews)
@@ -81,7 +104,7 @@ New Java Classes:
     -this class also handles user input.
 
 
-### InputEventListener.java (com.example.demo.eventListeners)
+### Interface: InputEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any relevant input received by InputHandler.java class.
     -e.g. user presses 'space bar' will trigger fireProjectile() in ActiveActorManager class.
 
@@ -92,12 +115,12 @@ New Java Classes:
     -this class has listeners subscribed to it so if any relevant collision event occurs, the relevant classes will be notified to give proper reaction.
 
 
-### CollisionEventListener.java (com.example.demo.eventListeners)
+### Interface: CollisionEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any relevant collision events triggered by CollisionHandler.java class.
     -e.g. user projectile collides and destroys enemy plane will trigger updateKillCount().
 
 
-### LevelEventListener.java (com.example.demo.eventListeners)
+### Interface: LevelEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any level changing events triggered by LevelParent.java class.
     -allows LevelParent.java to inform the Controller.java class to switch levels
 
@@ -107,14 +130,16 @@ New Java Classes:
     -the main purpose of this class is to pass the Controller.java object reference to the FXML controllers so that it can change the scene to playable levels.
     -the initial idea was to inherit directly from the Controller.java class, but since that is made a singleton, it is not possible to inherit from it (due to private access modifier of the constructor).
 
-### MenuController.java (com.example.demo.controller.fxmlPageControllers)
-    -the controller for the FXML page
-    -all logic for the buttons in the FXML page is handled here
+
+### MenuController.java | GameOverController.java (com.example.demo.controller.fxmlPageControllers)
+    -the controllers for the FXML page
+    -all logic for the buttons in the FXML pages are handled in their respective controllers.
 
 
 
-----------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
 
 Modified Java Classes: This section shall only include modifications to classes due to bug fix or refactoring. Any code modification/addition for feature extension or fine tuning is not mentioned here, the nature of the extended feature or fine tuning is briefly described in the 'Implemented and Working Properly' section above.
 Each paragraph in this section may lump several classes together, to signify that they were modified together in one commit, to complete a single bug fix or as one refactoring job. Paragraphs may mention similar class again, but for different bug fix or refactoring job.
@@ -277,8 +302,18 @@ The order of the list is in ascending order of commits, with the top being the e
     -Destrutible.java: This class is deleted.
 
 
-----------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------
+### GameOverImage.java | LevelView.java [REFACTOR]
+    Objective: Remove the redundant class and fields after adding the game over FXML page feature. The game over image is no longer necessary since a separate FXML page will pop up upon losing the level. The game over image is shown in the FXML page instead.
+
+    -GameOverImage.java: The class is deleted.
+
+    -LevelView.java: The class no longer instantiates an object of GameOverImage.java, and the method showGameOverImage() is also removed. Other related fields tied to GameOverImage is also removed such as LOSS_SCREEN_X_POSITION & LOSS_SCREEN_Y_POSITION.
+
+
+
+
+# ----------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------
 Unexpected Problems:
 
 ### At boss level, the longer the game runs, the more RAM it consumes.

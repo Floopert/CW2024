@@ -31,6 +31,7 @@ public abstract class LevelParent implements CollisionEventListener{
 	private final Scene scene;
 	protected ImageView background;
 	protected LevelView levelView;
+	private final String CURRENT_LEVEL;
 
 	protected ActiveActorManager activeActorManager;
 	private InputHandler inputHandler;
@@ -59,8 +60,9 @@ public abstract class LevelParent implements CollisionEventListener{
 	 * @param screenWidth
 	 * @param playerInitialHealth
 	 */
-	public LevelParent(double screenHeight, double screenWidth, int playerInitialHealth) {
+	public LevelParent(double screenHeight, double screenWidth, int playerInitialHealth, String currentLevel) {
 		
+		this.CURRENT_LEVEL = currentLevel;
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
@@ -168,16 +170,7 @@ public abstract class LevelParent implements CollisionEventListener{
 		eventListener = null;
 	}
 
-	public void goToNextLevel(String levelName) {
-		timeline.stop();
-		timeline.getKeyFrames().clear();
-
-		//removes all nodes from root and suggests garbage collection
-		//since all elements in levels are rendered upon load, don't need anything from previous level
-		activeActorManager.clearAllActors();
-
-		eventListener.changeLevel(this, levelName);
-	}
+	
 
 	
 	//----------------------------------------------------
@@ -188,15 +181,6 @@ public abstract class LevelParent implements CollisionEventListener{
 		return root;
 	}
 
-	protected void winGame() {
-		timeline.stop();
-		levelView.showWinImage();
-	}
-
-	protected void loseGame() {
-		timeline.stop();
-		levelView.showGameOverImage();
-	}
 
 	private void updateLevelView() {
 		levelView.removeHearts(user.getHealth());
@@ -222,6 +206,34 @@ public abstract class LevelParent implements CollisionEventListener{
 		return activeActorManager.getEnemyUnits().size();
 	}
 
+
+	public void goToNextLevel(String levelName) {
+		timeline.stop();
+		timeline.getKeyFrames().clear();
+
+		//removes all nodes from root and suggests garbage collection
+		//since all elements in levels are rendered upon load, don't need anything from previous level
+		activeActorManager.clearAllActors();
+
+		eventListener.changeLevel(this, levelName);
+	}
+
+	protected void winGame() {
+		timeline.stop();
+		levelView.showWinImage();
+	}
+
+	protected void loseGame() {
+		timeline.stop();
+		activeActorManager.clearAllActors();
+		
+		try{
+			eventListener.goToFXML(this, CURRENT_LEVEL, "gameOver");
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+	}
 
 	//--------------------------------------------------
 	//------------Screen boundary related functions------------

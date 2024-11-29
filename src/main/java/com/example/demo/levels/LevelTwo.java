@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 public class LevelTwo extends LevelParent implements BossEventListener{
 
 	private static LevelTwo instance;
-
+	private static final String CURRENT_LEVEL = LevelTwo.class.getName();
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private final Boss boss;
@@ -18,7 +18,7 @@ public class LevelTwo extends LevelParent implements BossEventListener{
 	private LevelViewLevelTwo levelView;
 
 	private LevelTwo(double screenHeight, double screenWidth) {
-		super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+		super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, CURRENT_LEVEL);
 
 		//background is declared in super class, but since it is different for each level, it is initialized here
 		background = new ImageView(new Image(getClass().getResource(BACKGROUND_IMAGE_NAME).toExternalForm()));
