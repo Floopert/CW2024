@@ -61,7 +61,8 @@ public class LevelTwo extends LevelParent implements BossEventListener{
 	@Override
 	protected void instantiateLevelView(){
 		//this.levelView is to access level specific methods to generate level specific images
-		this.levelView = new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH, boss.getLayoutX(), boss.getLayoutY());
+		this.levelView = new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH);
+		this.levelView.instantiateShield(boss.getLayoutX(), boss.getLayoutY());
 		//another reference to levelView is stored in super class to access methods that are generated the same for all levels
 		super.levelView = this.levelView;
 	};

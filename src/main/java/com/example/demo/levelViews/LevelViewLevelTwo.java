@@ -7,15 +7,16 @@ import javafx.scene.Group;
 public class LevelViewLevelTwo extends LevelView {
 
 	private final Group root;
-	private final ShieldImage shieldImage;
+	private ShieldImage shieldImage;
 	
-	public LevelViewLevelTwo(Group root, int heartsToDisplay, double shieldXPosition, double shieldYPosition) {
+	public LevelViewLevelTwo(Group root, int heartsToDisplay) {
 		super(root, heartsToDisplay);
 		this.root = root;
-		this.shieldImage = new ShieldImage(shieldXPosition, shieldYPosition);
 	}
 	
-
+	public void instantiateShield(double shieldXPosition, double shieldYPosition) {
+		this.shieldImage = new ShieldImage(shieldXPosition, shieldYPosition);
+	}
 
 	@Override
 	public void addImagesToRoot() {
