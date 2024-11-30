@@ -86,7 +86,7 @@ Implemented and Working Properly: This section only lists additional features/ex
     -LevelOne.java | LevelTwo.java: removed PLAYER_INITIAL_HEALTH constant from these classes since the health is set in the UserPlane class now.
 
 
-### projectiles can have different damage output. Different planes (different types of enemy plane and boss) can inflict different damage when the enemy plane object itself collides with user's plane.
+### projectiles can have different damage output. Different planes (different types of enemy plane and boss) can inflict different damage when the enemy plane object itself collides with user's plane. [Commit: 19d7fcf]
     Description: Projectiles such as user projectile, boss projectile etc now have a DAMAGE_OUTPUT constant that will determine the damage taken by the plane objects if collision occurs.
     Each planes have their own DAMAGE_OUTPUT constant as well, in upper levels, other plane types will be created where they will deal more than 1 damage if user plane collides with those planes head on.
 
@@ -101,6 +101,17 @@ Implemented and Working Properly: This section only lists additional features/ex
     Boss.java | EnemyPlane.java | UserPlane.java: These classes now also have an additional DAMAGE_OUTPUT constant to specify how much damage they will deal if collide with other planes (or if enemy penetrates defences).
 
     CollisionHandler.java | LevelParent.java: The takeDamage() methods called in these classes are amended accordingly to fit the new takeDamage() method parameters.
+
+
+### user plane's projectile can now be upgraded and will shoot different projectiles.
+    Description: By picking up powerups, user plane's projectile can be upgraded to deal more damage. To achieve this functionality, additional classes UserProjectileFactory.java & UserProjectileT2.java is created. The brief description of these classes is done at the New Java Classes section below.
+
+    UserProjectile.java: This class is now renamed to UserProjectileT1.java
+
+    UserPlane.java: The user plane now has a new field projectileLevel to keep track of the level of projectile it currently has. An instance of UserProjectileFactory is added in this class, where it will handle the logic of which projectile type to use.
+
+
+### 
 
 
 
@@ -185,6 +196,13 @@ New Java Classes:
     -all logic for the buttons in the FXML pages are handled in their respective controllers.
 
 
+### UserProjectileFactory.java (com.example.demo.projectiles)
+    -the class stores a list of all the user projectile types available in the game.
+    -depending on which index of the list is called, this class will handle the instantiation of the corresponding projectile type and return it to the user plane.
+
+### UserProjectileT2.java (com.example.demo.projectiles.userProjectiles)
+    -this is a class of another type of UserProjectile.
+    -the previous UserProjectile.java is also renamed to UserProjectileT1.java and is the first level of user projectile.
 
 
 # ----------------------------------------------------------------------------------------------------------------

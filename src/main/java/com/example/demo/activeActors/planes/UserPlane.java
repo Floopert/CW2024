@@ -2,7 +2,7 @@ package com.example.demo.activeActors.planes;
 
 import com.example.demo.activeActors.ActiveActorDestructible;
 import com.example.demo.activeActors.FighterPlane;
-import com.example.demo.activeActors.projectiles.UserProjectile;
+import com.example.demo.activeActors.projectiles.UserProjectileFactory;
 
 public class UserPlane extends FighterPlane {
 
@@ -20,13 +20,15 @@ public class UserPlane extends FighterPlane {
 	private static final int PROJECTILE_Y_POSITION_OFFSET = 20;
 	private int yVelocityMultiplier;
 	private int xVelocityMultiplier;
-
+	private int projectileLevel;
 	private static UserPlane instance;
+	private static final UserProjectileFactory projectileFactory = UserProjectileFactory.getInstance();
 	
 
 	private UserPlane() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, PLAYER_INITIAL_HEALTH, DAMAGE_OUTPUT);
 		yVelocityMultiplier = 0;
+		projectileLevel = 1;
 	}
 
 
@@ -72,7 +74,7 @@ public class UserPlane extends FighterPlane {
 	
 	@Override
 	public ActiveActorDestructible fireProjectile() {
-		return new UserProjectile(getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET), getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
+		return projectileFactory.createProjectile(projectileLevel, getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET), getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
 	}
 
 	public void resetPosition(){
