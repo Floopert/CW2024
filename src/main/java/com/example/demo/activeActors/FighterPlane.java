@@ -2,24 +2,15 @@ package com.example.demo.activeActors;
 
 public abstract class FighterPlane extends ActiveActorDestructible {
 
-	private int health;
 	public static final int Y_UPPER_BOUND = 80;
 	public static final int Y_LOWER_BOUND = 670;
 
-	public FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health) {
-		super(imageName, imageHeight, initialXPos, initialYPos);
-		this.health = health;
+	public FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health, int damageOutput) {
+		super(imageName, imageHeight, initialXPos, initialYPos, health, damageOutput);
 	}
 
 	public abstract ActiveActorDestructible fireProjectile();
 	
-	@Override
-	public void takeDamage() {
-		health--;
-		if (healthAtZero()) {
-			this.destroy();
-		}
-	}
 
 	protected double getProjectileXPosition(double xPositionOffset) {
 		return getLayoutX() + getTranslateX() + xPositionOffset;
@@ -29,12 +20,5 @@ public abstract class FighterPlane extends ActiveActorDestructible {
 		return getLayoutY() + getTranslateY() + yPositionOffset;
 	}
 
-	private boolean healthAtZero() {
-		return health == 0;
-	}
-
-	public int getHealth() {
-		return health;
-	}
 		
 }

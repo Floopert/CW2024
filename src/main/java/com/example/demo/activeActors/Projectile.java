@@ -2,13 +2,10 @@ package com.example.demo.activeActors;
 
 public abstract class Projectile extends ActiveActorDestructible {
 
-	public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos) {
-		super(imageName, imageHeight, initialXPos, initialYPos);
-	}
+	private static final int HEALTH = 1;
 
-	@Override
-	public void takeDamage() {
-		this.destroy();
+	public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos, int damageOutput) {
+		super(imageName, imageHeight, initialXPos, initialYPos, HEALTH, damageOutput);
 	}
 
 

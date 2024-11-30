@@ -20,6 +20,7 @@ public class Boss extends FighterPlane {
 	private static final int IMAGE_HEIGHT = 100;
 	private static final int VERTICAL_VELOCITY = 8;
 	private static final int HEALTH = 100;
+	private static final int DAMAGE_OUTPUT = HEALTH;
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
@@ -34,7 +35,7 @@ public class Boss extends FighterPlane {
 	private List<BossEventListener> listeners = new ArrayList<BossEventListener>();
 
 	public Boss() {
-		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
+		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH, DAMAGE_OUTPUT);
 		movePattern = new ArrayList<>();
 		consecutiveMovesInSameDirection = 0;
 		indexOfCurrentMove = 0;
@@ -80,9 +81,9 @@ public class Boss extends FighterPlane {
 	}
 	
 	@Override
-	public void takeDamage() {
+	public void takeDamage(int damage) {
 		if (!isShielded) {
-			super.takeDamage();
+			super.takeDamage(damage);
 		}
 	}
 

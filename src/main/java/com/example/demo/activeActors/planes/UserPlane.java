@@ -8,6 +8,7 @@ public class UserPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "userplane.png";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
+	private static final int DAMAGE_OUTPUT = -1;
 	private static final double X_LOWER_BOUND = 0;
 	private static final double X_UPPER_BOUND = 1125.0;
 	private static final double INITIAL_X_POSITION = 5.0;
@@ -24,7 +25,7 @@ public class UserPlane extends FighterPlane {
 	
 
 	private UserPlane() {
-		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, PLAYER_INITIAL_HEALTH);
+		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, PLAYER_INITIAL_HEALTH, DAMAGE_OUTPUT);
 		yVelocityMultiplier = 0;
 	}
 

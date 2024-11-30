@@ -18,10 +18,12 @@ Implemented and Working Properly: This section only lists additional features/ex
 ### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely. [Commit: 6258a12]
 
 
-### fine tuned so that only kills from user projectiles will add to the kill score for progression of next level. Collision between user plane with enemy plane OR enemy plane reaching end of screen now only deducts life, but score does not increase. E.g. the kill score required to progress from level one to two is 10. If user projectile destroyed 6 planes, user plane collided with 2 planes, 2 enemy planes reached the left edge of screen, total kill score is still only 6 and user cannot progress to level two yet. However, 4 lives will already have been deducted. [Commit: 6258a12]
+### fine tuned so that only kills from user projectiles will add to the kill score for progression of next level. [Commit: 6258a12]
+    Description: Collision between user plane with enemy plane OR enemy plane reaching end of screen now only deducts life, but score does not increase. E.g. the kill score required to progress from level one to two is 10. If user projectile destroyed 6 planes, user plane collided with 2 planes, 2 enemy planes reached the left edge of screen, total kill score is still only 6 and user cannot progress to level two yet. However, 4 lives will already have been deducted.
 
 
-### fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. The initial hitbox from the original was too huge due to redundant white spaces in png image. Scale and x,y position of all images are also adjusted to match the newly modified images. [Commit: 5653dea]
+### fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. [Commit: 5653dea]
+    Description: The initial hitbox from the original was too huge due to redundant white spaces in png image. Scale and x,y position of all images are also adjusted to match the newly modified images.
 
 
 ### user plane can now move left and right as well. [Commit: 3ea6455]
@@ -71,8 +73,8 @@ Implemented and Working Properly: This section only lists additional features/ex
     -LevelParent.java: The winGame() method now switches the scene to the win.fxml instead of just displaying the win image.
 
 
-### going to next level no longer resets user's health
-    Description: If user takes damage in a level, when progressing to next level, the user will only have the remaining health from last level. For example, if the user completes level 1 with 3 health remaining, the user start level 2 with only 3 health.
+### going to next level no longer resets user's health [Commit: 0da2c1e]
+    Description: If user takes damage in a level, when progressing to next level, the user will only have the remaining health from last level. For example, if the user completes level 1 with 3 health remaining, the user starts level 2 with only 3 health.
     But if the user dies in any level and replays the level, health is reset to default. For example, even if the user starts level 2 with only 3 health, if the user dies and replays at level 2, the user will start with the default of 5 health.
     
     -UserPlane.java: added a constant PLAYER_INITIAL_HEALTH in this class. The class is now a singleton and its constructor no longer requires any parameters. The initial health is set from the local constant PLAYER_INITIAL_HEALTH within the class.
@@ -82,6 +84,23 @@ Implemented and Working Properly: This section only lists additional features/ex
     Since UserPlane is now a static singleton, its instance object has to be destroyed so it can be reset when the game is over (either by dying or winning). The UserPlane object is destroyed in the winGame() & loseGame() methods.
 
     -LevelOne.java | LevelTwo.java: removed PLAYER_INITIAL_HEALTH constant from these classes since the health is set in the UserPlane class now.
+
+
+### projectiles can have different damage output. Different planes (different types of enemy plane and boss) can inflict different damage when the enemy plane object itself collides with user's plane.
+    Description: Projectiles such as user projectile, boss projectile etc now have a DAMAGE_OUTPUT constant that will determine the damage taken by the plane objects if collision occurs.
+    Each planes have their own DAMAGE_OUTPUT constant as well, in upper levels, other plane types will be created where they will deal more than 1 damage if user plane collides with those planes head on.
+
+    ActiveActorDestructible.java | FighterPlane.java: the health variable, takeDamage(), healthAtZero() & getHealth() method that was originally in FighterPlane.java is now moved to ActiveActorDestructible.java class since it is a common functionality used in all subclasses.
+    New field damageOutput and method getDamageOutput() is also added to achieve the functionality under this subheading.
+    The takeDamage() method is modified, so that it will deduct the plane object's health based on the other actor's damage output. A special case is accounted for in the takeDamage() method. Since there will be varying enemy planes with all kinds of health quantity, the user plane's damage output is specially set to -1 so that if the user plane collides with any other planes, the user will only take damage once, and regardless of the enemy plane's health, will be instantly destroyed. The boss planes have ridiculously high damageOutput, usually set to be the same as the boss' health itself. This way, if the user collides with the boss, it would not allow the user to instantly destroy the boss and win the level, it would cause the user to have an instant death.
+
+    Projectile.java: All projectiles have a health of 1 and the value is set in this class instead of the subclass since it is redundant to keep setting the same value for all other projectile subclasses.
+
+    BossProjectile.java | EnemyProjectile.java | UserProjectile.java: These classes now have an additional DAMAGE_OUTPUT constant to specify how much damage the projectile will deal upon collision.
+
+    Boss.java | EnemyPlane.java | UserPlane.java: These classes now also have an additional DAMAGE_OUTPUT constant to specify how much damage they will deal if collide with other planes (or if enemy penetrates defences).
+
+    CollisionHandler.java | LevelParent.java: The takeDamage() methods called in these classes are amended accordingly to fit the new takeDamage() method parameters.
 
 
 

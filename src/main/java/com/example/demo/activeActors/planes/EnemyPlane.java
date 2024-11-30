@@ -12,10 +12,11 @@ public class EnemyPlane extends FighterPlane {
 	private static final double PROJECTILE_X_POSITION_OFFSET = -60.0;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 25.0;
 	private static final int INITIAL_HEALTH = 1;
+	private static final int DAMAGE_OUTPUT = INITIAL_HEALTH;
 	private static final double FIRE_RATE = .01;
 
 	public EnemyPlane(double initialXPos, double initialYPos) {
-		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH);
+		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH, DAMAGE_OUTPUT);
 	}
 
 	@Override

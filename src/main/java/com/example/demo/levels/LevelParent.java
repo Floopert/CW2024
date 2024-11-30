@@ -289,8 +289,8 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 	}
 
 	@Override
-	public void userDamaged(){
-		user.takeDamage();
+	public void userDamaged(int damage){
+		user.takeDamage(damage);
 	}
 
 

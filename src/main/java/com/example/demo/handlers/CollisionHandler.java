@@ -42,7 +42,7 @@ public class CollisionHandler {
 		for (ActiveActorDestructible enemy : activeActorManager.getEnemyUnits()) {
 			if (enemyHasPenetratedDefenses(enemy)) {
 				for (CollisionEventListener listener : listeners) {
-                    listener.userDamaged();
+                    listener.userDamaged(enemy.getDamageOutput());
                 }
 				enemy.destroy();
 			}
@@ -84,8 +84,8 @@ public class CollisionHandler {
 			for (ActiveActorDestructible otherActor : actors1) {
 				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent()) && !actor.isDestroyed()
 						&& !otherActor.isDestroyed()) {
-					actor.takeDamage();
-					otherActor.takeDamage();
+					actor.takeDamage(otherActor.getDamageOutput());
+					otherActor.takeDamage(actor.getDamageOutput());
 					
 					if( ( actor.canScoreFromCollision() || otherActor.canScoreFromCollision() ) && actor.isDestroyed() && otherActor.isDestroyed() ) {
 						for (CollisionEventListener listener : listeners) {
