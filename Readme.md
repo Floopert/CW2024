@@ -65,10 +65,23 @@ Implemented and Working Properly: This section only lists additional features/ex
     -LevelParent.java: The class now also implements InputEventListener so that it could react to the pause game action when an 'Escape' key is pressed. Added new getScene() method so that a temporarily paused screen could return its former scene and resume from where it stopped. pauseGame() method is added to pause the timeline and switch to the pause FXML page. resumeGame() method is added to resume the timeline if user chooses to resume from a pause.
 
 
-### added win game FXML page.
+### added win game FXML page. [Commit: 2ac0177]
     Description: Upon winning the last level, a win game screen will be shown where user can choose to play again from Level 1 or go back to main menu.
 
     -LevelParent.java: The winGame() method now switches the scene to the win.fxml instead of just displaying the win image.
+
+
+### going to next level no longer resets user's health
+    Description: If user takes damage in a level, when progressing to next level, the user will only have the remaining health from last level. For example, if the user completes level 1 with 3 health remaining, the user start level 2 with only 3 health.
+    But if the user dies in any level and replays the level, health is reset to default. For example, even if the user starts level 2 with only 3 health, if the user dies and replays at level 2, the user will start with the default of 5 health.
+    
+    -UserPlane.java: added a constant PLAYER_INITIAL_HEALTH in this class. The class is now a singleton and its constructor no longer requires any parameters. The initial health is set from the local constant PLAYER_INITIAL_HEALTH within the class.
+    Added a new resetPosition() method so that the user plane's position could be reset to initial position when level transition occurs.
+
+    -LevelParent.java: the class' constructor no longer takes in the health parameter and does not instantiate a UserPlane object. Instead it just gets the instance of the UserPlane static object.
+    Since UserPlane is now a static singleton, its instance object has to be destroyed so it can be reset when the game is over (either by dying or winning). The UserPlane object is destroyed in the winGame() & loseGame() methods.
+
+    -LevelOne.java | LevelTwo.java: removed PLAYER_INITIAL_HEALTH constant from these classes since the health is set in the UserPlane class now.
 
 
 

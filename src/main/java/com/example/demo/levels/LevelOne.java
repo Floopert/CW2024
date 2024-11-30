@@ -19,13 +19,12 @@ public class LevelOne extends LevelParent {
 	private static final int TOTAL_ENEMIES = 5;
 	private static final int KILLS_TO_ADVANCE = 10;
 	private static final double ENEMY_SPAWN_PROBABILITY = .20;
-	private static final int PLAYER_INITIAL_HEALTH = 5;
 
 
 
 
 	private LevelOne(double screenHeight, double screenWidth) {
-		super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, CURRENT_LEVEL);
+		super(screenHeight, screenWidth, CURRENT_LEVEL);
 
 		//background is declared in super class, but since it is different for each level, it is initialized here
 		background = new ImageView(new Image(getClass().getResource(BACKGROUND_IMAGE_NAME).toExternalForm()));
@@ -76,7 +75,7 @@ public class LevelOne extends LevelParent {
 	@Override
 	protected void instantiateLevelView(){
 		//reference to levelView is stored in super class to access methods that are generated the same for all levels
-		super.levelView = new LevelViewLevelOne(getRoot(), PLAYER_INITIAL_HEALTH);
+		super.levelView = new LevelViewLevelOne(getRoot(), getUser().getHealth());
 	};
 
 }

@@ -7,6 +7,7 @@ import com.example.demo.activeActors.projectiles.UserProjectile;
 public class UserPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "userplane.png";
+	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private static final double X_LOWER_BOUND = 0;
 	private static final double X_UPPER_BOUND = 1125.0;
 	private static final double INITIAL_X_POSITION = 5.0;
@@ -19,10 +20,30 @@ public class UserPlane extends FighterPlane {
 	private int yVelocityMultiplier;
 	private int xVelocityMultiplier;
 
-	public UserPlane(int initialHealth) {
-		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
+	private static UserPlane instance;
+	
+
+	private UserPlane() {
+		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, PLAYER_INITIAL_HEALTH);
 		yVelocityMultiplier = 0;
 	}
+
+
+	public static UserPlane getInstance() {
+		
+		if (instance == null) {
+			instance = new UserPlane();
+		}
+
+		return instance;
+		
+	}
+
+	public void destroyInstance() {
+		instance = null;
+	}
+
+
 	
 	@Override
 	public void updatePosition() {
@@ -51,6 +72,11 @@ public class UserPlane extends FighterPlane {
 	@Override
 	public ActiveActorDestructible fireProjectile() {
 		return new UserProjectile(getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET), getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
+	}
+
+	public void resetPosition(){
+		instance.setTranslateX(0);
+		instance.setTranslateY(0);
 	}
 
 	private boolean isMovingVertically() {

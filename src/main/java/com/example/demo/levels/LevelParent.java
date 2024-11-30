@@ -61,13 +61,14 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 	 * @param screenWidth
 	 * @param playerInitialHealth
 	 */
-	public LevelParent(double screenHeight, double screenWidth, int playerInitialHealth, String currentLevel) {
+	public LevelParent(double screenHeight, double screenWidth, String currentLevel) {
 		
 		this.CURRENT_LEVEL = currentLevel;
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
-		this.user = new UserPlane(playerInitialHealth);
+		this.user = UserPlane.getInstance();
+		user.resetPosition();
 
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
@@ -224,7 +225,8 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 	protected void winGame() {
 		timeline.stop();
 		activeActorManager.clearAllActors();
-		
+		user.destroyInstance();
+
 		try{
 			eventListener.goToFXML(this, null, "win");
 		} catch (Exception e){
@@ -235,6 +237,7 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 	protected void loseGame() {
 		timeline.stop();
 		activeActorManager.clearAllActors();
+		user.destroyInstance();
 		
 		try{
 			eventListener.goToFXML(this, CURRENT_LEVEL, "gameOver");
