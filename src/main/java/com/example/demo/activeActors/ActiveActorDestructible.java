@@ -4,7 +4,7 @@ import javafx.scene.image.*;
 
 public abstract class ActiveActorDestructible extends ImageView {
 
-	private int health;
+	protected int health;
 	private int damageOutput;
 	private boolean isDestroyed;
 	private boolean canScoreFromCollision;
@@ -58,6 +58,7 @@ public abstract class ActiveActorDestructible extends ImageView {
 	public int getHealth() {
 		return health;
 	}
+
 
 	//----------------------------------------------------------
 	

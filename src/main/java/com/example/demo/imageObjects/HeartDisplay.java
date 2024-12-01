@@ -28,19 +28,26 @@ public class HeartDisplay {
 		container.setLayoutY(containerYPosition);		
 	}
 	
+	private ImageView instantiateHeartImage() {
+		ImageView heart = new ImageView(new Image(getClass().getResource(HEART_IMAGE_NAME).toExternalForm()));
+		heart.setFitHeight(HEART_HEIGHT);
+		heart.setPreserveRatio(true);
+		return heart;
+	}
+
 	private void initializeHearts() {
 		for (int i = 0; i < numberOfHeartsToDisplay; i++) {
-			ImageView heart = new ImageView(new Image(getClass().getResource(HEART_IMAGE_NAME).toExternalForm()));
-
-			heart.setFitHeight(HEART_HEIGHT);
-			heart.setPreserveRatio(true);
-			container.getChildren().add(heart);
+			container.getChildren().add(instantiateHeartImage());
 		}
 	}
 	
 	public void removeHeart() {
 		if (!container.getChildren().isEmpty())
 			container.getChildren().remove(INDEX_OF_FIRST_ITEM);
+	}
+
+	public void addHeart() {
+		container.getChildren().add(instantiateHeartImage());
 	}
 	
 	public HBox getContainer() {

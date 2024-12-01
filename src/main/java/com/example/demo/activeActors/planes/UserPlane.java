@@ -2,9 +2,10 @@ package com.example.demo.activeActors.planes;
 
 import com.example.demo.activeActors.ActiveActorDestructible;
 import com.example.demo.activeActors.FighterPlane;
-import com.example.demo.activeActors.projectiles.UserProjectileFactory;
+import com.example.demo.activeActors.projectileTypes.UserProjectileFactory;
+import com.example.demo.eventListeners.PowerUpEffectEventListener;
 
-public class UserPlane extends FighterPlane {
+public class UserPlane extends FighterPlane implements PowerUpEffectEventListener{
 
 	private static final String IMAGE_NAME = "userplane.png";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
@@ -112,6 +113,22 @@ public class UserPlane extends FighterPlane {
 
 	public void stopHorizontalMovement() {
 		xVelocityMultiplier = 0;
+	}
+
+
+	//----------------------------------------------------------
+	// methods for power up effects
+
+	@Override
+	public void heartPowerUpEffect() {
+		health++;
+	}
+
+	@Override
+	public void projectilePowerUpEffect() {
+		if (projectileLevel < projectileFactory.getTotalProjectileTypes()) {
+			projectileLevel++;
+		}
 	}
 
 

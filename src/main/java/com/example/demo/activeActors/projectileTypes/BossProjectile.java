@@ -1,4 +1,4 @@
-package com.example.demo.activeActors.projectiles;
+package com.example.demo.activeActors.projectileTypes;
 
 import com.example.demo.activeActors.Projectile;
 
@@ -13,9 +13,8 @@ public class BossProjectile extends Projectile {
 		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, DAMAGE_OUTPUT);
 	}
 
-	@Override
-	public void updatePosition() {
-		moveHorizontally(HORIZONTAL_VELOCITY);
+	protected int getHorizontalVelocity(){
+		return HORIZONTAL_VELOCITY;
 	}
 	
 }

@@ -14,6 +14,7 @@ Compilation Instructions: No special instructions, just run Main.java
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
 Implemented and Working Properly: This section only lists additional features/extensions and fine tuning works. Bug fixes or refactoring works are described in 'Modified Java Classes' section below.
+The corresponding commit ID is also included at each feature for ease of reference regarding code changes to implement each feature.
 
 ### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely. [Commit: 6258a12]
 
@@ -103,7 +104,7 @@ Implemented and Working Properly: This section only lists additional features/ex
     CollisionHandler.java | LevelParent.java: The takeDamage() methods called in these classes are amended accordingly to fit the new takeDamage() method parameters.
 
 
-### user plane's projectile can now be upgraded and will shoot different projectiles.
+### user plane's projectile can now be upgraded and will shoot different projectiles. [Commit: 38e29a3]
     Description: By picking up powerups, user plane's projectile can be upgraded to deal more damage. To achieve this functionality, additional classes UserProjectileFactory.java & UserProjectileT2.java is created. The brief description of these classes is done at the New Java Classes section below.
 
     UserProjectile.java: This class is now renamed to UserProjectileT1.java
@@ -111,7 +112,31 @@ Implemented and Working Properly: This section only lists additional features/ex
     UserPlane.java: The user plane now has a new field projectileLevel to keep track of the level of projectile it currently has. An instance of UserProjectileFactory is added in this class, where it will handle the logic of which projectile type to use.
 
 
-### 
+### projectileUp powerup & addHealth powerup
+    Description: The game will now drop powerups after defeating an enemy plane (bosses do not drop powerup). Each different type of enemy plane has different drop probability for the projectileUp and addHealth powerup.
+    Collecting the projectileUp powerup will upgrade the user plane's projectile damage and will change the projectile's appearance.
+    Collecting the addHealth powerup will increase the user plane's current health.
+    However, upon death, if the user restarts at the level that they died, the powerup effects collected will be reset. The health will also be reset to the default same as when they started the first level i.e. 5 health. This works as a game balancing effect. For example, although users may start level 3 with only 2 health, if they die, they respawn back with 5 health but their projectile will also be reset back to normal. The enemies in higher levels require more damage before they die, so although users MAY get back more health upon restarting the level, their damage output is also reset, making the level not as easy to pass even with more health.
+
+    EnemyPlaneParent.java: This class was originally named EnemyPlane.java. It is also changed to an abstract class. Subclasses of this class such as EnemyPlaneT1.java will specify the attributes of the different enemy planes such as the image, type of projectile to fire, health, plane collision damage & powerUp drop rates. This parent EnemyPlane.java class itself will store generic methods applicable to all the subclasses such as position update and triggering the event of spawning the powerUps.
+
+    UserPlane.java: This class now implements PowerUpEffectEventListener.java. The interface methods heartPowerUpEffect() & projectilePowerUpEffect() is defined here, so that if the user plane picks up any power up, the appropriate event is triggered and user plane is informed so that the appropriate method would be executed.
+
+    ActiveActorManager.java: A new list of ActiveActorDestructible named powerUps is added to manage all the powerUps spawned in the scene. Relevant getPowerUps() and addPowerUp() getter/setter methods are added.
+    In the addEnemyUnit() setter method, changes are made so that for each enemy unit spawned, and event listener is also attached to them.
+    spawnHeartPowerUp() and spawnProjectilePowerUp() interface methods for DropsEventListener are defined so that when this class is notified to spawn a specific power up, it is handled here.
+
+    CollisionHandler.java: New method handlePowerUpCollisions() is added to handle collision between user plane and any power up.
+
+    HeartDisplay.java: A new method instantiateHeartImage() is added. This method is broken out from the earlier initializeHearts() method, for code reuse purposes.
+    A new addHeart() method is added so that new heart images could be added to the container. This addHeart() method reuses the code in instantiateHeartImage() method to instantiate a new heart ImageView object.
+
+    LevelView.java: The removeHearts() method is now renamed to updatehearts(). This method is now modified to either delete heart images or add heart images to the container.
+
+    LevelParent.java: In the updateLevelView() method, instead of calling the earlier removeHearts() method, it now calls the newly renamed updateHearts() method.
+
+
+
 
 
 
@@ -196,13 +221,40 @@ New Java Classes:
     -all logic for the buttons in the FXML pages are handled in their respective controllers.
 
 
-### UserProjectileFactory.java (com.example.demo.projectiles)
+### UserProjectileFactory.java (com.example.demo.projectileTypes)
     -the class stores a list of all the user projectile types available in the game.
     -depending on which index of the list is called, this class will handle the instantiation of the corresponding projectile type and return it to the user plane.
 
-### UserProjectileT2.java (com.example.demo.projectiles.userProjectiles)
+
+### UserProjectileT2.java | UserProjectileT<x>.java (com.example.demo.projectileTypes.userProjectiles)
+    -UserProjectileT<x>.java is the generic class name for the type of user projectile (for example UserProjectileT1.java)
     -this is a class of another type of UserProjectile.
     -the previous UserProjectile.java is also renamed to UserProjectileT1.java and is the first level of user projectile.
+
+
+### EnemyPlaneT1.java | EnemyPlaneT2.java | EnemyPlaneT<x>.java (com.example.demo.activeActors.planes.enemyPlanes)
+    -EnemyPlaneT<x>.java is the generic class name for the type of enemy (for example EnemyPlaneT1.java)
+    -this is a subclass of EnemyPlane.java. the subclass will store information of the specific type of enemy e.g. image, type of projectile to fire, health, plane collision damage & powerUp drop rates.
+    -when enemy planes have to be spawned, they are spawned from one of these classes.
+
+
+### PowerUp.java (com.example.demo.activeActors)
+    -this is a subclass of ActiveActorDestructible.java and is the parent class of all classes within com.example.demo.activeActors.powerUpTypes.
+    -since all power ups will only have one health and should not deal any damage back to user when collision occurs, these attributes are set in this PowerUp.java parent class so that all subclasses would inherit this attribute.
+
+
+### ProjectileUp.java | HeartUp.java (com.example.demo.activeActors.powerUpTypes)
+    -is a child class of PowerUp.java.
+    -the main purpose of this class is to store relevant attributes to each specific powerup. E.g. image, image size, horizontal velocity etc.
+
+
+### Interface: DropsEventListener.java
+    -acts as the event listener interface for any power up spawns in the game triggered by EnemyPlaneParent.java.
+    -allows the EnemyPlaneParent.java to inform ActiveActorManager.java to spawn the relevant power ups in the game (add to scene).
+
+### Interface: PowerUpEffectEventListener.java
+    -acts as the event listener interface for any power ups picked up by the user plane.
+    -allows the relevant powerUp classes (HeartUp or ProjectileUp) to notify the user plane to execute relevant power up effects.
 
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -263,7 +315,7 @@ The order of the list is in ascending order of commits, with the top being the e
     -added timeline.stop() in goToNextLevel() method.
 
 
-### ActiveActorDestructible.java | BossProjectile.java | UserProjectile.java | EnemyProjectile.java | Projectile.java | Boss.java | UserPlane.java | EnemyPlane.java [REFACTOR]
+### ActiveActorDestructible.java | BossProjectile.java | UserProjectile.java | EnemyProjectile.java | Projectile.java | Boss.java | UserPlane.java | EnemyPlane.java (later commits renamed this to EnemyPlaneParent.java) [REFACTOR]
     Objective: Remove all duplicate code in these files. Also removed all unused code in these files.
 
     -ActiveActorDestructible.java: Added implementation for updateActor() method instead of leaving it as abstract. Because most of the classes inheriting from it uses the same implementation. If any class will have special implementation, can just override it to add additional logic on top of the parent's logic.
@@ -377,7 +429,8 @@ The order of the list is in ascending order of commits, with the top being the e
     -LevelView.java: The class no longer instantiates an object of GameOverImage.java & WinImage.java, the methods showGameOverImage() & showWinImage() are also removed. Other related fields tied to GameOverImage & WinImage are also removed such as LOSS_SCREEN_X_POSITION & LOSS_SCREEN_Y_POSITION etc.
 
 
-
+### EnemyProjectileT1.java [REFACTOR]
+    Objective: To rename the EnemyProjectile to EnemyProjectileT1 so that other variations of EnemyProjectile would follow the naming convention EnemyProjectileT<x>.java. This is to allow for the extension whereby different enemy planes could fire different projectiles with different damage and appearance.
 
 
 # ----------------------------------------------------------------------------------------------------------------

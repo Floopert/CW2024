@@ -1,10 +1,10 @@
-package com.example.demo.activeActors.projectiles;
+package com.example.demo.activeActors.projectileTypes;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
 
 import com.example.demo.activeActors.ActiveActorDestructible;
-import com.example.demo.activeActors.projectiles.userProjectiles.*;
+import com.example.demo.activeActors.projectileTypes.userProjectiles.*;
 
 
 

@@ -8,5 +8,12 @@ public abstract class Projectile extends ActiveActorDestructible {
 		super(imageName, imageHeight, initialXPos, initialYPos, HEALTH, damageOutput);
 	}
 
+	protected abstract int getHorizontalVelocity();
+
+	@Override
+	public void updatePosition() {
+		int horizontalVelocity = getHorizontalVelocity();
+		moveHorizontally(horizontalVelocity);
+	}
 
 }

@@ -1,4 +1,4 @@
-package com.example.demo.activeActors.projectiles.userProjectiles;
+package com.example.demo.activeActors.projectileTypes.userProjectiles;
 
 import com.example.demo.activeActors.Projectile;
 
@@ -14,10 +14,9 @@ public class UserProjectileT1 extends Projectile {
 		this.setScoreableFromCollision(true);
 	}
 
-	@Override
-	public void updatePosition() {
-		moveHorizontally(HORIZONTAL_VELOCITY);
-	}
+	protected int getHorizontalVelocity(){
+		return HORIZONTAL_VELOCITY;
+	};
 	
 	
 }

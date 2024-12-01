@@ -25,11 +25,18 @@ public abstract class LevelView {
 
 	
 	
-	public void removeHearts(int heartsRemaining) {
+	public void updateHearts(int heartsRemaining) {
 		int currentNumberOfHearts = heartDisplay.getContainer().getChildren().size();
-		for (int i = 0; i < currentNumberOfHearts - heartsRemaining; i++) {
-			heartDisplay.removeHeart();
+		if (currentNumberOfHearts < heartsRemaining) {
+			for (int i = 0; i < heartsRemaining - currentNumberOfHearts; i++) {
+				heartDisplay.addHeart();
+			}
+		} else if (currentNumberOfHearts > heartsRemaining) {
+			for (int i = 0; i < currentNumberOfHearts - heartsRemaining; i++) {
+				heartDisplay.removeHeart();
+			}
 		}
+		
 	}
 
 }

@@ -22,7 +22,15 @@ public class CollisionHandler {
 		listeners.add(listener);
 	}
 
-
+	public void handleAllBoundsAndCollisions() {
+		handleEnemyPenetration();
+		handleUserProjectileCollisions();
+		handleEnemyProjectileCollisions();
+		handlePlaneCollisions();
+		handleObjectsOutOfBounds();
+		handlePowerUpCollisions();
+	}
+	
 
 	public void handlePlaneCollisions() {
 		handleCollisions(activeActorManager.getFriendlyUnits(), activeActorManager.getEnemyUnits());
@@ -36,7 +44,9 @@ public class CollisionHandler {
 		handleCollisions(activeActorManager.getEnemyProjectiles(), activeActorManager.getFriendlyUnits());
 	}
 
-	
+	public void handlePowerUpCollisions() {
+		handleCollisions(activeActorManager.getPowerUps(), activeActorManager.getFriendlyUnits());
+	}
 
 	public void handleEnemyPenetration() {
 		for (ActiveActorDestructible enemy : activeActorManager.getEnemyUnits()) {
@@ -52,19 +62,22 @@ public class CollisionHandler {
 
 	//loops through all the projectiles generated, and checks if they are out of bounds
 	//if yes then flag them as destroyed for removal (removeDestroyedActors method will remove all destroyed objects)
-	public void handleProjectileOutOfBounds() {
+	public void handleObjectsOutOfBounds() {
 		for (ActiveActorDestructible projectile : activeActorManager.getUserProjectiles()) {
-			destroyOutofBoundsProjectile(projectile);
+			destroyOutofBoundsObjects(projectile);
 		};
 		for (ActiveActorDestructible projectile : activeActorManager.getEnemyProjectiles()) {
-			destroyOutofBoundsProjectile(projectile);
+			destroyOutofBoundsObjects(projectile);
+		};
+		for (ActiveActorDestructible powerUp : activeActorManager.getPowerUps()) {
+			destroyOutofBoundsObjects(powerUp);
 		};
 	}
 
 	//set projectile as destroyed if it is out of screen
-	private void destroyOutofBoundsProjectile(ActiveActorDestructible projectile) {
-		if (isOutOfScreen(projectile)) {
-			projectile.destroy();
+	private void destroyOutofBoundsObjects(ActiveActorDestructible objects) {
+		if (isOutOfScreen(objects)) {
+			objects.destroy();
 		}
 	}
 

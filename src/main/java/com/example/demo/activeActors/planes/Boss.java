@@ -4,7 +4,7 @@ import java.util.*;
 
 import com.example.demo.activeActors.ActiveActorDestructible;
 import com.example.demo.activeActors.FighterPlane;
-import com.example.demo.activeActors.projectiles.BossProjectile;
+import com.example.demo.activeActors.projectileTypes.BossProjectile;
 import com.example.demo.eventListeners.BossEventListener;
 
 

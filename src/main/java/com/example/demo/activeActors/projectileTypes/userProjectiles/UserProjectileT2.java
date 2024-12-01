@@ -1,11 +1,11 @@
-package com.example.demo.activeActors.projectiles.userProjectiles;
+package com.example.demo.activeActors.projectileTypes.userProjectiles;
 
 import com.example.demo.activeActors.Projectile;
 
 public class UserProjectileT2 extends Projectile {
 
 	private static final String IMAGE_NAME = "userfire2.png";
-	private static final int IMAGE_HEIGHT = 20;
+	private static final int IMAGE_HEIGHT = 15;
 	private static final int HORIZONTAL_VELOCITY = 15;
 	private static final int DAMAGE_OUTPUT = 2;
 
@@ -14,10 +14,9 @@ public class UserProjectileT2 extends Projectile {
 		this.setScoreableFromCollision(true);
 	}
 
-	@Override
-	public void updatePosition() {
-		moveHorizontally(HORIZONTAL_VELOCITY);
-	}
+	protected int getHorizontalVelocity(){
+		return HORIZONTAL_VELOCITY;
+	};
 	
 	
 }

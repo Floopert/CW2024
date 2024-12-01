@@ -5,7 +5,11 @@ import java.util.stream.Collectors;
 
 import com.example.demo.activeActors.ActiveActorDestructible;
 import com.example.demo.activeActors.FighterPlane;
+import com.example.demo.activeActors.planes.EnemyPlaneParent;
 import com.example.demo.activeActors.planes.UserPlane;
+import com.example.demo.activeActors.powerUpTypes.HeartUp;
+import com.example.demo.activeActors.powerUpTypes.ProjectileUp;
+import com.example.demo.eventListeners.DropsEventListener;
 import com.example.demo.eventListeners.InputEventListener;
 
 import javafx.scene.Group;
@@ -16,12 +20,13 @@ import javafx.scene.Group;
  * All addition and removals of active actors are done in this class.
  * This class also is in charge for all actions that need to be done on all active actors.
  */
-public class ActiveActorManager implements InputEventListener{
+public class ActiveActorManager implements InputEventListener, DropsEventListener{
     
 	private final List<ActiveActorDestructible> friendlyUnits;
 	private final List<ActiveActorDestructible> enemyUnits;
 	private final List<ActiveActorDestructible> userProjectiles;
 	private final List<ActiveActorDestructible> enemyProjectiles;
+	private final List<ActiveActorDestructible> powerUps;
 
     private final Group root;
 
@@ -36,6 +41,7 @@ public class ActiveActorManager implements InputEventListener{
         enemyUnits = new ArrayList<>();
         userProjectiles = new ArrayList<>();
         enemyProjectiles = new ArrayList<>();
+		powerUps = new ArrayList<>();
 
         this.root = root;
     }
@@ -61,6 +67,9 @@ public class ActiveActorManager implements InputEventListener{
         return enemyProjectiles;
     }
 
+	public List<ActiveActorDestructible> getPowerUps() {
+		return powerUps;
+	}
 
     //---------------------------------------------------------
     //-------------------------SETTERS-------------------------
@@ -74,8 +83,12 @@ public class ActiveActorManager implements InputEventListener{
 
 	public void addEnemyUnit(ActiveActorDestructible enemy) {
 		enemyUnits.add(enemy);
-		root.getChildren().add(enemy);
 
+		if (enemy instanceof EnemyPlaneParent) {
+			((EnemyPlaneParent) enemy).addEventListener(this);
+		}
+
+		root.getChildren().add(enemy);
 	}
 
     public void addUserProjectile(ActiveActorDestructible projectile){
@@ -94,8 +107,10 @@ public class ActiveActorManager implements InputEventListener{
 		}
 	}
 
-
-
+	public void addPowerUp(ActiveActorDestructible powerUp) {
+		this.powerUps.add(powerUp);
+		root.getChildren().add(powerUp);
+	}
 
 
 	//---------------------------------------------------------
@@ -107,6 +122,7 @@ public class ActiveActorManager implements InputEventListener{
 		enemyUnits.forEach(enemy -> enemy.updateActor());
 		userProjectiles.forEach(projectile -> projectile.updateActor());
 		enemyProjectiles.forEach(projectile -> projectile.updateActor());
+		powerUps.forEach(powerUp -> powerUp.updateActor());
 	}
 
 	@Override
@@ -124,6 +140,7 @@ public class ActiveActorManager implements InputEventListener{
 		removeDestroyedActors(enemyUnits);
 		removeDestroyedActors(userProjectiles);
 		removeDestroyedActors(enemyProjectiles);
+		removeDestroyedActors(powerUps);
 	}
 
 	private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
@@ -142,7 +159,25 @@ public class ActiveActorManager implements InputEventListener{
 		enemyUnits.clear();
 		userProjectiles.clear();
 		enemyProjectiles.clear();
+		powerUps.clear();
 		System.gc();
+	}
+
+
+
+	//---------------------------------------------------------
+	//functions to handle power up drops
+
+	@Override
+	public void spawnHeartPowerUp(double initialXPos, double initialYPos) {
+		ActiveActorDestructible powerUp = new HeartUp(initialXPos, initialYPos);
+		addPowerUp(powerUp);
+	}
+
+	@Override
+	public void spawnProjectilePowerUp(double initialXPos, double initialYPos) {
+		ActiveActorDestructible powerUp = new ProjectileUp(initialXPos, initialYPos);
+		addPowerUp(powerUp);
 	}
 
 }

@@ -150,11 +150,7 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 		spawnEnemyUnits();
 		activeActorManager.updateActors();
 		activeActorManager.generateEnemyFire();
-		collisionHandler.handleEnemyPenetration();
-		collisionHandler.handleUserProjectileCollisions();
-		collisionHandler.handleEnemyProjectileCollisions();
-		collisionHandler.handlePlaneCollisions();
-		collisionHandler.handleProjectileOutOfBounds();
+		collisionHandler.handleAllBoundsAndCollisions();
 		activeActorManager.removeAllDestroyedActors();
 		updateLevelView();
 		checkIfGameOver();
@@ -182,7 +178,7 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 
 
 	private void updateLevelView() {
-		levelView.removeHearts(user.getHealth());
+		levelView.updateHearts(user.getHealth());
 	}
 	
 
