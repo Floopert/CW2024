@@ -3,6 +3,9 @@ package com.example.demo.controller.fxmlPageControllers;
 
 import java.io.IOException;
 import com.example.demo.controller.FxmlController;
+import com.example.demo.levels.LevelOne;
+import com.example.demo.levels.LevelParent;
+
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
@@ -20,12 +23,18 @@ public class GameOverController extends FxmlController {
 
     @FXML
     private void restartLevel() throws IOException {
+
+        if(levelToReturn == LevelOne.class.getName()){
+            LevelParent.resetScore();
+        }
+
         mainController.changeLevel(null, levelToReturn);
     }
 
     @FXML
     private void goToMainMenu() {
         try{
+            LevelParent.resetScore();
             mainController.goToFXML(null, null, "menu");
         } catch (IOException e){
             e.printStackTrace();

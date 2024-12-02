@@ -2,6 +2,8 @@ package com.example.demo.controller.fxmlPageControllers;
 
 import java.io.IOException;
 import com.example.demo.controller.FxmlController;
+import com.example.demo.levels.LevelParent;
+
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
@@ -18,13 +20,14 @@ public class WinController extends FxmlController{
 
     @FXML
     private void replayGame() throws IOException {
-
+        LevelParent.resetScore();
         mainController.changeLevel(null, LEVEL_ONE_CLASS_NAME);
     }
 
     @FXML
     private void goToMainMenu() {
         try{
+            LevelParent.resetScore();
             mainController.goToFXML(null, null, "menu");
         } catch (IOException e){
             e.printStackTrace();

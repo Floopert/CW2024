@@ -29,6 +29,7 @@ public class PauseController extends FxmlController {
             myLevel.removeEventListener(mainController);
             myLevel.destroyInstance();
             
+            LevelParent.resetScore();
             mainController.goToFXML(null, null, "menu");
 
         } catch (Exception e){

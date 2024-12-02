@@ -112,7 +112,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     UserPlane.java: The user plane now has a new field projectileLevel to keep track of the level of projectile it currently has. An instance of UserProjectileFactory is added in this class, where it will handle the logic of which projectile type to use.
 
 
-### projectileUp powerup & addHealth powerup
+### projectileUp powerup & addHealth powerup [Commit: ac66b3e]
     Description: The game will now drop powerups after defeating an enemy plane (bosses do not drop powerup). Each different type of enemy plane has different drop probability for the projectileUp and addHealth powerup.
     Collecting the projectileUp powerup will upgrade the user plane's projectile damage and will change the projectile's appearance.
     Collecting the addHealth powerup will increase the user plane's current health.
@@ -136,7 +136,26 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelParent.java: In the updateLevelView() method, instead of calling the earlier removeHearts() method, it now calls the newly renamed updateHearts() method.
 
 
+### added scoreboard
+    Description: Scoreboard is added, the initial health of the enemy will determine the score value of each enemy.
 
+    ShieldImage.java: This class is moved to a new subfolder named effectsImages.
+
+    HeartDisplay.java | Scoreboard.java: A new subfolder named hud is created and these classes are put in here. 
+
+    FighterPlane.java: A new getScoreValue() method is added for other classes to get the score value of the plane if destroyed. The method declared here is a default implementation, if the subclasses do not override this, the default score value is 0. (for the special user plane case)
+
+    Boss.java | EnemyPlaneParent.java: These classes have the override of the getScoreValue() method to return the plane's initial health as the score value.
+
+    CollisionEventListener.java: The interface has an additional method updateScore() so that it will update the current score when the relevant event occurs.
+
+    CollisionHandler.java: Will trigger the updateScore() method when an enemy or boss plane gets destroyed.
+
+    LevelParent.java: The class now has a static field to keep track of the currentScore. updateScore() method is implemented here to update the Scoreboard HUD when triggered. getCurrentScore() method is added so that any subsequent levels could get the current score, allowing the score to carry over to levels. A public static method resetScore() is added so that the score could be reset where relevant.
+
+    GameOverController.java | PauseController.java | WinController.java: Called LevelParent.resetScore() static method where necessary to reset score.
+
+    LevelView.java: This class is renamed as LevelViewParent.java for better clarify that it handles all child LevelView.
 
 
 
@@ -152,11 +171,11 @@ Implemented but Not Working Properly:
 
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
-Features Not Implemented:
+Features Not Implemented: The features mentioned here were not implemented are due to insufficient time (unless stated otherwise).
 
-### add kill score in LevelOneLevelView.java
-### change frame rate of game
+### add waves left in LevelOneLevelView.java
 ### visual improvements (CSS styling) for the menu pages (Main Menu, Game Over, Win Game, Pause Game)
+
 
 
 
@@ -248,13 +267,20 @@ New Java Classes:
     -the main purpose of this class is to store relevant attributes to each specific powerup. E.g. image, image size, horizontal velocity etc.
 
 
-### Interface: DropsEventListener.java
+### Interface: DropsEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any power up spawns in the game triggered by EnemyPlaneParent.java.
     -allows the EnemyPlaneParent.java to inform ActiveActorManager.java to spawn the relevant power ups in the game (add to scene).
 
-### Interface: PowerUpEffectEventListener.java
+
+### Interface: PowerUpEffectEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any power ups picked up by the user plane.
     -allows the relevant powerUp classes (HeartUp or ProjectileUp) to notify the user plane to execute relevant power up effects.
+
+
+### Scoreboard.java (com.example.demo.imageObjects.hud)
+    -this class instantiates the scoreboard image so that it could be added to the scene in LevelViewParent.java
+    -it will also accept score updates
+
 
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -441,3 +467,10 @@ Unexpected Problems:
     -Started by checking all the generated resources such as projectiles and plane objects. See if they are constantly being generated implicitly. Found out that the projectiles were not being destroyed when out of screen. Fixed that logic but problem still persisted.
     -Then disabled the function to generate projectiles, to see if RAM still increasing. Found out that it did, so most likely was not due to generation of objects.
     -Then found out that the RAM was still increasing at boss level even after death (Game Over). Which was not possible since there should be a timeline.stop() after death. Which then led to a realization that the first level timeline was never stopped because timeline.stop() was never called when switching level. Resources was continouously being taken due to a redundant timeline being run on the background. Added timeline.stop() before going to next level, problem solved.
+
+
+### How best to structure and convey the Readme.md info
+    -Changes are constantly made for the classes, some classes are even renamed and broken up
+    -It would be hard to list down the Modified Java Classes in a one-to-one comparison with the original class.
+    -So instead, all changes are listed down in a chronological order (in the order of commit).
+    -But it still gets a bit messy since some old comments in the Readme.md might not be relevant anymore in the newer updates, but will forget that such a comment existed previously.

@@ -5,10 +5,11 @@ import com.example.demo.eventListeners.DropsEventListener;
 
 public abstract class EnemyPlaneParent extends FighterPlane{
     
-
+	private final int SCORE_VALUE;
 
     public EnemyPlaneParent(String imageName, int imageHeight, double initialXPos, double initialYPos, int health, int damageOutput) {
 		super(imageName, imageHeight, initialXPos, initialYPos, health, damageOutput);
+		SCORE_VALUE = health;
 	}
 
     public abstract void addEventListener(DropsEventListener listener);
@@ -45,6 +46,11 @@ public abstract class EnemyPlaneParent extends FighterPlane{
 			double currentY = this.getLayoutY() + this.getTranslateY();
 			dropsEventListener.spawnProjectilePowerUp(currentX, currentY);
 		}
+	}
+
+	@Override
+	public int getScoreValue() {
+		return SCORE_VALUE;
 	}
 
 }

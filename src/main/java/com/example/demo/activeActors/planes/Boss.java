@@ -145,4 +145,9 @@ public class Boss extends FighterPlane {
 
 	}
 
+	@Override
+	public int getScoreValue() {
+		return HEALTH;
+	}
+
 }

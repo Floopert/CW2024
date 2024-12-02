@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.activeActors.ActiveActorDestructible;
+import com.example.demo.activeActors.FighterPlane;
 import com.example.demo.eventListeners.CollisionEventListener;
 
 public class CollisionHandler {
@@ -102,7 +103,15 @@ public class CollisionHandler {
 					
 					if( ( actor.canScoreFromCollision() || otherActor.canScoreFromCollision() ) && actor.isDestroyed() && otherActor.isDestroyed() ) {
 						for (CollisionEventListener listener : listeners) {
-                            listener.updateKillCount();
+                            int score;
+							if (actor instanceof FighterPlane){
+								score = ((FighterPlane) actor).getScoreValue();
+							} else {
+								score = ((FighterPlane) otherActor).getScoreValue();
+							}
+
+							listener.updateKillCount();
+							listener.updateScore(score);
                         }
 					}
 

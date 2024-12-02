@@ -12,7 +12,7 @@ import com.example.demo.eventListeners.CollisionEventListener;
 import com.example.demo.eventListeners.InputEventListener;
 import com.example.demo.eventListeners.LevelEventListener;
 import com.example.demo.handlers.*;
-import com.example.demo.levelViews.LevelView;
+import com.example.demo.levelViews.LevelViewParent;
 
 /**
  * LevelParent class
@@ -31,13 +31,14 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 	private final UserPlane user;
 	private final Scene scene;
 	protected ImageView background;
-	protected LevelView levelView;
+	protected LevelViewParent levelView;
 	private final String CURRENT_LEVEL;
 
 	protected ActiveActorManager activeActorManager;
 	private InputHandler inputHandler;
 	private CollisionHandler collisionHandler;
 	
+	private static int currentScore = 0;
 	private int killCount = 0;
 
 	private LevelEventListener eventListener;
@@ -134,7 +135,7 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 
 	private void showForegroundImages() {
 		//displays general graphics relevant for all levels
-		levelView.showHeartDisplay();
+		levelView.showHud();
 		//displays level specific images
 		levelView.addImagesToRoot();
 	}
@@ -249,6 +250,12 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 		killCount++;
 	}
 
+	@Override
+	public void updateScore(int score){
+		currentScore += score;
+		levelView.updateScore(currentScore);
+	}
+
 
 	protected int getKillCount() {
 		return killCount;
@@ -259,6 +266,13 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 		return activeActorManager.getEnemyUnits().size();
 	}
 
+	protected int getCurrentScore() {
+		return currentScore;
+	}
+
+	public static void resetScore(){
+		currentScore = 0;
+	}
 
 
 	//--------------------------------------------------

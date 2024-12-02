@@ -1,4 +1,4 @@
-package com.example.demo.imageObjects;
+package com.example.demo.imageObjects.effectsImages;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

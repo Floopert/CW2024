@@ -1,16 +1,16 @@
 package com.example.demo.levelViews;
 
-import com.example.demo.imageObjects.ShieldImage;
+import com.example.demo.imageObjects.effectsImages.ShieldImage;
 
 import javafx.scene.Group;
 
-public class LevelViewLevelTwo extends LevelView {
+public class LevelViewLevelTwo extends LevelViewParent {
 
 	private final Group root;
 	private ShieldImage shieldImage;
 	
-	public LevelViewLevelTwo(Group root, int heartsToDisplay) {
-		super(root, heartsToDisplay);
+	public LevelViewLevelTwo(Group root, int heartsToDisplay, int score) {
+		super(root, heartsToDisplay, score);
 		this.root = root;
 	}
 	
