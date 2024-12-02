@@ -8,7 +8,7 @@ public abstract class LevelViewParent {
 	
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 25;
-	private static final double SCOREBOARD_X_POSITION = 500;
+	private static final double SCOREBOARD_X_POSITION = 550;
 	private static final double SCOREBOARD_Y_POSITION = 25;
 	private final Group root;
 	private final HeartDisplay heartDisplay;

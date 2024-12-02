@@ -136,6 +136,9 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelParent.java: In the updateLevelView() method, instead of calling the earlier removeHearts() method, it now calls the newly renamed updateHearts() method.
 
 
+### the user plane can only add up to a max of 10 hearts (or can set to any other amount depending on settings in code)
+
+
 ### added scoreboard [Commit: eb7494d]
     Description: Scoreboard is added, the initial health of the enemy will determine the score value of each enemy.
 

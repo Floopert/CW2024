@@ -9,6 +9,7 @@ public class UserPlane extends FighterPlane implements PowerUpEffectEventListene
 
 	private static final String IMAGE_NAME = "userplane.png";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
+	private static final int PLAYER_MAX_HEALTH = 10;
 	private static final int DAMAGE_OUTPUT = -1;
 	private static final double X_LOWER_BOUND = 0;
 	private static final double X_UPPER_BOUND = 1125.0;
@@ -121,7 +122,9 @@ public class UserPlane extends FighterPlane implements PowerUpEffectEventListene
 
 	@Override
 	public void heartPowerUpEffect() {
-		health++;
+		if (health < PLAYER_MAX_HEALTH) {
+			health++;
+		}
 	}
 
 	@Override
