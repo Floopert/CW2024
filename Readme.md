@@ -136,7 +136,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelParent.java: In the updateLevelView() method, instead of calling the earlier removeHearts() method, it now calls the newly renamed updateHearts() method.
 
 
-### the user plane can only add up to a max of 10 hearts (or can set to any other amount depending on settings in code)
+### the user plane can only add up to a max of 10 hearts (or can set to any other amount depending on settings in code) [Commit: f9722dc]
 
 
 ### added scoreboard [Commit: eb7494d]
@@ -161,7 +161,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelView.java: This class is renamed as LevelViewParent.java for better clarify that it handles all child LevelView.
 
 
-### normal level's completion condition changed
+### normal level's completion condition changed [Commit: 5224eb0]
     Description: The completion condition for normal levels such as LevelOne was previously to reach a certain amount of kills (e.g. 10 kills to proceed to next level). Now it is changed so that the level will only spawn a specific number of enemy planes (known as wave size). Once all waves have been spawned and destroyed (can be destroyed by any method, but only destruction by user projectile will increase score), then will move to next level.
 
     LevelParent.java: updateKillCount() & getKillCount() methods are deleted. killCount field is also deleted.
@@ -173,6 +173,12 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelOne.java: removed TOTAL_ENEMIES & KILLS_TO_ADVANCE constant. Removed userHasReachedKillTarget() method. Added waveHasEnded() & allEnemiesKilled() methods. waveHasEnded() will check if the wave size left has reached 0. allEnemiesKilled() will check if all spawned enemies have been destroyed.
     spawnEnemyUnits() method is amended to keep spawning enemy as long as waveHasEnded() returns false AND the spawn probability is fulfilled.
     checkIfGameOver() method is amended to go to next level only if both waveHasEnded() & allEnemiesKilled() returns true.
+
+
+### added wave count remaining for relevant levels
+    Description: A counter displaying the wave count remaining for basic levels such as LevelOne is added. Boss levels do not have such wave count since it's not applicable.
+
+    LevelViewLevelOne.java: The waves remaining display is added in this class and the method call to add to scene is also defined here. A method updateWavesLeft() is also added to update the display if called.
 
 
 
@@ -297,6 +303,11 @@ New Java Classes:
 ### Scoreboard.java (com.example.demo.imageObjects.hud)
     -this class instantiates the scoreboard image so that it could be added to the scene in LevelViewParent.java
     -it will also accept score updates
+
+
+### WavesLeftDisplay.java (com.example.demo.imageObjects.hud)
+    -this class instantiates the waves left image so that it could be added to the scene in LevelViewParent.java
+    -it will also accept updates on the wave count remaining
 
 
 

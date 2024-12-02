@@ -64,8 +64,12 @@ public class LevelOne extends LevelParent {
 				waveSize--;
 			}
 		}
+		updateWavesRemaining(waveSize + getCurrentNumberOfEnemies());
 	}
 
+	private void updateWavesRemaining(int wavesRemaining) {
+		((LevelViewLevelOne)super.levelView).updateWavesLeft(wavesRemaining);
+	}
 
 	private boolean waveHasEnded() {
 		return waveSize == 0;
@@ -78,7 +82,7 @@ public class LevelOne extends LevelParent {
 	@Override
 	protected void instantiateLevelView(){
 		//reference to levelView is stored in super class to access methods that are generated the same for all levels
-		super.levelView = new LevelViewLevelOne(getRoot(), getUser().getHealth(), getCurrentScore());
+		super.levelView = new LevelViewLevelOne(getRoot(), getUser().getHealth(), getCurrentScore(), waveSize);
 	};
 
 }
