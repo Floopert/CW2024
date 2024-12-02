@@ -136,7 +136,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelParent.java: In the updateLevelView() method, instead of calling the earlier removeHearts() method, it now calls the newly renamed updateHearts() method.
 
 
-### added scoreboard
+### added scoreboard [Commit: eb7494d]
     Description: Scoreboard is added, the initial health of the enemy will determine the score value of each enemy.
 
     ShieldImage.java: This class is moved to a new subfolder named effectsImages.
@@ -156,6 +156,9 @@ The corresponding commit ID is also included at each feature for ease of referen
     GameOverController.java | PauseController.java | WinController.java: Called LevelParent.resetScore() static method where necessary to reset score.
 
     LevelView.java: This class is renamed as LevelViewParent.java for better clarify that it handles all child LevelView.
+
+
+### 
 
 
 
@@ -245,7 +248,7 @@ New Java Classes:
     -depending on which index of the list is called, this class will handle the instantiation of the corresponding projectile type and return it to the user plane.
 
 
-### UserProjectileT2.java | UserProjectileT<x>.java (com.example.demo.projectileTypes.userProjectiles)
+### UserProjectileT2.java | UserProjectileT3.java | UserProjectileT4.java | UserProjectileT<x>.java (com.example.demo.projectileTypes.userProjectiles)
     -UserProjectileT<x>.java is the generic class name for the type of user projectile (for example UserProjectileT1.java)
     -this is a class of another type of UserProjectile.
     -the previous UserProjectile.java is also renamed to UserProjectileT1.java and is the first level of user projectile.

@@ -15,7 +15,9 @@ public class UserProjectileFactory {
     private final List<String> projectileClassNames = new ArrayList<String>(
         Arrays.asList(
             UserProjectileT1.class.getName(),
-            UserProjectileT2.class.getName()
+            UserProjectileT2.class.getName(),
+            UserProjectileT3.class.getName(),
+            UserProjectileT4.class.getName()
         )
     );
     
