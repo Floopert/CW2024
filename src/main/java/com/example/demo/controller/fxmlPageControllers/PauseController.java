@@ -1,5 +1,6 @@
 package com.example.demo.controller.fxmlPageControllers;
 
+import com.example.demo.activeActors.planes.UserPlane;
 import com.example.demo.controller.FxmlController;
 import com.example.demo.levels.LevelParent;
 import javafx.fxml.FXML;
@@ -26,6 +27,7 @@ public class PauseController extends FxmlController {
         try{
             LevelParent myLevel = mainController.getLevelInstance(levelToReturn);
             
+            UserPlane.getInstance().destroyInstance();
             myLevel.removeEventListener(mainController);
             myLevel.destroyInstance();
             

@@ -16,9 +16,8 @@ public class LevelOne extends LevelParent {
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
 	private static final String CURRENT_LEVEL = LevelOne.class.getName();
 	private static final String NEXT_LEVEL = LevelTwo.class.getName();
-	private static final int TOTAL_ENEMIES = 5;
-	private static final int KILLS_TO_ADVANCE = 10;
-	private static final double ENEMY_SPAWN_PROBABILITY = .20;
+	private int waveSize = 10;
+	private static final double ENEMY_SPAWN_PROBABILITY = 0.05;
 
 
 
@@ -48,7 +47,7 @@ public class LevelOne extends LevelParent {
 		if (userIsDestroyed()) {
 			loseGame();
 		}
-		else if (userHasReachedKillTarget()){
+		else if (waveHasEnded() && allEnemiesKilled()){
 			goToNextLevel(NEXT_LEVEL);
 		}
 			
@@ -57,19 +56,23 @@ public class LevelOne extends LevelParent {
 
 	@Override
 	protected void spawnEnemyUnits() {
-		int currentNumberOfEnemies = getCurrentNumberOfEnemies();
-		for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
+		if(!waveHasEnded()){
 			if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
 				double newEnemyInitialYPosition = (Math.random() * (FighterPlane.Y_LOWER_BOUND - FighterPlane.Y_UPPER_BOUND))+FighterPlane.Y_UPPER_BOUND;
 				ActiveActorDestructible newEnemy = new EnemyPlaneT1(getScreenWidth(), newEnemyInitialYPosition);
 				activeActorManager.addEnemyUnit(newEnemy);
+				waveSize--;
 			}
 		}
 	}
 
 
-	private boolean userHasReachedKillTarget() {
-		return getKillCount() >= KILLS_TO_ADVANCE;
+	private boolean waveHasEnded() {
+		return waveSize == 0;
+	}
+
+	private boolean allEnemiesKilled(){
+		return getCurrentNumberOfEnemies() == 0;
 	}
 
 	@Override

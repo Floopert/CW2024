@@ -158,7 +158,18 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelView.java: This class is renamed as LevelViewParent.java for better clarify that it handles all child LevelView.
 
 
-### 
+### normal level's completion condition changed
+    Description: The completion condition for normal levels such as LevelOne was previously to reach a certain amount of kills (e.g. 10 kills to proceed to next level). Now it is changed so that the level will only spawn a specific number of enemy planes (known as wave size). Once all waves have been spawned and destroyed (can be destroyed by any method, but only destruction by user projectile will increase score), then will move to next level.
+
+    LevelParent.java: updateKillCount() & getKillCount() methods are deleted. killCount field is also deleted.
+
+    CollisionEventListener.java: updateKillCount() method deleted.
+
+    CollisionHandler.java: Killing an enemy plane no longer calls updateKillCount() interface method.
+
+    LevelOne.java: removed TOTAL_ENEMIES & KILLS_TO_ADVANCE constant. Removed userHasReachedKillTarget() method. Added waveHasEnded() & allEnemiesKilled() methods. waveHasEnded() will check if the wave size left has reached 0. allEnemiesKilled() will check if all spawned enemies have been destroyed.
+    spawnEnemyUnits() method is amended to keep spawning enemy as long as waveHasEnded() returns false AND the spawn probability is fulfilled.
+    checkIfGameOver() method is amended to go to next level only if both waveHasEnded() & allEnemiesKilled() returns true.
 
 
 

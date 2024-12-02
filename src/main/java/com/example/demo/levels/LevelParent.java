@@ -39,7 +39,6 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 	private CollisionHandler collisionHandler;
 	
 	private static int currentScore = 0;
-	private int killCount = 0;
 
 	private LevelEventListener eventListener;
 
@@ -246,20 +245,11 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 
 
 	@Override
-	public void updateKillCount() {
-		killCount++;
-	}
-
-	@Override
 	public void updateScore(int score){
 		currentScore += score;
 		levelView.updateScore(currentScore);
 	}
 
-
-	protected int getKillCount() {
-		return killCount;
-	}
 
 
 	protected int getCurrentNumberOfEnemies() {
