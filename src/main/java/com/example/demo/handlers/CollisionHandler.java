@@ -120,7 +120,7 @@ public class CollisionHandler {
 
 
 	public boolean isOutOfScreen(ActiveActorDestructible actor) {
-		return actor.getLayoutX() + actor.getTranslateX() > screenWidth + actor.getBoundsInParent().getWidth() || actor.getLayoutX() + actor.getTranslateX() < 0 - actor.getBoundsInParent().getWidth();
+		return actor.getLayoutX() + actor.getTranslateX() > screenWidth + actor.getBoundsInParent().getWidth() || actor.getLayoutX() + actor.getTranslateX() < -actor.getBoundsInParent().getWidth();
 	}
 
 

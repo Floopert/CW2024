@@ -6,7 +6,6 @@ module com.example.demo {
     //might need this if using JavaFX properties
     //requires javafx.base;
 
-    //opens com.example.demo.controller to javafx.fxml;
     opens com.example.demo.controller.fxmlPageControllers to javafx.fxml;
     exports com.example.demo;
     
