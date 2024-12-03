@@ -3,6 +3,7 @@ package com.example.demo.levels;
 import com.example.demo.activeActors.planes.Boss;
 import com.example.demo.eventListeners.BossEventListener;
 import com.example.demo.levelViews.LevelViewLevelTwo;
+import com.example.demo.levels.waveLevels.LevelThree;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,6 +12,7 @@ public class LevelTwo extends LevelParent implements BossEventListener{
 
 	private static LevelTwo instance;
 	private static final String CURRENT_LEVEL = LevelTwo.class.getName();
+	private static final String NEXT_LEVEL = LevelThree.class.getName();
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
 	private final Boss boss;
 
@@ -45,7 +47,7 @@ public class LevelTwo extends LevelParent implements BossEventListener{
 			loseGame();
 		}
 		else if (boss.isDestroyed()) {
-			winGame();
+			goToNextLevel(NEXT_LEVEL);
 		}
 	}
 

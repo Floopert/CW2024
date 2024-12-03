@@ -3,8 +3,8 @@ package com.example.demo.controller.fxmlPageControllers;
 
 import java.io.IOException;
 import com.example.demo.controller.FxmlController;
-import com.example.demo.levels.LevelOne;
 import com.example.demo.levels.LevelParent;
+import com.example.demo.levels.waveLevels.LevelOne;
 
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;

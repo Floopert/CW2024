@@ -1,15 +1,16 @@
-package com.example.demo.levels;
+package com.example.demo.levels.waveLevels;
 
 
 import com.example.demo.activeActors.ActiveActorDestructible;
 import com.example.demo.activeActors.FighterPlane;
 import com.example.demo.activeActors.planes.enemyPlanes.EnemyPlaneT1;
-import com.example.demo.levelViews.LevelViewLevelOne;
+import com.example.demo.levels.LevelTwo;
+import com.example.demo.levels.WaveLevel;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class LevelOne extends LevelParent {
+public class LevelOne extends WaveLevel {
 	
 	private static LevelOne instance;
 
@@ -20,10 +21,8 @@ public class LevelOne extends LevelParent {
 	private static final double ENEMY_SPAWN_PROBABILITY = 0.05;
 
 
-
-
 	private LevelOne(double screenHeight, double screenWidth) {
-		super(screenHeight, screenWidth, CURRENT_LEVEL);
+		super(screenHeight, screenWidth, CURRENT_LEVEL, NEXT_LEVEL);
 
 		//background is declared in super class, but since it is different for each level, it is initialized here
 		background = new ImageView(new Image(getClass().getResource(BACKGROUND_IMAGE_NAME).toExternalForm()));
@@ -41,19 +40,6 @@ public class LevelOne extends LevelParent {
 	}
 
 
-
-	@Override
-	protected void checkIfGameOver() {
-		if (userIsDestroyed()) {
-			loseGame();
-		}
-		else if (waveHasEnded() && allEnemiesKilled()){
-			goToNextLevel(NEXT_LEVEL);
-		}
-			
-	}
-
-
 	@Override
 	protected void spawnEnemyUnits() {
 		if(!waveHasEnded()){
@@ -67,22 +53,16 @@ public class LevelOne extends LevelParent {
 		updateWavesRemaining(waveSize + getCurrentNumberOfEnemies());
 	}
 
-	private void updateWavesRemaining(int wavesRemaining) {
-		((LevelViewLevelOne)super.levelView).updateWavesLeft(wavesRemaining);
-	}
+	
 
-	private boolean waveHasEnded() {
+	@Override
+	protected boolean waveHasEnded() {
 		return waveSize == 0;
 	}
 
-	private boolean allEnemiesKilled(){
-		return getCurrentNumberOfEnemies() == 0;
-	}
-
 	@Override
-	protected void instantiateLevelView(){
-		//reference to levelView is stored in super class to access methods that are generated the same for all levels
-		super.levelView = new LevelViewLevelOne(getRoot(), getUser().getHealth(), getCurrentScore(), waveSize);
-	};
+	protected int getWaveSize() {
+		return waveSize;
+	}
 
 }

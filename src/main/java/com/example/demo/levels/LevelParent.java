@@ -39,6 +39,7 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 	private CollisionHandler collisionHandler;
 	
 	private static int currentScore = 0;
+	private static int initialScore = 0;
 
 	private LevelEventListener eventListener;
 
@@ -62,7 +63,7 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 	 * @param playerInitialHealth
 	 */
 	public LevelParent(double screenHeight, double screenWidth, String currentLevel) {
-		
+		LevelParent.currentScore = LevelParent.initialScore;
 		this.CURRENT_LEVEL = currentLevel;
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
@@ -208,6 +209,7 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 
 
 	public void goToNextLevel(String levelName) {
+		LevelParent.initialScore = LevelParent.currentScore;
 		timeline.stop();
 		timeline.getKeyFrames().clear();
 
@@ -261,7 +263,7 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 	}
 
 	public static void resetScore(){
-		currentScore = 0;
+		initialScore = 0;
 	}
 
 

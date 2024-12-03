@@ -175,11 +175,23 @@ The corresponding commit ID is also included at each feature for ease of referen
     checkIfGameOver() method is amended to go to next level only if both waveHasEnded() & allEnemiesKilled() returns true.
 
 
-### added wave count remaining for relevant levels
+### added wave count remaining for relevant levels [Commit: cc82acf]
     Description: A counter displaying the wave count remaining for basic levels such as LevelOne is added. Boss levels do not have such wave count since it's not applicable.
 
     LevelViewLevelOne.java: The waves remaining display is added in this class and the method call to add to scene is also defined here. A method updateWavesLeft() is also added to update the display if called.
 
+
+### added LevelThree
+    Description: A new level three is added. The clear condition is similar to LevelOne whereby the player has to destroy all the planes depending on the wave count.
+    The level differs whereby it will spawn different enemies, they will spawn enemy planes from LevelOne and an additional stronger enemy which will take 3 damage to destroy. The new enemy will also fire a projectile that will deal more damage to the player. If the stronger enemy penetrates defences, it will also cause more damage.
+
+    WaveLevel.java: This is a new class broken up from LevelOne.java that has similar methods from both LevelOne.java and LevelThree.java. This class is the new super class of LevelOne.java and LevelThree.java. It is also a subclass of LevelParent.java.
+
+    LevelOne.java: allEnemiesKilled(), instantiateLevelView() & updateWavesRemaining() methods are moved up to the superclass (WaveLevel.java).
+
+    LevelThree.java: similar to LevelOne.java, only has different property values such as what enemies to spawn, wave size etc.
+
+    LevelViewLevelOne.java: Renamed to LevelViewWaveLevel.java since it is now a generic LevelView for all wave based levels.
 
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -196,7 +208,11 @@ Implemented but Not Working Properly:
 # ----------------------------------------------------------------------------------------------------------------
 Features Not Implemented: The features mentioned here were not implemented are due to insufficient time (unless stated otherwise).
 
-### add waves left in LevelOneLevelView.java
+### add LevelManager class to store the array of levels
+    -the class would store an array of levels' class name, which would be in the order at which they should be progressed.
+    -this way, in each level's class, don't have to specify what the next level would be
+    -every time we move to a new level, just increment the index to go to next element in the array which would have the next level's class name
+
 ### visual improvements (CSS styling) for the menu pages (Main Menu, Game Over, Win Game, Pause Game)
 
 
@@ -280,6 +296,12 @@ New Java Classes:
     -when enemy planes have to be spawned, they are spawned from one of these classes.
 
 
+### EnemyProjectileT2.java | EnemyProjectileT3.java | EnemyProjectileT<x>.java (com.example.demo.activeActors.projectileTypes.enemyProjectile)
+    -EnemyProjectileT<x>.java is the generic class name for the type of enemy projectile (for example EnemyProjectileT1.java)
+    -this is a subclass of Projectile.java where it will store information of the projectile's property e.g. image, damage output, velocity etc.
+    -different enemy planes can fire different projectile based on which of these class is used.
+
+
 ### PowerUp.java (com.example.demo.activeActors)
     -this is a subclass of ActiveActorDestructible.java and is the parent class of all classes within com.example.demo.activeActors.powerUpTypes.
     -since all power ups will only have one health and should not deal any damage back to user when collision occurs, these attributes are set in this PowerUp.java parent class so that all subclasses would inherit this attribute.
@@ -309,6 +331,18 @@ New Java Classes:
     -this class instantiates the waves left image so that it could be added to the scene in LevelViewParent.java
     -it will also accept updates on the wave count remaining
 
+
+### WaveLevel.java (com.example.demo.levels)
+    -it is the super class of LevelOne, LevelThree & LevelFour which are wave based levels
+    -the class will have all methods that are common in LevelOne, LevelThree & LevelFour classes.
+
+### LevelThree.java | LevelFour.java (com.example.demo.levels.waveLevels)
+    -extention of additional levels
+    -the levels' completion condition is also clearing all the waves
+
+### LevelFive.java (com.example.demo.levels)
+    -extention of additional levels
+    -the level's completion condition is destroying the boss
 
 
 # ----------------------------------------------------------------------------------------------------------------
