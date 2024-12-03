@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.example.demo.activeActors.ActiveActorDestructible;
 import com.example.demo.activeActors.FighterPlane;
+import com.example.demo.activeActors.planes.movePatternLogic.RandomYMovePattern;
 import com.example.demo.activeActors.projectileTypes.BossProjectile;
 import com.example.demo.eventListeners.BossEventListener;
 
@@ -22,26 +23,21 @@ public class Boss extends FighterPlane {
 	private static final int HEALTH = 100;
 	private static final int DAMAGE_OUTPUT = HEALTH;
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
-	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
 	private static final int Y_LOWER_BOUND_ADJUSTMENT = 50;
 	private static final int MAX_FRAMES_WITH_SHIELD = 100;
-	private final List<Integer> movePattern;
 	private boolean isShielded;
-	private int consecutiveMovesInSameDirection;
-	private int indexOfCurrentMove;
 	private int framesWithShieldActivated;
+	private RandomYMovePattern movePattern;
 
 	private List<BossEventListener> listeners = new ArrayList<BossEventListener>();
 
 	public Boss() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH, DAMAGE_OUTPUT);
-		movePattern = new ArrayList<>();
-		consecutiveMovesInSameDirection = 0;
-		indexOfCurrentMove = 0;
+		movePattern = new RandomYMovePattern(MOVE_FREQUENCY_PER_CYCLE, MAX_FRAMES_WITH_SAME_MOVE, VERTICAL_VELOCITY);
+		movePattern.initializeMovePattern();
 		framesWithShieldActivated = 0;
 		isShielded = false;
-		initializeMovePattern();
 	}
 
 	
@@ -51,12 +47,10 @@ public class Boss extends FighterPlane {
 	}
 
 
-
-
 	@Override
 	public void updatePosition() {
 		double initialTranslateY = this.getTranslateY();
-		moveVertically(getNextMove());
+		moveVertically(movePattern.getNextMove());
 		double currentYPosition = this.getLayoutY() + this.getTranslateY();
 		if (currentYPosition < FighterPlane.Y_UPPER_BOUND || currentYPosition > FighterPlane.Y_LOWER_BOUND-Y_LOWER_BOUND_ADJUSTMENT) {
 			this.setTranslateY(initialTranslateY);
@@ -87,33 +81,10 @@ public class Boss extends FighterPlane {
 		}
 	}
 
-	private void initializeMovePattern() {
-		for (int i = 0; i < MOVE_FREQUENCY_PER_CYCLE; i++) {
-			movePattern.add(VERTICAL_VELOCITY);
-			movePattern.add(-VERTICAL_VELOCITY);
-			movePattern.add(ZERO);
-		}
-		Collections.shuffle(movePattern);
-	}
-
 	private void updateShield() {
 		if (isShielded) framesWithShieldActivated++;
 		else if (shieldShouldBeActivated()) activateShield();	
 		if (shieldExhausted()) deactivateShield();
-	}
-
-	private int getNextMove() {
-		int currentMove = movePattern.get(indexOfCurrentMove);
-		consecutiveMovesInSameDirection++;
-		if (consecutiveMovesInSameDirection == MAX_FRAMES_WITH_SAME_MOVE) {
-			Collections.shuffle(movePattern);
-			consecutiveMovesInSameDirection = 0;
-			indexOfCurrentMove++;
-		}
-		if (indexOfCurrentMove == movePattern.size()) {
-			indexOfCurrentMove = 0;
-		}
-		return currentMove;
 	}
 
 	private boolean bossFiresInCurrentFrame() {

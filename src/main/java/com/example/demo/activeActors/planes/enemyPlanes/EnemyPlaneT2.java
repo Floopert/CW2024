@@ -14,10 +14,10 @@ public class EnemyPlaneT2 extends EnemyPlaneParent {
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 25.0;
 	private static final int INITIAL_HEALTH = 3;
 	private static final int DAMAGE_OUTPUT = INITIAL_HEALTH;
-	private static final double FIRE_RATE = .01;
+	private static final double FIRE_RATE = .007;
 
 	private static final double heartDropRate = 0.25;
-	private static final double projectileUpDropRate = 0.18;
+	private static final double projectileUpDropRate = 0.25;
 
 	private DropsEventListener dropsEventListener;
 

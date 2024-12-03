@@ -181,7 +181,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelViewLevelOne.java: The waves remaining display is added in this class and the method call to add to scene is also defined here. A method updateWavesLeft() is also added to update the display if called.
 
 
-### added LevelThree
+### added LevelThree [Commit: 2ee4280]
     Description: A new level three is added. The clear condition is similar to LevelOne whereby the player has to destroy all the planes depending on the wave count.
     The level differs whereby it will spawn different enemies, they will spawn enemy planes from LevelOne and an additional stronger enemy which will take 3 damage to destroy. The new enemy will also fire a projectile that will deal more damage to the player. If the stronger enemy penetrates defences, it will also cause more damage.
 
@@ -192,6 +192,11 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelThree.java: similar to LevelOne.java, only has different property values such as what enemies to spawn, wave size etc.
 
     LevelViewLevelOne.java: Renamed to LevelViewWaveLevel.java since it is now a generic LevelView for all wave based levels.
+
+
+### added LevelFour
+    Description: New level added. Clear condition is also destroying all the planes based on wave count. The level will spawn even stronger enemies compared to Level Three. This new enemy also has the random Y movement logic and can move vertically as well. Damage output of the new enemy is also more.
+
 
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -290,7 +295,7 @@ New Java Classes:
     -the previous UserProjectile.java is also renamed to UserProjectileT1.java and is the first level of user projectile.
 
 
-### EnemyPlaneT1.java | EnemyPlaneT2.java | EnemyPlaneT<x>.java (com.example.demo.activeActors.planes.enemyPlanes)
+### EnemyPlaneT1.java | EnemyPlaneT2.java | EnemyPlaneT3.java | EnemyPlaneT<x>.java (com.example.demo.activeActors.planes.enemyPlanes)
     -EnemyPlaneT<x>.java is the generic class name for the type of enemy (for example EnemyPlaneT1.java)
     -this is a subclass of EnemyPlane.java. the subclass will store information of the specific type of enemy e.g. image, type of projectile to fire, health, plane collision damage & powerUp drop rates.
     -when enemy planes have to be spawned, they are spawned from one of these classes.
@@ -336,13 +341,21 @@ New Java Classes:
     -it is the super class of LevelOne, LevelThree & LevelFour which are wave based levels
     -the class will have all methods that are common in LevelOne, LevelThree & LevelFour classes.
 
+
 ### LevelThree.java | LevelFour.java (com.example.demo.levels.waveLevels)
     -extention of additional levels
     -the levels' completion condition is also clearing all the waves
 
+
 ### LevelFive.java (com.example.demo.levels)
     -extention of additional levels
     -the level's completion condition is destroying the boss
+
+
+### RandomYMovePattern.java (com.example.demo.activeActors.planes.movePatternLogic)
+    -this is a class broken up from Boss.java
+    -this class contains the logic for random Y movement
+    -classes such as Boss.java and EnemyPlaneT3.java will create an object of this class to initialize the random move pattern and then also to get the next move to update the plane's position
 
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -519,6 +532,13 @@ The order of the list is in ascending order of commits, with the top being the e
 
 ### EnemyProjectileT1.java [REFACTOR]
     Objective: To rename the EnemyProjectile to EnemyProjectileT1 so that other variations of EnemyProjectile would follow the naming convention EnemyProjectileT<x>.java. This is to allow for the extension whereby different enemy planes could fire different projectiles with different damage and appearance.
+
+
+### Boss.java [REFACTOR]
+    Objective: To break up the logic for initializing getting the random Y axis movement for position update. This is to break up the responsibility of the class, and also the code logic could be reused in other plane classes.
+
+    -initializeMovePattern() & getNextMove() methods are moved to a new class called RandomYMovePattern.java.
+    -an object of RandomYMovePattern.java is created in this class instead, and in the updatePosition() method, the getNextMove() from the new class is called instead.
 
 
 # ----------------------------------------------------------------------------------------------------------------
