@@ -1,37 +1,36 @@
 package com.example.demo.levels;
 
-import com.example.demo.activeActors.planes.bossPlanes.BossT1;
+import com.example.demo.activeActors.planes.bossPlanes.BossT2;
 import com.example.demo.eventListeners.BossEventListener;
 import com.example.demo.levelViews.LevelViewLevelTwo;
-import com.example.demo.levels.waveLevels.LevelThree;
+
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class LevelTwo extends LevelParent implements BossEventListener{
+public class LevelFive extends LevelParent implements BossEventListener{
 
-	private static LevelTwo instance;
-	private static final String CURRENT_LEVEL = LevelTwo.class.getName();
-	private static final String NEXT_LEVEL = LevelThree.class.getName();
-	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
-	private final BossT1 boss;
+	private static LevelFive instance;
+	private static final String CURRENT_LEVEL = LevelFive.class.getName();
+	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background5.jpg";
+	private final BossT2 boss;
 
 	private LevelViewLevelTwo levelView;
 
-	private LevelTwo(double screenHeight, double screenWidth) {
+	private LevelFive(double screenHeight, double screenWidth) {
 		super(screenHeight, screenWidth, CURRENT_LEVEL);
 
 		//background is declared in super class, but since it is different for each level, it is initialized here
 		background = new ImageView(new Image(getClass().getResource(BACKGROUND_IMAGE_NAME).toExternalForm()));
 
-		boss = new BossT1();
+		boss = new BossT2();
 		boss.addEventListener(this);
 
 	}
 
-	public static LevelTwo getInstance(double screenHeight, double screenWidth) {
+	public static LevelFive getInstance(double screenHeight, double screenWidth) {
 		if (instance == null) {
-			instance = new LevelTwo(screenHeight, screenWidth);
+			instance = new LevelFive(screenHeight, screenWidth);
 		}
 		return instance;
 	}
@@ -47,7 +46,7 @@ public class LevelTwo extends LevelParent implements BossEventListener{
 			loseGame();
 		}
 		else if (boss.isDestroyed()) {
-			goToNextLevel(NEXT_LEVEL);
+			winGame();
 		}
 	}
 

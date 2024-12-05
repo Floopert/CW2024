@@ -194,9 +194,12 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelViewLevelOne.java: Renamed to LevelViewWaveLevel.java since it is now a generic LevelView for all wave based levels.
 
 
-### added LevelFour
+### added LevelFour [Commit: 82c726b]
     Description: New level added. Clear condition is also destroying all the planes based on wave count. The level will spawn even stronger enemies compared to Level Three. This new enemy also has the random Y movement logic and can move vertically as well. Damage output of the new enemy is also more.
 
+
+### added LevelFive
+    Description: New level added. Clear condition is to destroy the boss. The boss in this level has similar Y-axis random movement but the projectile fired by it is stronger. The shield ability is maintained. Also, a new ability to shoot a missle (at a lower rate than the normal projectile) is added. The missle is slightly slower and smaller than the normal projectile but its damage is a lot higher.
 
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -305,6 +308,21 @@ New Java Classes:
     -EnemyProjectileT<x>.java is the generic class name for the type of enemy projectile (for example EnemyProjectileT1.java)
     -this is a subclass of Projectile.java where it will store information of the projectile's property e.g. image, damage output, velocity etc.
     -different enemy planes can fire different projectile based on which of these class is used.
+
+
+### BossT2.java (com.example.demo.activeActors.planes.bossPlanes)
+    -A new type of boss with additional behavior. Boss planes do not have a general Boss super class because the boss behavior should be different for different bosses. Such as the type of movement or the type of projectile it will fire, condition of fire etc.
+    -Instead, different classes that stores components of boss abilities are made, and are included in the Boss classes where relevant e.g. ShieldAbility or the new MissleAbility.
+    -The old Boss.java is renamed to BossT1.java
+
+
+### ShieldAbility.java | MissleAbility.java (com.example.demo.activeActors.planes.bossPlanes.bossAbilities)
+    -These classes stores attributes and methods for different abilities that could be used by boss planes.
+
+
+### BossProjectileT2.java | BossMissleProjectile.java (com.example.demo.activeActors.projectileTypes.bossProjectiles)
+    -new types of projectiles for boss planes
+    -the class stores attributes of the projectiles such as damage output, image etc.
 
 
 ### PowerUp.java (com.example.demo.activeActors)

@@ -6,6 +6,7 @@ import com.example.demo.activeActors.FighterPlane;
 import com.example.demo.activeActors.planes.enemyPlanes.EnemyPlaneT3;
 import com.example.demo.activeActors.planes.enemyPlanes.EnemyPlaneT2;
 import com.example.demo.levels.WaveLevel;
+import com.example.demo.levels.*;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,7 +17,7 @@ public class LevelFour extends WaveLevel {
 
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background4.jpg";
 	private static final String CURRENT_LEVEL = LevelFour.class.getName();
-	private static final String NEXT_LEVEL = LevelFour.class.getName();
+	private static final String NEXT_LEVEL = LevelFive.class.getName();
 	private int waveSize = 40;
 	private static final double T3_ENEMY_SPAWN_PROBABILITY = 0.03;
 	private static final double T2_ENEMY_SPAWN_PROBABILITY = 0.05;
