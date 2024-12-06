@@ -7,8 +7,8 @@ import com.example.demo.activeActors.projectileTypes.bossProjectiles.BossMissleP
  */
 public class MissleAbility {
     
-    private boolean shouldFire;
     private final double FIRE_PROBABILITY;
+    private boolean shouldFire;
 
     /**
      * Constructs a new MissleAbility with the specified fire probability.
