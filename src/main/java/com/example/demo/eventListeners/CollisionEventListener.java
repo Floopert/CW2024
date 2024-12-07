@@ -13,10 +13,10 @@ public interface CollisionEventListener {
     void userDamaged(int damage);
 
     /**
-     * Called to update the score.
+     * Called to increase the score.
      *
      * @param score the amount to update the score by
      */
-    void updateScore(int score);
+    void addScore(int score);
     
 }

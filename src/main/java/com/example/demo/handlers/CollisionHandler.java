@@ -138,7 +138,7 @@ public class CollisionHandler {
                             } else {
                                 score = ((FighterPlane) otherActor).getScoreValue();
                             }
-                            listener.updateScore(score);
+                            listener.addScore(score);
                         }
                     }
                 }
