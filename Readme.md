@@ -241,10 +241,16 @@
 #### ----------------------------------------------------------------------------------------------------------------
 # New Java Classes:
 
-#### LevelViewLevelOne.java (com.example.demo.levelViews)
-    -a subclass of LevelView, since LevelView is made into an abstract class, all levels will inherit from it to create a concrete class so that objects could be instantiated
-    -LevelView will only handle adding and removing general images from the scene. General images means images that are applicable throughout all levels such as hearts, win image and game over image.
-    -subclasses of LevelView such as LevelViewLevelOne will define other images to add to scene that are applicable only to that level.
+#### LevelViewWaveLevel.java (com.example.demo.levelViews)
+    -a subclass of LevelViewParent, since LevelViewParent is made into an abstract class, all levels will inherit from it to create a concrete class so that objects could be instantiated
+    -LevelViewParent will only handle adding and removing general images from the scene. General images means images that are applicable throughout all levels such as hearts, win image and game over image.
+    -subclasses of LevelViewParent such as LevelViewWaveLevel will define other images to add to scene that are applicable only to that level. In the case of LevelViewWaveLevel, it will add the 'waves left' display
+
+
+#### LevelViewLevelFive.java (com.example.demo.levelViews)
+    -a subclass of LevelViewParent.java
+    -displays images that are not included in the general LevelViewParent class. In this case, it is coincidentally still same as LevelViewLevelTwo because it only also has a shield to render.
+    -the initial idea for such a class structure design was to also include other effects but since time is limited, it is not added
 
 
 #### Interface: BossEventListener.java (com.example.demo.eventListeners)
