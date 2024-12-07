@@ -1,20 +1,23 @@
-GitHub: https://github.com/Floopert/CW2024.git
+# GitHub: https://github.com/Floopert/CW2024.git
+
+
+
+#### ----------------------------------------------------------------------------------------------------------------
+#### ----------------------------------------------------------------------------------------------------------------
+# Compilation Instructions:
+No special instructions, just run Main.java
+
+
+
 
 
 
 # ----------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------
-Compilation Instructions: No special instructions, just run Main.java
-
-
-
-
-
-
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
-Implemented and Working Properly: This section only lists additional features/extensions and fine tuning works. Bug fixes or refactoring works are described in 'Modified Java Classes' section below.
+# Implemented and Working Properly:
+This section only lists additional features/extensions and fine tuning works. Bug fixes or refactoring works are described in 'Modified Java Classes' section below.
 The corresponding commit ID is also included at each feature for ease of reference regarding code changes to implement each feature.
+
 
 ### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely. [Commit: 6258a12]
 
@@ -198,7 +201,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     Description: New level added. Clear condition is also destroying all the planes based on wave count. The level will spawn even stronger enemies compared to Level Three. This new enemy also has the random Y movement logic and can move vertically as well. Damage output of the new enemy is also more.
 
 
-### added LevelFive
+### added LevelFive [Commit: c1e9a7c]
     Description: New level added. Clear condition is to destroy the boss. The boss in this level has similar Y-axis random movement but the projectile fired by it is stronger. The shield ability is maintained. Also, a new ability to shoot a missle (at a lower rate than the normal projectile) is added. The missle is slightly slower and smaller than the normal projectile but its damage is a lot higher.
 
 
@@ -206,7 +209,11 @@ The corresponding commit ID is also included at each feature for ease of referen
 # ----------------------------------------------------------------------------------------------------------------
 Implemented but Not Working Properly:
 
-
+### hitboxes are more tightly wrapped around the actual image but not accurate enough
+    -the hitboxes originally were very huge, the excess background were cropped to make them more tightly wrapped around the actual image
+    -but since the hitbox was still square, the corners still do not act as an accurate hitbox. E.g. if the user looks like they will barely scrape by, a collision is still registered because they hit the corners of the image that is not made visible on the scene
+    -it was stated that to make it more accurate, the only way is to make our own custom boundary but that is more effort than its worth therefore time was not invested to implement this
+    -other game engines such as Unity usually already have a well made pre-built method to create a custom boundary (usually polygon shaped) based on the image's shape
 
 
 
@@ -220,6 +227,7 @@ Features Not Implemented: The features mentioned here were not implemented are d
     -the class would store an array of levels' class name, which would be in the order at which they should be progressed.
     -this way, in each level's class, don't have to specify what the next level would be
     -every time we move to a new level, just increment the index to go to next element in the array which would have the next level's class name
+
 
 ### visual improvements (CSS styling) for the menu pages (Main Menu, Game Over, Win Game, Pause Game)
 
