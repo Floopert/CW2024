@@ -258,7 +258,7 @@ public abstract class LevelParent implements CollisionEventListener, InputEventL
 		return activeActorManager.getEnemyUnits().size();
 	}
 
-	protected int getCurrentScore() {
+	public static int getCurrentScore() {
 		return currentScore;
 	}
 

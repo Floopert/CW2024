@@ -5,47 +5,47 @@
 #### ----------------------------------------------------------------------------------------------------------------
 #### ----------------------------------------------------------------------------------------------------------------
 # Compilation Instructions:
-No special instructions, just run Main.java
+    No special instructions, just run Main.java
 
 
 
 
 
 
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
+#### ----------------------------------------------------------------------------------------------------------------
+#### ----------------------------------------------------------------------------------------------------------------
 # Implemented and Working Properly:
-This section only lists additional features/extensions and fine tuning works. Bug fixes or refactoring works are described in 'Modified Java Classes' section below.
-The corresponding commit ID is also included at each feature for ease of reference regarding code changes to implement each feature.
+    This section only lists additional features/extensions and fine tuning works. Bug fixes or refactoring works are described in 'Modified Java Classes' section below.
+    The corresponding commit ID is also included at each feature for ease of reference regarding code changes to implement each feature.
 
 
-### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely. [Commit: 6258a12]
+#### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely. [Commit: 6258a12]
 
 
-### fine tuned so that only kills from user projectiles will add to the kill score for progression of next level. [Commit: 6258a12]
+#### fine tuned so that only kills from user projectiles will add to the kill score for progression of next level. [Commit: 6258a12]
     Description: Collision between user plane with enemy plane OR enemy plane reaching end of screen now only deducts life, but score does not increase. E.g. the kill score required to progress from level one to two is 10. If user projectile destroyed 6 planes, user plane collided with 2 planes, 2 enemy planes reached the left edge of screen, total kill score is still only 6 and user cannot progress to level two yet. However, 4 lives will already have been deducted.
 
 
-### fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. [Commit: 5653dea]
+#### fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. [Commit: 5653dea]
     Description: The initial hitbox from the original was too huge due to redundant white spaces in png image. Scale and x,y position of all images are also adjusted to match the newly modified images.
 
 
-### user plane can now move left and right as well. [Commit: 3ea6455]
+#### user plane can now move left and right as well. [Commit: 3ea6455]
 
 
-### shield follows the boss' position instead of being static. [Commit: 861f25e]
+#### shield follows the boss' position instead of being static. [Commit: 861f25e]
 
 
-### added FXML main menu page. The game now will start with a main menu where users can choose to click 'Play' to proceed to Level 1, or click 'Exit' to close the application. [Commit: 0c808d3]
+#### added FXML main menu page. The game now will start with a main menu where users can choose to click 'Play' to proceed to Level 1, or click 'Exit' to close the application. [Commit: 0c808d3]
     Description: Since loading FXML pages are slightly different from loading a level directly, a separate function was created to handle the creation of FXML pages.
 
     -Controller.java: added goToFXML() and loadFXML() methods. The loadFXML() method will load the respective FXML file, and then the scene is created and set using the goToFXML() method. The goToFXML() method functions similarly to the goToLevel() method in the class but for FXML files instead. The launchGame() method now loads the main menu FXML first instead of Level 1.
 
 
-### fine tuned so that the planes (User and Enemy) can never go above the hearts display or any graphcs displayed at the top of the level screen. [Commit: 6f8de6a]
+#### fine tuned so that the planes (User and Enemy) can never go above the hearts display or any graphcs displayed at the top of the level screen. [Commit: 6f8de6a]
 
 
-### added FXML game over page. [Commit: 27f6d9c]
+#### added FXML game over page. [Commit: 27f6d9c]
     Description: Keeps track of which level did the user lost. If the user chooses to retry, the user will restart at the level that they died on. E.g. if the user died during Level Two, they can retry and start from Level Two again.
     Alternatively, they can choose to go back to main menu and start from Level One all over again.
 
@@ -58,7 +58,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     -LevelOne.java | LevelTwo.java: Added a new constant CURRENT_LEVEL that stores the class' class path and passes it to the parent's constructor.
 
 
-### added pause function. [Commit: 1f78c87]
+#### added pause function. [Commit: 1f78c87]
     Description: The game can now pause by pressing 'Escape'. In the pause menu, users can either choose to resume the game or go to main menu. If the user chooses to go to main menu, they will have to start from Level 1 again.
 
     -Controller.java: Broke up some lines from the goToLevel() method into a new method called getLevelInstance(). This method will allow the FXML controllers to get the instance of an active level. During a pause, the scene is changed but level instance is not destroyed yet because the user may choose to resume. But if the user chooses to go back to main menu, the instance should be destroyed so that if they click play again it may be reset. So an instance of the level needs to be retrieved when user chooses to go to main menu to destroy the instance.
@@ -71,13 +71,13 @@ The corresponding commit ID is also included at each feature for ease of referen
     -LevelParent.java: The class now also implements InputEventListener so that it could react to the pause game action when an 'Escape' key is pressed. Added new getScene() method so that a temporarily paused screen could return its former scene and resume from where it stopped. pauseGame() method is added to pause the timeline and switch to the pause FXML page. resumeGame() method is added to resume the timeline if user chooses to resume from a pause.
 
 
-### added win game FXML page. [Commit: 2ac0177]
-    Description: Upon winning the last level, a win game screen will be shown where user can choose to play again from Level 1 or go back to main menu.
+#### added win game FXML page. [Commit: 2ac0177]
+    Description: Upon winning the last level, a win game screen will be shown where user can choose to play again from Level 1 or go back to main menu. The page will also show the final score after winning the game.
 
     -LevelParent.java: The winGame() method now switches the scene to the win.fxml instead of just displaying the win image.
 
 
-### going to next level no longer resets user's health [Commit: 0da2c1e]
+#### going to next level no longer resets user's health [Commit: 0da2c1e]
     Description: If user takes damage in a level, when progressing to next level, the user will only have the remaining health from last level. For example, if the user completes level 1 with 3 health remaining, the user starts level 2 with only 3 health.
     But if the user dies in any level and replays the level, health is reset to default. For example, even if the user starts level 2 with only 3 health, if the user dies and replays at level 2, the user will start with the default of 5 health.
     
@@ -90,7 +90,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     -LevelOne.java | LevelTwo.java: removed PLAYER_INITIAL_HEALTH constant from these classes since the health is set in the UserPlane class now.
 
 
-### projectiles can have different damage output. Different planes (different types of enemy plane and boss) can inflict different damage when the enemy plane object itself collides with user's plane. [Commit: 19d7fcf]
+#### projectiles can have different damage output. Different planes (different types of enemy plane and boss) can inflict different damage when the enemy plane object itself collides with user's plane. [Commit: 19d7fcf]
     Description: Projectiles such as user projectile, boss projectile etc now have a DAMAGE_OUTPUT constant that will determine the damage taken by the plane objects if collision occurs.
     Each planes have their own DAMAGE_OUTPUT constant as well, in upper levels, other plane types will be created where they will deal more than 1 damage if user plane collides with those planes head on.
 
@@ -107,7 +107,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     CollisionHandler.java | LevelParent.java: The takeDamage() methods called in these classes are amended accordingly to fit the new takeDamage() method parameters.
 
 
-### user plane's projectile can now be upgraded and will shoot different projectiles. [Commit: 38e29a3]
+#### user plane's projectile can now be upgraded and will shoot different projectiles. [Commit: 38e29a3]
     Description: By picking up powerups, user plane's projectile can be upgraded to deal more damage. To achieve this functionality, additional classes UserProjectileFactory.java & UserProjectileT2.java is created. The brief description of these classes is done at the New Java Classes section below.
 
     UserProjectile.java: This class is now renamed to UserProjectileT1.java
@@ -115,7 +115,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     UserPlane.java: The user plane now has a new field projectileLevel to keep track of the level of projectile it currently has. An instance of UserProjectileFactory is added in this class, where it will handle the logic of which projectile type to use.
 
 
-### projectileUp powerup & addHealth powerup [Commit: ac66b3e]
+#### projectileUp powerup & addHealth powerup [Commit: ac66b3e]
     Description: The game will now drop powerups after defeating an enemy plane (bosses do not drop powerup). Each different type of enemy plane has different drop probability for the projectileUp and addHealth powerup.
     Collecting the projectileUp powerup will upgrade the user plane's projectile damage and will change the projectile's appearance.
     Collecting the addHealth powerup will increase the user plane's current health.
@@ -139,10 +139,10 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelParent.java: In the updateLevelView() method, instead of calling the earlier removeHearts() method, it now calls the newly renamed updateHearts() method.
 
 
-### the user plane can only add up to a max of 10 hearts (or can set to any other amount depending on settings in code) [Commit: f9722dc]
+#### the user plane can only add up to a max of 10 hearts (or can set to any other amount depending on settings in code) [Commit: f9722dc]
 
 
-### added scoreboard [Commit: eb7494d]
+#### added scoreboard [Commit: eb7494d]
     Description: Scoreboard is added, the initial health of the enemy will determine the score value of each enemy.
 
     ShieldImage.java: This class is moved to a new subfolder named effectsImages.
@@ -164,7 +164,7 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelView.java: This class is renamed as LevelViewParent.java for better clarify that it handles all child LevelView.
 
 
-### normal level's completion condition changed [Commit: 5224eb0]
+#### normal level's completion condition changed [Commit: 5224eb0]
     Description: The completion condition for normal levels such as LevelOne was previously to reach a certain amount of kills (e.g. 10 kills to proceed to next level). Now it is changed so that the level will only spawn a specific number of enemy planes (known as wave size). Once all waves have been spawned and destroyed (can be destroyed by any method, but only destruction by user projectile will increase score), then will move to next level.
 
     LevelParent.java: updateKillCount() & getKillCount() methods are deleted. killCount field is also deleted.
@@ -178,13 +178,13 @@ The corresponding commit ID is also included at each feature for ease of referen
     checkIfGameOver() method is amended to go to next level only if both waveHasEnded() & allEnemiesKilled() returns true.
 
 
-### added wave count remaining for relevant levels [Commit: cc82acf]
+#### added wave count remaining for relevant levels [Commit: cc82acf]
     Description: A counter displaying the wave count remaining for basic levels such as LevelOne is added. Boss levels do not have such wave count since it's not applicable.
 
     LevelViewLevelOne.java: The waves remaining display is added in this class and the method call to add to scene is also defined here. A method updateWavesLeft() is also added to update the display if called.
 
 
-### added LevelThree [Commit: 2ee4280]
+#### added LevelThree [Commit: 2ee4280]
     Description: A new level three is added. The clear condition is similar to LevelOne whereby the player has to destroy all the planes depending on the wave count.
     The level differs whereby it will spawn different enemies, they will spawn enemy planes from LevelOne and an additional stronger enemy which will take 3 damage to destroy. The new enemy will also fire a projectile that will deal more damage to the player. If the stronger enemy penetrates defences, it will also cause more damage.
 
@@ -197,19 +197,19 @@ The corresponding commit ID is also included at each feature for ease of referen
     LevelViewLevelOne.java: Renamed to LevelViewWaveLevel.java since it is now a generic LevelView for all wave based levels.
 
 
-### added LevelFour [Commit: 82c726b]
+#### added LevelFour [Commit: 82c726b]
     Description: New level added. Clear condition is also destroying all the planes based on wave count. The level will spawn even stronger enemies compared to Level Three. This new enemy also has the random Y movement logic and can move vertically as well. Damage output of the new enemy is also more.
 
 
-### added LevelFive [Commit: c1e9a7c]
+#### added LevelFive [Commit: c1e9a7c]
     Description: New level added. Clear condition is to destroy the boss. The boss in this level has similar Y-axis random movement but the projectile fired by it is stronger. The shield ability is maintained. Also, a new ability to shoot a missle (at a lower rate than the normal projectile) is added. The missle is slightly slower and smaller than the normal projectile but its damage is a lot higher.
 
 
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
-Implemented but Not Working Properly:
+#### ----------------------------------------------------------------------------------------------------------------
+#### ----------------------------------------------------------------------------------------------------------------
+# Implemented but Not Working Properly:
 
-### hitboxes are more tightly wrapped around the actual image but not accurate enough
+#### hitboxes are more tightly wrapped around the actual image but not accurate enough
     -the hitboxes originally were very huge, the excess background were cropped to make them more tightly wrapped around the actual image
     -but since the hitbox was still square, the corners still do not act as an accurate hitbox. E.g. if the user looks like they will barely scrape by, a collision is still registered because they hit the corners of the image that is not made visible on the scene
     -it was stated that to make it more accurate, the only way is to make our own custom boundary but that is more effort than its worth therefore time was not invested to implement this
@@ -219,17 +219,17 @@ Implemented but Not Working Properly:
 
 
 
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
-Features Not Implemented: The features mentioned here were not implemented are due to insufficient time (unless stated otherwise).
+#### ----------------------------------------------------------------------------------------------------------------
+#### ----------------------------------------------------------------------------------------------------------------
+# Features Not Implemented: The features mentioned here were not implemented are due to insufficient time (unless stated otherwise).
 
-### add LevelManager class to store the array of levels
+#### add LevelManager class to store the array of levels
     -the class would store an array of levels' class name, which would be in the order at which they should be progressed.
     -this way, in each level's class, don't have to specify what the next level would be
     -every time we move to a new level, just increment the index to go to next element in the array which would have the next level's class name
 
 
-### visual improvements (CSS styling) for the menu pages (Main Menu, Game Over, Win Game, Pause Game)
+#### visual improvements (CSS styling) for the menu pages (Main Menu, Game Over, Win Game, Pause Game)
 
 
 
@@ -237,176 +237,177 @@ Features Not Implemented: The features mentioned here were not implemented are d
 
 
 
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
-New Java Classes:
+#### ----------------------------------------------------------------------------------------------------------------
+#### ----------------------------------------------------------------------------------------------------------------
+# New Java Classes:
 
-### LevelViewLevelOne.java (com.example.demo.levelViews)
+#### LevelViewLevelOne.java (com.example.demo.levelViews)
     -a subclass of LevelView, since LevelView is made into an abstract class, all levels will inherit from it to create a concrete class so that objects could be instantiated
     -LevelView will only handle adding and removing general images from the scene. General images means images that are applicable throughout all levels such as hearts, win image and game over image.
     -subclasses of LevelView such as LevelViewLevelOne will define other images to add to scene that are applicable only to that level.
 
 
-### Interface: BossEventListener.java (com.example.demo.eventListeners)
+#### Interface: BossEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any events triggered by the Boss plane.
     -when boss' shield is activated or deactivated, the events are handled by this interface and appropriate actions are taken by its registered listeners
 
 
-### ActiveActorManager.java (com.example.demo.handlers)
+#### ActiveActorManager.java (com.example.demo.handlers)
     -stores all instantiated game characters (ActiveActorDestructible objects).
     -manages all game character objects in a level (gets and sets the list of ActiveActorDestructible e.g. friendlyUnits, enemyUnits etc)
     -handles all frame updates of the game characters
 
 
-### InputHandler.java (com.example.demo.handlers)
+#### InputHandler.java (com.example.demo.handlers)
     -takes the ImageView object passed into it during instantiation and setting that ImageView as the receiver of user input.
     -this class also handles user input.
 
 
-### Interface: InputEventListener.java (com.example.demo.eventListeners)
+#### Interface: InputEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any relevant input received by InputHandler.java class.
     -e.g. user presses 'space bar' will trigger fireProjectile() in ActiveActorManager class.
 
 
-### CollisionHandler.java (com.example.demo.handlers)
+#### CollisionHandler.java (com.example.demo.handlers)
     -this class handles all the logic to check if a collision had occurred, and if yes, which object had collided.
     -this class also checks for collision with the screen edge (to see if object has left the scene).
     -this class has listeners subscribed to it so if any relevant collision event occurs, the relevant classes will be notified to give proper reaction.
 
 
-### Interface: CollisionEventListener.java (com.example.demo.eventListeners)
+#### Interface: CollisionEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any relevant collision events triggered by CollisionHandler.java class.
     -e.g. user projectile collides and destroys enemy plane will trigger updateKillCount().
 
 
-### Interface: LevelEventListener.java (com.example.demo.eventListeners)
+#### Interface: LevelEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any level changing events triggered by LevelParent.java class.
     -allows LevelParent.java to inform the Controller.java class to switch levels
 
 
-### FxmlController.java (com.example.demo.controller)
+#### FxmlController.java (com.example.demo.controller)
     -the parent class for all FXML pages.
     -the main purpose of this class is to pass the Controller.java object reference to the FXML controllers so that it can change the scene to playable levels.
     -the initial idea was to inherit directly from the Controller.java class, but since that is made a singleton, it is not possible to inherit from it (due to private access modifier of the constructor).
 
 
-### MenuController.java | GameOverController.java | PauseController.java | WinController.java (com.example.demo.controller.fxmlPageControllers)
+#### MenuController.java | GameOverController.java | PauseController.java | WinController.java (com.example.demo.controller.fxmlPageControllers)
     -the controllers for the FXML page
     -all logic for the buttons in the FXML pages are handled in their respective controllers.
 
 
-### UserProjectileFactory.java (com.example.demo.projectileTypes)
+#### UserProjectileFactory.java (com.example.demo.projectileTypes)
     -the class stores a list of all the user projectile types available in the game.
     -depending on which index of the list is called, this class will handle the instantiation of the corresponding projectile type and return it to the user plane.
 
 
-### UserProjectileT2.java | UserProjectileT3.java | UserProjectileT4.java | UserProjectileT<x>.java (com.example.demo.projectileTypes.userProjectiles)
+#### UserProjectileT2.java | UserProjectileT3.java | UserProjectileT4.java | UserProjectileT<x>.java (com.example.demo.projectileTypes.userProjectiles)
     -UserProjectileT<x>.java is the generic class name for the type of user projectile (for example UserProjectileT1.java)
     -this is a class of another type of UserProjectile.
     -the previous UserProjectile.java is also renamed to UserProjectileT1.java and is the first level of user projectile.
 
 
-### EnemyPlaneT1.java | EnemyPlaneT2.java | EnemyPlaneT3.java | EnemyPlaneT<x>.java (com.example.demo.activeActors.planes.enemyPlanes)
+#### EnemyPlaneT1.java | EnemyPlaneT2.java | EnemyPlaneT3.java | EnemyPlaneT<x>.java (com.example.demo.activeActors.planes.enemyPlanes)
     -EnemyPlaneT<x>.java is the generic class name for the type of enemy (for example EnemyPlaneT1.java)
     -this is a subclass of EnemyPlane.java. the subclass will store information of the specific type of enemy e.g. image, type of projectile to fire, health, plane collision damage & powerUp drop rates.
     -when enemy planes have to be spawned, they are spawned from one of these classes.
 
 
-### EnemyProjectileT2.java | EnemyProjectileT3.java | EnemyProjectileT<x>.java (com.example.demo.activeActors.projectileTypes.enemyProjectile)
+#### EnemyProjectileT2.java | EnemyProjectileT3.java | EnemyProjectileT<x>.java (com.example.demo.activeActors.projectileTypes.enemyProjectile)
     -EnemyProjectileT<x>.java is the generic class name for the type of enemy projectile (for example EnemyProjectileT1.java)
     -this is a subclass of Projectile.java where it will store information of the projectile's property e.g. image, damage output, velocity etc.
     -different enemy planes can fire different projectile based on which of these class is used.
 
 
-### BossT2.java (com.example.demo.activeActors.planes.bossPlanes)
+#### BossT2.java (com.example.demo.activeActors.planes.bossPlanes)
     -A new type of boss with additional behavior. Boss planes do not have a general Boss super class because the boss behavior should be different for different bosses. Such as the type of movement or the type of projectile it will fire, condition of fire etc.
     -Instead, different classes that stores components of boss abilities are made, and are included in the Boss classes where relevant e.g. ShieldAbility or the new MissleAbility.
     -The old Boss.java is renamed to BossT1.java
 
 
-### ShieldAbility.java | MissleAbility.java (com.example.demo.activeActors.planes.bossPlanes.bossAbilities)
+#### ShieldAbility.java | MissleAbility.java (com.example.demo.activeActors.planes.bossPlanes.bossAbilities)
     -These classes stores attributes and methods for different abilities that could be used by boss planes.
 
 
-### BossProjectileT2.java | BossMissleProjectile.java (com.example.demo.activeActors.projectileTypes.bossProjectiles)
+#### BossProjectileT2.java | BossMissleProjectile.java (com.example.demo.activeActors.projectileTypes.bossProjectiles)
     -new types of projectiles for boss planes
     -the class stores attributes of the projectiles such as damage output, image etc.
 
 
-### PowerUp.java (com.example.demo.activeActors)
+#### PowerUp.java (com.example.demo.activeActors)
     -this is a subclass of ActiveActorDestructible.java and is the parent class of all classes within com.example.demo.activeActors.powerUpTypes.
     -since all power ups will only have one health and should not deal any damage back to user when collision occurs, these attributes are set in this PowerUp.java parent class so that all subclasses would inherit this attribute.
 
 
-### ProjectileUp.java | HeartUp.java (com.example.demo.activeActors.powerUpTypes)
+#### ProjectileUp.java | HeartUp.java (com.example.demo.activeActors.powerUpTypes)
     -is a child class of PowerUp.java.
     -the main purpose of this class is to store relevant attributes to each specific powerup. E.g. image, image size, horizontal velocity etc.
 
 
-### Interface: DropsEventListener.java (com.example.demo.eventListeners)
+#### Interface: DropsEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any power up spawns in the game triggered by EnemyPlaneParent.java.
     -allows the EnemyPlaneParent.java to inform ActiveActorManager.java to spawn the relevant power ups in the game (add to scene).
 
 
-### Interface: PowerUpEffectEventListener.java (com.example.demo.eventListeners)
+#### Interface: PowerUpEffectEventListener.java (com.example.demo.eventListeners)
     -acts as the event listener interface for any power ups picked up by the user plane.
     -allows the relevant powerUp classes (HeartUp or ProjectileUp) to notify the user plane to execute relevant power up effects.
 
 
-### Scoreboard.java (com.example.demo.imageObjects.hud)
+#### Scoreboard.java (com.example.demo.imageObjects.hud)
     -this class instantiates the scoreboard image so that it could be added to the scene in LevelViewParent.java
     -it will also accept score updates
 
 
-### WavesLeftDisplay.java (com.example.demo.imageObjects.hud)
+#### WavesLeftDisplay.java (com.example.demo.imageObjects.hud)
     -this class instantiates the waves left image so that it could be added to the scene in LevelViewParent.java
     -it will also accept updates on the wave count remaining
 
 
-### WaveLevel.java (com.example.demo.levels)
+#### WaveLevel.java (com.example.demo.levels)
     -it is the super class of LevelOne, LevelThree & LevelFour which are wave based levels
     -the class will have all methods that are common in LevelOne, LevelThree & LevelFour classes.
 
 
-### LevelThree.java | LevelFour.java (com.example.demo.levels.waveLevels)
+#### LevelThree.java | LevelFour.java (com.example.demo.levels.waveLevels)
     -extention of additional levels
     -the levels' completion condition is also clearing all the waves
 
 
-### LevelFive.java (com.example.demo.levels)
+#### LevelFive.java (com.example.demo.levels)
     -extention of additional levels
     -the level's completion condition is destroying the boss
 
 
-### RandomYMovePattern.java (com.example.demo.activeActors.planes.movePatternLogic)
+#### RandomYMovePattern.java (com.example.demo.activeActors.planes.movePatternLogic)
     -this is a class broken up from Boss.java
     -this class contains the logic for random Y movement
     -classes such as Boss.java and EnemyPlaneT3.java will create an object of this class to initialize the random move pattern and then also to get the next move to update the plane's position
 
 
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
+#### ----------------------------------------------------------------------------------------------------------------
+#### ----------------------------------------------------------------------------------------------------------------
 
-Modified Java Classes: This section shall only include modifications to classes due to bug fix or refactoring. Any code modification/addition for feature extension or fine tuning is not mentioned here, the nature of the extended feature or fine tuning is briefly described in the 'Implemented and Working Properly' section above.
-Each paragraph in this section may lump several classes together, to signify that they were modified together in one commit, to complete a single bug fix or as one refactoring job. Paragraphs may mention similar class again, but for different bug fix or refactoring job.
-The order of the list is in ascending order of commits, with the top being the earliest commit.
+# Modified Java Classes:
+    This section shall only include modifications to classes due to bug fix or refactoring. Any code modification/addition for feature extension or fine tuning is not mentioned here, the nature of the extended feature or fine tuning is briefly described in the 'Implemented and Working Properly' section above.
+    Each paragraph in this section may lump several classes together, to signify that they were modified together in one commit, to complete a single bug fix or as one refactoring job. Paragraphs may mention similar class again, but for different bug fix or refactoring job.
+    The order of the list is in ascending order of commits, with the top being the earliest commit.
 
 
-### ShieldImage.java [BUG FIX]
+#### ShieldImage.java [BUG FIX]
     Objective: To fix a bug where an alert window errors pops up just after 
 
     -amended path stored in IMAGE_NAME constant. amended so that the constant stores the correct path to the image and can be used
     -in the setImage() method, removed the String passed in the method and replaced with the IMAGE_NAME constant. the string had to be replaced because it is pointing to a wrong file name, and placing a constant instead of a raw String provides better code readability.
 
 
-### Controller.java [BUG FIX]
+#### Controller.java [BUG FIX]
     Objective: To fix a bug that freezes when game changes between levels and ends up taking a lot of RAM
 
     -when calling goToLevel() method in the launchGame() method, wrapped the goToLevel() method in a try-catch block and added a printStackTrace for any caught errors. This change makes for easier debugging when an error occurs.
     -in the update() method, the old level is removed from the Observer List with the line arg0.deleteObserver(). The controller will not listen to any events happening from the old level anymore when it's switching to a new level.
 
 
-### Controller.java | LevelOne.java | LevelTwo.java [REFACTOR]
+#### Controller.java | LevelOne.java | LevelTwo.java [REFACTOR]
     Objective: To implement Singleton design pattern for LevelOne and LevelTwo class. This prevents excess memory usage when switching between levels. In the original code, when switching between levels, there is a short window where several new instances of LevelTwo objects could be made, resulting in memory wastage. 
 
     -LevelOne.java & LevelTwo.java: Creates a new private static instance that will store the object of the ONLY copy of the class. Changed the constructor's access modifier to private so that objects cannot be created outside the class. Added getInstance() method that creates the object of the class ONLY if the instance variable is null. The getInstance() method returns the reference to the instance object so that outside classes could access the instance.
@@ -414,7 +415,7 @@ The order of the list is in ascending order of commits, with the top being the e
     -Controller.java: Removed line that dynamically calls the constructor of a class. Instead, replaced it with a dynamic call of a class' method (the getInstance method). This way, the LevelOne and LevelTwo can never have more than one instance at runtime since no objects could be created outside of the class.
 
 
-### LevelViewLevelTwo.java | LevelView.java | LevelOne.java | LevelTwo.java | LevelParent.java | Boss.java [BUG FIX & REFACTOR]
+#### LevelViewLevelTwo.java | LevelView.java | LevelOne.java | LevelTwo.java | LevelParent.java | Boss.java [BUG FIX & REFACTOR]
     Objective: To fix bug where the shield image does not appear in level two.
 
     -LevelViewLevelTwo.java: Removed the call to addImagesToRoot() method in the constructor. This is the main reason the image is not showing on scene, because the shield image is rendered before the background, so the shield image is blocked by the background. Changed access modifier to public for addImagesToRoot() method since this is changed to an abstract method declared in LevelView (parent class).
@@ -430,19 +431,19 @@ The order of the list is in ascending order of commits, with the top being the e
     -Boss.java: Added BossEventListener array list to store all subscribers. Added methods addEventListener() and removeEventListener() to add or remove subscribers from the array list. In activateShield() and deactivateShield() methods, added the event trigger to notify all subscribers that shield has been activated or deactivated, and will trigger the relevant BossEventListener methods.
 
 
-### LevelParent.java [BUG FIX]
+#### LevelParent.java [BUG FIX]
     Objective: To ensure that all projectiles (user & enemy) will be destroyed when it is out of screen. All out of bounds projectiles will be flagged as isDestroyed so that the removeDestroyedActors() method will remove them from the array list.
 
     -added projectileIsOutOfScreen() method to check if projectile is out of bounds. Added destroyOutofBoundsProjectile() method to flag the projectile isDestroyed=True if projectileIsOutOfScreen() returns True. Added handleProjectileOutOfBounds() method to loop through each projectile and call destroyOutofBoundsProjectile() to flag all projectile isDestroyed=True if they are out of bounds.
 
 
-### LevelParent.java [BUG FIX]
+#### LevelParent.java [BUG FIX]
     Objective: Stop the old level's timeline before going to next level. Not doing this will result in incremental RAM usage as game goes longer.
 
     -added timeline.stop() in goToNextLevel() method.
 
 
-### ActiveActorDestructible.java | BossProjectile.java | UserProjectile.java | EnemyProjectile.java | Projectile.java | Boss.java | UserPlane.java | EnemyPlane.java (later commits renamed this to EnemyPlaneParent.java) [REFACTOR]
+#### ActiveActorDestructible.java | BossProjectile.java | UserProjectile.java | EnemyProjectile.java | Projectile.java | Boss.java | UserPlane.java | EnemyPlane.java (later commits renamed this to EnemyPlaneParent.java) [REFACTOR]
     Objective: Remove all duplicate code in these files. Also removed all unused code in these files.
 
     -ActiveActorDestructible.java: Added implementation for updateActor() method instead of leaving it as abstract. Because most of the classes inheriting from it uses the same implementation. If any class will have special implementation, can just override it to add additional logic on top of the parent's logic.
@@ -454,7 +455,7 @@ The order of the list is in ascending order of commits, with the top being the e
     -Boss.java: In the overriden updateActor() method, instead of redefining the implementation, called super.updateActor() since that is always the same for all classes. Then only added whatever is specially required in this class for this method, in this case, the updateShield() method.
 
 
-### LevelParent.java | LevelOne.java | LevelTwo.java | UserPlane.java [REFACTOR]
+#### LevelParent.java | LevelOne.java | LevelTwo.java | UserPlane.java [REFACTOR]
     Objective: To reduce the responsibility of LevelParent class by breaking up unrelated functions that are supposed to be in a separate class. The main bulk of this refactoring is the break up the responsibility of managing the ActiveActorDestructible objects (with the new ActiveActorManager class) and the handling of user input (with the new InputHandler class).
 
     -LevelParent.java: 
@@ -475,7 +476,7 @@ The order of the list is in ascending order of commits, with the top being the e
 
 
 
-### LevelParent.java [REFACTOR]
+#### LevelParent.java [REFACTOR]
     Objective: To achieve a more direct way in updating the kill count.
 
     -removed currentNumberOfEnemies integer variable.
@@ -484,14 +485,14 @@ The order of the list is in ascending order of commits, with the top being the e
     -removed updateKillCount() from the updateScene() method, so that it now doesn't get called every frame. Instead, the updateKillCount() is called whenever a collision between a user bullet and an enemy plane occurs (provided the enemy gets destroyed)
 
 
-### LevelParent.java [BUG FIX]
+#### LevelParent.java [BUG FIX]
     Objective: Fix a bug where projectiles are not destroyed immediately even after visually out of screen. This is because 'out of bounds' was defined loosely previously. Now defined the 'out of bounds' more strictly.
 
     -added new method isOutOfScreen() to check if object has fully gone out of screen. The definition of 'out of bounds' is defined in this method. Previously the moment the plane's head hits the edge, it is considered as destroyed. Now, only when plane has fully passed the edge, only then it will be destroyed and deduct a life.
     -the projectileIsOutOfScreen() and enemyHasPenetratedDefenses() method uses the isOutOfScreen() method, so that the details of the 'out of bounds' only needs to be defined once in isOutOfScreen(), and makes the other methods that implement the 'out of bounds' check much more human readable.
 
 
-### LevelParent.java | ActiveActorManager.java | InputHandler.java [REFACTOR]
+#### LevelParent.java | ActiveActorManager.java | InputHandler.java [REFACTOR]
     Objective: To break up the collision handling functionality from the LevelParent into a separate class (CollisionHandler.java). And to refactor the new code structure so that ActiveActorManager and CollisionHandler could interact with each other.
 
     -LevelParent.java:
@@ -508,7 +509,7 @@ The order of the list is in ascending order of commits, with the top being the e
         -fireProjectile() method is moved to ActiveActorManager class.
 
 
-### ActiveActor.java | ActiveActorDestructible.java [REFACTOR]
+#### ActiveActor.java | ActiveActorDestructible.java [REFACTOR]
     Objective: To remove the redundant ActiveActor.java class.
 
     -ActiveActor.java: This class is removed. All its relevant methods are moved to the ActiveActorDestructible class.
@@ -516,7 +517,7 @@ The order of the list is in ascending order of commits, with the top being the e
     -ActiveActorDestructible.java: Added the constructor initializations from the previous ActiveActor class. The moveHorizontally() and moveVertically() methods from the ActiveActor class is moved here.
 
 
-### Controller.java | LevelParent.java [REFACTOR]
+#### Controller.java | LevelParent.java [REFACTOR]
     Objective: To replace the deprecated Observer methods with event listener pattern (replaced with self-defined LevelEventListener.java class)
 
     -Controller.java: Controller.java class now implements LevelEventListener instead of Observer. The update() method from the Observer interface is now replaced with changeLevel() method from the LevelEventListener interface.
@@ -524,7 +525,7 @@ The order of the list is in ascending order of commits, with the top being the e
     -LevelParent.java: The class no longer extends Observer class since it is no longer used. Added addEventListener() and removeEventListener() to add listeners to any change level events triggered by LevelParent. In the goToNextLevel() method, instead of the Observer methods, it is now replaced with the LevelEventListener's changeLevel() method.
 
 
-### Main.java | Controller.java [REFACTOR]
+#### Main.java | Controller.java [REFACTOR]
     Objective: Implementing Singleton design pattern for Controller.java class
 
     -Controller.java: access modifier for the constructor method is changed to private. A public method getInstance() is added for other classes to get the reference of the Controller class' object.
@@ -532,7 +533,7 @@ The order of the list is in ascending order of commits, with the top being the e
     -Main.java: Instead of creating a new instance of Controller, the class now only calls getInstance() method to get a reference of the single instance from Controller.
 
 
-### FighterPlane.java | Boss.java | UserPlane.java | LevelOne.java [REFACTOR]
+#### FighterPlane.java | Boss.java | UserPlane.java | LevelOne.java [REFACTOR]
     Objective: To remove repeated Y upper and lower bound constants for the planes and to make the upper and lower bound values only defined at one source for all planes to reference.
 
     -FighterPlane.java: Added public static constants Y_UPPER_BOUND & Y_LOWER_BOUND for all planes to reference. It is made static so that no object is needed to be instantiated to use the value.
@@ -540,7 +541,7 @@ The order of the list is in ascending order of commits, with the top being the e
     -Boss.java | UserPlane.java | LevelOne.java: Replaced all local constant declarations of the Y upper and lower bound with the newly created static constant in FighterPlane.java. The local constant declarations are also deleted.
 
 
-### ActiveActorDestructible.java | Destructible.java [REFACTOR]
+#### ActiveActorDestructible.java | Destructible.java [REFACTOR]
     Objective: To remove the redundant Destructible interface
 
     -ActiveActorDestructible.java: The class no longer implements Destructible.java interface. The takeDamage() and destroy() methods no longer has @Override.
@@ -548,7 +549,7 @@ The order of the list is in ascending order of commits, with the top being the e
     -Destrutible.java: This class is deleted.
 
 
-### GameOverImage.java | WinImage.java | LevelView.java [REFACTOR]
+#### GameOverImage.java | WinImage.java | LevelView.java [REFACTOR]
     Objective: Remove the redundant class and fields after adding the game over FXML page feature. The game over image is no longer necessary since a separate FXML page will pop up upon losing the level. The game over image is shown in the FXML page instead.
 
     -GameOverImage.java | WinImage.java: These classes are deleted.
@@ -556,28 +557,28 @@ The order of the list is in ascending order of commits, with the top being the e
     -LevelView.java: The class no longer instantiates an object of GameOverImage.java & WinImage.java, the methods showGameOverImage() & showWinImage() are also removed. Other related fields tied to GameOverImage & WinImage are also removed such as LOSS_SCREEN_X_POSITION & LOSS_SCREEN_Y_POSITION etc.
 
 
-### EnemyProjectileT1.java [REFACTOR]
+#### EnemyProjectileT1.java [REFACTOR]
     Objective: To rename the EnemyProjectile to EnemyProjectileT1 so that other variations of EnemyProjectile would follow the naming convention EnemyProjectileT<x>.java. This is to allow for the extension whereby different enemy planes could fire different projectiles with different damage and appearance.
 
 
-### Boss.java [REFACTOR]
+#### Boss.java [REFACTOR]
     Objective: To break up the logic for initializing getting the random Y axis movement for position update. This is to break up the responsibility of the class, and also the code logic could be reused in other plane classes.
 
     -initializeMovePattern() & getNextMove() methods are moved to a new class called RandomYMovePattern.java.
     -an object of RandomYMovePattern.java is created in this class instead, and in the updatePosition() method, the getNextMove() from the new class is called instead.
 
 
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
-Unexpected Problems:
+#### ----------------------------------------------------------------------------------------------------------------
+#### ----------------------------------------------------------------------------------------------------------------
+# Unexpected Problems:
 
-### At boss level, the longer the game runs, the more RAM it consumes.
+#### At boss level, the longer the game runs, the more RAM it consumes.
     -Started by checking all the generated resources such as projectiles and plane objects. See if they are constantly being generated implicitly. Found out that the projectiles were not being destroyed when out of screen. Fixed that logic but problem still persisted.
     -Then disabled the function to generate projectiles, to see if RAM still increasing. Found out that it did, so most likely was not due to generation of objects.
     -Then found out that the RAM was still increasing at boss level even after death (Game Over). Which was not possible since there should be a timeline.stop() after death. Which then led to a realization that the first level timeline was never stopped because timeline.stop() was never called when switching level. Resources was continouously being taken due to a redundant timeline being run on the background. Added timeline.stop() before going to next level, problem solved.
 
 
-### How best to structure and convey the Readme.md info
+#### How best to structure and convey the Readme.md info
     -Changes are constantly made for the classes, some classes are even renamed and broken up
     -It would be hard to list down the Modified Java Classes in a one-to-one comparison with the original class.
     -So instead, all changes are listed down in a chronological order (in the order of commit).
