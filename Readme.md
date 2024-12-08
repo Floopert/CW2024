@@ -19,11 +19,14 @@
     The corresponding commit ID is also included at each feature for ease of reference regarding code changes to implement each feature.
 
 
-#### fine tuned so that each bullet can now only register collision with one enemy at a time. In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely. [Commit: 6258a12]
+#### fine tuned so that each bullet can now only register collision with one enemy at a time. [Commit: 6258a12]
+    Description: In the original code, one bullet can register collision with multiple enemies if enemy hitboxes overlap closely. This makes the kill registration inaccurate. With this update, when a bullet has collided with one enemy, it will not register any more collisions.
 
 
-#### fine tuned so that only kills from user projectiles will add to the kill score for progression of next level. [Commit: 6258a12]
-    Description: Collision between user plane with enemy plane OR enemy plane reaching end of screen now only deducts life, but score does not increase. E.g. the kill score required to progress from level one to two is 10. If user projectile destroyed 6 planes, user plane collided with 2 planes, 2 enemy planes reached the left edge of screen, total kill score is still only 6 and user cannot progress to level two yet. However, 4 lives will already have been deducted.
+#### fine tuned so that only kills from user projectiles will add to the kill score. [Commit: 6258a12]
+    Description: Collision between user plane with enemy plane OR enemy plane reaching end of screen now only deducts life, but score does not increase. 
+    E.g. [Old game completion requirement] the kill score required to progress from level one to two is 10. If user projectile destroyed 6 planes, user plane collided with 2 planes, 2 enemy planes reached the left edge of screen, total kill score is still only 6 and user cannot progress to level two yet. However, 4 lives will already have been deducted.
+    E.g. [New game completion requirement] the new game mechanics does not progress the level after a certain amount of kills. Instead, it will progress after the number of planes specified in the 'wave number' are all destroyed, regardless of method of destruction. Therefore, this feature is only relevant for 'total score' in the new game mechanics. If the user destroys the enemy plane by collision of itself with the enemy plane, no score will be added. Only if the user destroys the enemy with projectile, then only score is added.
 
 
 #### fine tuned so that hitboxes of all objects are now more closely wrapped around the actual image. [Commit: 5653dea]
@@ -241,6 +244,7 @@
 #### ----------------------------------------------------------------------------------------------------------------
 # New Java Classes:
 
+
 #### LevelViewWaveLevel.java (com.example.demo.levelViews)
     -a subclass of LevelViewParent, since LevelViewParent is made into an abstract class, all levels will inherit from it to create a concrete class so that objects could be instantiated
     -LevelViewParent will only handle adding and removing general images from the scene. General images means images that are applicable throughout all levels such as hearts, win image and game over image.
@@ -258,6 +262,31 @@
     -when boss' shield is activated or deactivated, the events are handled by this interface and appropriate actions are taken by its registered listeners
 
 
+#### Interface: InputEventListener.java (com.example.demo.eventListeners)
+    -acts as the event listener interface for any relevant input received by InputHandler.java class.
+    -e.g. user presses 'space bar' will trigger fireProjectile() in ActiveActorManager class.
+
+
+#### Interface: CollisionEventListener.java (com.example.demo.eventListeners)
+    -acts as the event listener interface for any relevant collision events triggered by CollisionHandler.java class.
+    -e.g. user projectile collides and destroys enemy plane will trigger updateKillCount().
+
+
+#### Interface: LevelEventListener.java (com.example.demo.eventListeners)
+    -acts as the event listener interface for any level changing events triggered by LevelParent.java class.
+    -allows LevelParent.java to inform the Controller.java class to switch levels
+
+
+#### Interface: DropsEventListener.java (com.example.demo.eventListeners)
+    -acts as the event listener interface for any power up spawns in the game triggered by EnemyPlaneParent.java.
+    -allows the EnemyPlaneParent.java to inform ActiveActorManager.java to spawn the relevant power ups in the game (add to scene).
+
+
+#### Interface: PowerUpEffectEventListener.java (com.example.demo.eventListeners)
+    -acts as the event listener interface for any power ups picked up by the user plane.
+    -allows the relevant powerUp classes (HeartUp or ProjectileUp) to notify the user plane to execute relevant power up effects.
+
+
 #### ActiveActorManager.java (com.example.demo.handlers)
     -stores all instantiated game characters (ActiveActorDestructible objects).
     -manages all game character objects in a level (gets and sets the list of ActiveActorDestructible e.g. friendlyUnits, enemyUnits etc)
@@ -269,25 +298,10 @@
     -this class also handles user input.
 
 
-#### Interface: InputEventListener.java (com.example.demo.eventListeners)
-    -acts as the event listener interface for any relevant input received by InputHandler.java class.
-    -e.g. user presses 'space bar' will trigger fireProjectile() in ActiveActorManager class.
-
-
 #### CollisionHandler.java (com.example.demo.handlers)
     -this class handles all the logic to check if a collision had occurred, and if yes, which object had collided.
     -this class also checks for collision with the screen edge (to see if object has left the scene).
     -this class has listeners subscribed to it so if any relevant collision event occurs, the relevant classes will be notified to give proper reaction.
-
-
-#### Interface: CollisionEventListener.java (com.example.demo.eventListeners)
-    -acts as the event listener interface for any relevant collision events triggered by CollisionHandler.java class.
-    -e.g. user projectile collides and destroys enemy plane will trigger updateKillCount().
-
-
-#### Interface: LevelEventListener.java (com.example.demo.eventListeners)
-    -acts as the event listener interface for any level changing events triggered by LevelParent.java class.
-    -allows LevelParent.java to inform the Controller.java class to switch levels
 
 
 #### FxmlController.java (com.example.demo.controller)
@@ -301,12 +315,12 @@
     -all logic for the buttons in the FXML pages are handled in their respective controllers.
 
 
-#### UserProjectileFactory.java (com.example.demo.projectileTypes)
+#### UserProjectileFactory.java (com.example.demo.activeActors.projectileTypes)
     -the class stores a list of all the user projectile types available in the game.
     -depending on which index of the list is called, this class will handle the instantiation of the corresponding projectile type and return it to the user plane.
 
 
-#### UserProjectileT2.java | UserProjectileT3.java | UserProjectileT4.java | UserProjectileT<x>.java (com.example.demo.projectileTypes.userProjectiles)
+#### UserProjectileT2.java | UserProjectileT3.java | UserProjectileT4.java | UserProjectileT<x>.java (com.example.demo.activeActors.projectileTypes.userProjectiles)
     -UserProjectileT<x>.java is the generic class name for the type of user projectile (for example UserProjectileT1.java)
     -this is a class of another type of UserProjectile.
     -the previous UserProjectile.java is also renamed to UserProjectileT1.java and is the first level of user projectile.
@@ -349,16 +363,6 @@
     -the main purpose of this class is to store relevant attributes to each specific powerup. E.g. image, image size, horizontal velocity etc.
 
 
-#### Interface: DropsEventListener.java (com.example.demo.eventListeners)
-    -acts as the event listener interface for any power up spawns in the game triggered by EnemyPlaneParent.java.
-    -allows the EnemyPlaneParent.java to inform ActiveActorManager.java to spawn the relevant power ups in the game (add to scene).
-
-
-#### Interface: PowerUpEffectEventListener.java (com.example.demo.eventListeners)
-    -acts as the event listener interface for any power ups picked up by the user plane.
-    -allows the relevant powerUp classes (HeartUp or ProjectileUp) to notify the user plane to execute relevant power up effects.
-
-
 #### Scoreboard.java (com.example.demo.imageObjects.hud)
     -this class instantiates the scoreboard image so that it could be added to the scene in LevelViewParent.java
     -it will also accept score updates
@@ -374,20 +378,21 @@
     -the class will have all methods that are common in LevelOne, LevelThree & LevelFour classes.
 
 
-#### LevelThree.java | LevelFour.java (com.example.demo.levels.waveLevels)
-    -extention of additional levels
-    -the levels' completion condition is also clearing all the waves
-
-
 #### LevelFive.java (com.example.demo.levels)
     -extention of additional levels
     -the level's completion condition is destroying the boss
+
+
+#### LevelThree.java | LevelFour.java (com.example.demo.levels.waveLevels)
+    -extention of additional levels
+    -the levels' completion condition is also clearing all the waves
 
 
 #### RandomYMovePattern.java (com.example.demo.activeActors.planes.movePatternLogic)
     -this is a class broken up from Boss.java
     -this class contains the logic for random Y movement
     -classes such as Boss.java and EnemyPlaneT3.java will create an object of this class to initialize the random move pattern and then also to get the next move to update the plane's position
+
 
 
 #### ----------------------------------------------------------------------------------------------------------------
