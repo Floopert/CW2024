@@ -1,4 +1,9 @@
-# GitHub: https://github.com/Floopert/CW2024.git
+# GitHub: 
+    public repo:
+    https://github.com/Floopert/CW2024.git
+
+    private repo (just in case, should have already sent an invite):
+    https://github.com/Floopert/CW2024_private.git
 
 
 
